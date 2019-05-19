@@ -5,15 +5,38 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
-@RestController
+@Controller
 public class GreetingController {
 
-	ArrayList<String> users = new ArrayList<String>();
+	//ArrayList<String> users = new ArrayList<String>();
+	String firstUser, secondUser;
 	
     @GetMapping("/names")
+	@ResponseBody
     public String names(@RequestParam String name) {
-		users.add(name);
-        return "Name " + name;
+		if ("".equals(firstUser)) {
+			firstUser = name;
+		} else {
+			secondUser = name;
+		}
+		//users.add(name);
+        return name;
     }
 
+	/* @GetMapping("/game")
+    public String Game() {
+        return "game";
+    } */
+	
+	@GetMapping("/getName")
+	@ResponseBody
+	public String getName(@RequestParam String name)
+	{
+		if (name.equals(firstUser))
+		{
+			return firstUser;
+		} else {
+			return secondUser;
+		}
+	}
 }
