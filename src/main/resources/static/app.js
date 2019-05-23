@@ -2,11 +2,11 @@ var UserName;
 
 function Send()
 {
-	console.log('OK');
     $.ajax({
         url: 'names', // адрес обработчика
         data: ({name: $('#name').val()}), // отправляемые данные          
         success: function(msg) { // получен ответ сервера  
+			console.log(msg);
 			$('#main-content').hide();
 			$('#game-content').show();
 			add_UserName(msg);
@@ -14,25 +14,37 @@ function Send()
 			//$(location).attr('href', 'game');
         },
     });
+	
+	//каждую секунду посылает запрос на сервер
+	
 }
 
-function add_UserName(data) {
+function add_UserName(data)
+{
     UserName = data;
 }
 
 function View()
 {
-	console.log(UserName);
 	 $.ajax({
-        url: 'getName', // адрес обработчика
-        data: {name: UserName}, // отправляемые данные          
+        url: 'viewer', // адрес обработчика
         success: function(msg) { // получен ответ сервера  
-			console.log("It is :" + msg);
+			console.log("Log: " + msg);
+			if (msg == "no") {
+				$('#send').hide();
+				$('#name').hide();
+				$('#name_mini').hide();
+			} else {
+				$('#chat').show();
+			}
         }
     });
 }
 
-$(function () {
+
+$(function ()
+{
     $( "#send" ).click(function() { Send(); });
-	$( "#itsme" ).click(function() { View(); });
+	$(document).ready( function() { View() });
 });
+

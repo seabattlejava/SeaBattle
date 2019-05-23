@@ -14,13 +14,13 @@ public class GreetingController {
     @GetMapping("/names")
 	@ResponseBody
     public String names(@RequestParam String name) {
-		if ("".equals(firstUser)) {
-			firstUser = name;
-		} else {
+		if (firstUser != null && !firstUser.isEmpty()) {
 			secondUser = name;
+			return secondUser;
+		} else {
+			firstUser = name;
+			return firstUser;
 		}
-		//users.add(name);
-        return name;
     }
 
 	/* @GetMapping("/game")
@@ -28,7 +28,7 @@ public class GreetingController {
         return "game";
     } */
 	
-	@GetMapping("/getName")
+/* 	@GetMapping("/getName")
 	@ResponseBody
 	public String getName(@RequestParam String name)
 	{
@@ -37,6 +37,17 @@ public class GreetingController {
 			return firstUser;
 		} else {
 			return secondUser;
+		}
+	}
+	 */
+	@GetMapping("/viewer")
+	@ResponseBody
+	public String Viewer ()
+	{
+		if ((firstUser != null && !firstUser.isEmpty()) && (secondUser != null && !secondUser.isEmpty())) { 
+			return "no";
+		} else {
+			return "yes";
 		}
 	}
 }
