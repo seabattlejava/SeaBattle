@@ -15,18 +15,15 @@ public class GreetingController {
     @GetMapping("/names")
 	@ResponseBody
     public String names(@RequestParam String name) {
-		Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+");
+		Pattern pattern = Pattern.compile("[a-zA-Z0-9]");
 		Matcher matcher = pattern.matcher(name);
 		if (matcher.find()) { 
 			if (firstUser != null && !firstUser.isEmpty()) {
 				secondUser = name;
 				return secondUser;
-			} else  if (firstUser != secondUser){
+			} else  {
 				firstUser = name;
-				Logic.battleShip(name);
 				return firstUser;
-			} else {
-				return "+";
 			}
 		} else {
 			return "/";

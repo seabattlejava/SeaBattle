@@ -12,6 +12,7 @@ var UserName;
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
+
 var coordin = [0, 0];
 
 function Send()
@@ -26,10 +27,8 @@ function Send()
 				add_UserName(msg);
 				console.log("Save:" + UserName);
 				//$(location).attr('href', 'game');
-			} else if (msg == "/" {
-				alert("Wrong Number -_-");
 			} else {
-				alert("ZANYTO!");
+				alert("Wrong Number -_-");
 			}
         },
     });
@@ -53,8 +52,6 @@ function View()
 				$('#send').hide();
 				$('#name').hide();
 				$('#name_mini').hide();
-			} else {
-				$('#chat').show();
 			}
         }
     });
