@@ -6,12 +6,17 @@ function Send()
         url: 'names', // адрес обработчика
         data: ({name: $('#name').val()}), // отправляемые данные          
         success: function(msg) { // получен ответ сервера  
-			console.log(msg);
-			$('#main-content').hide();
-			$('#game-content').show();
-			add_UserName(msg);
-			console.log("Save:" + UserName);
-			//$(location).attr('href', 'game');
+			if(msg != "/") {
+				$('#main-content').hide();
+				$('#game-content').show();
+				add_UserName(msg);
+				console.log("Save:" + UserName);
+				//$(location).attr('href', 'game');
+			} else if (msg == "/" {
+				alert("Wrong Number -_-");
+			} else {
+				alert("ZANYTO!");
+			}
         },
     });
 	

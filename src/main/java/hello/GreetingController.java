@@ -3,7 +3,7 @@ package hello;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
+import java.util.regex.*;
 
 @Controller
 public class GreetingController {
@@ -14,12 +14,20 @@ public class GreetingController {
     @GetMapping("/names")
 	@ResponseBody
     public String names(@RequestParam String name) {
-		if (firstUser != null && !firstUser.isEmpty()) {
-			secondUser = name;
-			return secondUser;
+		Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+");
+		Matcher matcher = pattern.matcher(name);
+		if (matcher.find()) { 
+			if (firstUser != null && !firstUser.isEmpty()) {
+				secondUser = name;
+				return secondUser;
+			} else  if (firstUser != secondUser){
+				firstUser = name;
+				return firstUser;
+			} else {
+				return "+";
+			}
 		} else {
-			firstUser = name;
-			return firstUser;
+			return "/";
 		}
     }
 
