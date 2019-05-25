@@ -9,7 +9,7 @@ public class Logic {
     public static int[][] playerOne = new int[10][10];
     public static int[][] playerTwo = new int[10][10];
 
-    public static void main(String[] args) {
+    public static void battleShip(String input) {
 
         int[][] mas1 = {
                 {0, 2, 2, 2, 1, 0, 1, 0, 2, 1},
@@ -37,12 +37,12 @@ public class Logic {
                 {0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
         };
 
-        String input;
+        //String input;
 
-        input = gson.toJson(mas1);
+       // input = gson.toJson(mas1);
 //        System.out.println(input);
 
-        playerOne = gson.fromJson(input, int[][].class);
+       // playerOne = gson.fromJson(input, int[][].class);
 
 //        for(int i=0; i<10; i++){
 //            for(int j=0; j<10; j++){
@@ -51,10 +51,10 @@ public class Logic {
 //            System.out.println();
 //        }
 
-        input = gson.toJson(mas2);
+       // input = gson.toJson(mas2);
 //        System.out.println(input);
 
-        playerTwo = gson.fromJson(input, int[][].class);
+    //    playerTwo = gson.fromJson(input, int[][].class);
 
 //        for(int i=0; i<10; i++){
 //            for(int j=0; j<10; j++){
@@ -63,14 +63,13 @@ public class Logic {
 //            System.out.println();
 //        }
 
-        Shoot.hit(playerOne);
-
-        for(int i=0; i<10; i++){
+       // Shoot.hit(playerOne);
+      /*   for(int i=0; i<10; i++){
             for(int j=0; j<10; j++){
                 System.out.print(playerOne[i][j] + " ");
             }
             System.out.println();
-        }
+        } */
 
     }
 }

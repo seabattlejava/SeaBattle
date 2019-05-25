@@ -4,6 +4,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.regex.*;
+import hello.logic.*;
 
 @Controller
 public class GreetingController {
@@ -22,6 +23,7 @@ public class GreetingController {
 				return secondUser;
 			} else  if (firstUser != secondUser){
 				firstUser = name;
+				Logic.battleShip(name);
 				return firstUser;
 			} else {
 				return "+";
