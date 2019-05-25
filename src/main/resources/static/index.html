@@ -9,332 +9,44 @@
 </head>
 <body>
 <div id="game_area">
-<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label id="name_mini" for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <button id="send" class="btn btn-default" type="button">Send</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div id="game-content" class="container" hidden>
-    
-<div id="Title">Морской бой</div>
-		<table id="game_pole">
-			<tr> 
-				<td>Ваше поле:</td>
-				<td>Поле противника</td>
-			</tr>
-			<tr>
-				<td>
-		<table id="player_game_table" border="1px" cellspacing="0">
-			<thead>
-				<tr>
-					<td></td>
-					<td><p>1</p></td>
-					<td><p>2</p></td>
-					<td><p>3</p></td>
-					<td><p>4</p></td>
-					<td><p>5</p></td>
-					<td><p>6</p></td>
-					<td><p>7</p></td>
-					<td><p>8</p></td>
-					<td><p>9</p></td>
-					<td><p>10</p></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><p>A</p></td>
-					<td id="p00"> </td>
-					<td id="p01"> </td>
-					<td id="p02"> </td>
-					<td id="p03"> </td>
-					<td id="p04"> </td>
-					<td id="p05"> </td>
-					<td id="p06"> </td>
-					<td id="p07"> </td>
-					<td id="p08"> </td>
-					<td id="p09"> </td>
-				</tr>
-				<tr>
-					<td><p>B</p></td>
-					<td id="p10"> </td>
-					<td id="p11"> </td>
-					<td id="p12"> </td>
-					<td id="p13"> </td>
-					<td id="p14"> </td>
-					<td id="p15"> </td>
-					<td id="p16"> </td>
-					<td id="p17"> </td>
-					<td id="p18"> </td>
-					<td id="p19"> </td>
-				</tr>
-				<tr>
-					<td><p>C</p></td>
-					<td id="p20"> </td>
-					<td id="p21"> </td>
-					<td id="p22"> </td>
-					<td id="p23"> </td>
-					<td id="p24"> </td>
-					<td id="p25"> </td>
-					<td id="p26"> </td>
-					<td id="p27"> </td>
-					<td id="p28"> </td>
-					<td id="p29"> </td>
-				</tr>
-				<tr>
-					<td><p>D</p></td>
-					<td id="p30"> </td>
-					<td id="p31"> </td>
-					<td id="p32"> </td>
-					<td id="p33"> </td>
-					<td id="p34"> </td>
-					<td id="p35"> </td>
-					<td id="p36"> </td>
-					<td id="p37"> </td>
-					<td id="p38"> </td>
-					<td id="p39"> </td>
-				</tr>
-				<tr>
-					<td><p>E</p></td>
-					<td id="p40"> </td>
-					<td id="p41"> </td>
-					<td id="p42"> </td>
-					<td id="p43"> </td>
-					<td id="p44"> </td>
-					<td id="p45"> </td>
-					<td id="p46"> </td>
-					<td id="p47"> </td>
-					<td id="p48"> </td>
-					<td id="p49"> </td>
-				</tr>
-				<tr>
-					<td><p>F</p></td>
-					<td id="p50"> </td>
-					<td id="p51"> </td>
-					<td id="p52"> </td>
-					<td id="p53"> </td>
-					<td id="p54"> </td>
-					<td id="p55"> </td>
-					<td id="p56"> </td>
-					<td id="p57"> </td>
-					<td id="p58"> </td>
-					<td id="p59"> </td>
-				</tr>
-				<tr>
-					<td><p>G</p></td>
-					<td id="p60"> </td>
-					<td id="p61"> </td>
-					<td id="p62"> </td>
-					<td id="p63"> </td>
-					<td id="p64"> </td>
-					<td id="p65"> </td>
-					<td id="p66"> </td>
-					<td id="p67"> </td>
-					<td id="p68"> </td>
-					<td id="p69"> </td>
-				</tr>
-				<tr>
-					<td><p>H</p></td>
-					<td id="p70"> </td>
-					<td id="p71"> </td>
-					<td id="p72"> </td>
-					<td id="p73"> </td>
-					<td id="p74"> </td>
-					<td id="p75"> </td>
-					<td id="p76"> </td>
-					<td id="p77"> </td>
-					<td id="p78"> </td>
-					<td id="p79"> </td>
-				</tr>
-				<tr>
-					<td><p>I</p></td>
-					<td id="p80"> </td>
-					<td id="p81"> </td>
-					<td id="p82"> </td>
-					<td id="p83"> </td>
-					<td id="p84"> </td>
-					<td id="p85"> </td>
-					<td id="p86"> </td>
-					<td id="p87"> </td>
-					<td id="p88"> </td>
-					<td id="p89"> </td>
-				</tr>
-				<tr>
-					<td><p>J</p></td>
-					<td id="p90"> </td>
-					<td id="p91"> </td>
-					<td id="p92"> </td>
-					<td id="p93"> </td>
-					<td id="p94"> </td>
-					<td id="p95"> </td>
-					<td id="p96"> </td>
-					<td id="p97"> </td>
-					<td id="p98"> </td>
-					<td id="p99"> </td>
-				</tr>
-			</tbody>
-		</table>
-		</td>
-		<td>
-		<table id="another_player_game_table" border="1px" cellspacing="0">
-			<thead>
-				<tr>
-					<td></td>
-					<td><p>1</p></td>
-					<td><p>2</p></td>
-					<td><p>3</p></td>
-					<td><p>4</p></td>
-					<td><p>5</p></td>
-					<td><p>6</p></td>
-					<td><p>7</p></td>
-					<td><p>8</p></td>
-					<td><p>9</p></td>
-					<td><p>10</p></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><p>A</p></td>
-					<td id="ap00"> </td>
-					<td id="ap01"> </td>
-					<td id="ap02"> </td>
-					<td id="ap03"> </td>
-					<td id="ap04"> </td>
-					<td id="ap05"> </td>
-					<td id="ap06"> </td>
-					<td id="ap07"> </td>
-					<td id="ap08"> </td>
-					<td id="ap09"> </td>
-				</tr>
-				<tr>
-					<td><p>B</p></td>
-					<td id="ap10"> </td>
-					<td id="ap11"> </td>
-					<td id="ap12"> </td>
-					<td id="ap13"> </td>
-					<td id="ap14"> </td>
-					<td id="ap15"> </td>
-					<td id="ap16"> </td>
-					<td id="ap17"> </td>
-					<td id="ap18"> </td>
-					<td id="ap19"> </td>
-				</tr>
-				<tr>
-					<td><p>C</p></td>
-					<td id="ap20"> </td>
-					<td id="ap21"> </td>
-					<td id="ap22"> </td>
-					<td id="ap23"> </td>
-					<td id="ap24"> </td>
-					<td id="ap25"> </td>
-					<td id="ap26"> </td>
-					<td id="ap27"> </td>
-					<td id="ap28"> </td>
-					<td id="ap29"> </td>
-				</tr>
-				<tr>
-					<td><p>D</p></td>
-					<td id="ap30"> </td>
-					<td id="ap31"> </td>
-					<td id="ap32"> </td>
-					<td id="ap33"> </td>
-					<td id="ap34"> </td>
-					<td id="ap35"> </td>
-					<td id="ap36"> </td>
-					<td id="ap37"> </td>
-					<td id="ap38"> </td>
-					<td id="ap39"> </td>
-				</tr>
-				<tr>
-					<td><p>E</p></td>
-					<td id="ap40"> </td>
-					<td id="ap41"> </td>
-					<td id="ap42"> </td>
-					<td id="ap43"> </td>
-					<td id="ap44"> </td>
-					<td id="ap45"> </td>
-					<td id="ap46"> </td>
-					<td id="ap47"> </td>
-					<td id="ap48"> </td>
-					<td id="ap49"> </td>
-				</tr>
-				<tr>
-					<td><p>F</p></td>
-					<td id="ap50"> </td>
-					<td id="ap51"> </td>
-					<td id="ap52"> </td>
-					<td id="ap53"> </td>
-					<td id="ap54"> </td>
-					<td id="ap55"> </td>
-					<td id="ap56"> </td>
-					<td id="ap57"> </td>
-					<td id="ap58"> </td>
-					<td id="ap59"> </td>
-				</tr>
-				<tr>
-					<td><p>G</p></td>
-					<td id="ap60"> </td>
-					<td id="ap61"> </td>
-					<td id="ap62"> </td>
-					<td id="ap63"> </td>
-					<td id="ap64"> </td>
-					<td id="ap65"> </td>
-					<td id="ap66"> </td>
-					<td id="ap67"> </td>
-					<td id="ap68"> </td>
-					<td id="ap69"> </td>
-				</tr>
-				<tr>
-					<td><p>H</p></td>
-					<td id="ap70"> </td>
-					<td id="ap71"> </td>
-					<td id="ap72"> </td>
-					<td id="ap73"> </td>
-					<td id="ap74"> </td>
-					<td id="ap75"> </td>
-					<td id="ap76"> </td>
-					<td id="ap77"> </td>
-					<td id="ap78"> </td>
-					<td id="ap79"> </td>
-				</tr>
-				<tr>
-					<td><p>I</p></td>
-					<td id="ap80"> </td>
-					<td id="ap81"> </td>
-					<td id="ap82"> </td>
-					<td id="ap83"> </td>
-					<td id="ap84"> </td>
-					<td id="ap85"> </td>
-					<td id="ap86"> </td>
-					<td id="ap87"> </td>
-					<td id="ap88"> </td>
-					<td id="ap89"> </td>
-				</tr>
-				<tr>
-					<td><p>J</p></td>
-					<td id="ap90"> </td>
-					<td id="ap91"> </td>
-					<td id="ap92"> </td>
-					<td id="ap93"> </td>
-					<td id="ap94"> </td>
-					<td id="ap95"> </td>
-					<td id="ap96"> </td>
-					<td id="ap97"> </td>
-					<td id="ap98"> </td>
-					<td id="ap99"> </td>
-				</tr>
-			</tbody>
-		</table>
-	</td>
-		<table>
+	<div id="main-content" class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<form class="form-inline">
+					<div class="form-group">
+						<label id="name_mini" for="name">What is your name?</label>
+						<input type="text" id="name" class="form-control" placeholder="Your name here...">
+					</div>
+					<button id="send" class="btn btn-default" type="button">Send</button>
+				</form>
+			</div>
 		</div>
 	</div>
+	<div>
+		<canvas id="addShips" width="506" height="253"></canvas>
+		
+		
+		
+		
+		
+	</div>
+	<div id="game-content" class="container" hidden>
+		<div id="Title">Морской бой</div>
+		<table id="game_pole">
+		<tr> 
+			<td>Ваше поле:</td>
+			<td>Поле противника</td>
+		</tr>
+		<tr>
+			<td>
+			<canvas id="playerPole" width="253" height="253"></canvas>
+			</td>
+			<td>
+			<canvas id="anotherPlayerPole" width="253" height="253"></canvas>
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
 </body>
 </html>
