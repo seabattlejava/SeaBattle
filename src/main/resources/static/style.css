@@ -1,0 +1,52 @@
+body {
+	background-color: #67657B;
+	margin: 0px;
+	padding: 0px;
+}
+
+#game_area {
+	width: 1004px;
+	margin: auto;
+	padding: 0px;
+	position: relative;
+	background-color: #5C5893;
+}
+
+#player_game_table {
+	left: 173px;
+	top: 98px;
+	//background-image: url("./Img/water.png");
+	
+}
+
+#player_game_table > tbody > tr > td {
+	width: 23px;
+	height: 23px;
+	cursor: pointer;
+}
+
+#player_game_table > thead > tr > td > p,
+#player_game_table > tbody > tr > td > p {
+	color: #ffffff;
+	font-size: 8px;
+	text-align: center;
+}
+
+#another_player_game_table {
+	left: 173px;
+	top: 98px;
+	background-image: url("./Img/water.png");
+	
+}
+#another_player_game_table > tbody > tr > td {
+	width: 23px;
+	height: 23px;
+	cursor: pointer;
+}
+
+#another_player_game_table > thead > tr > td > p,
+#another_player_game_table > tbody > tr > td > p {
+	color: #ffffff;
+	font-size: 8px;
+	text-align: center;
+}
