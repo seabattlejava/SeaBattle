@@ -1,5 +1,24 @@
 var UserName;
 
+var playerElemsTable = [
+[0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 3, 3, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 2, 2, 0, 0, 0, 0]
+];
+
+
+
+
+
+
+
  var playerTable = [
 [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -79,69 +98,81 @@ $(function ()
 */
 
 window.onload = function () {
-	var imgWater = new Image();
-	var imgSpace = new Image();
-	var imgShip = new Image();
-	var imgSpaceShot = new Image();
-	var imgShipShot = new Image();
-	
 	var canvasAddShip = document.getElementById("addShips");
 	var ctxAddShip = canvasAddShip.getContext("2d");
-	
-	imgWater.onload = function(){
-		var xCoordWater = 23, yCoordWater = 23;
-		for (var i = 0; i < 10; ++i) {
-			for (var j = 0; j < 10; ++j) {
-				switch(playerTable[i][j]){
-					case 0: {
-						ctxAddShip.drawImage(imgWater, xCoordWater, yCoordWater);
-						break;
-					}
-					case 1: {
-						ctxAddShip.drawImage(imgShip, xCoordWater, yCoordWater);
-						break;
-					}
-					case 2: {
-						ctxAddShip.drawImage(imgSpaceShot, xCoordWater, yCoordWater);
-						break;
-					}
-					case 3: {
-						ctxAddShip.drawImage(imgShipShot, xCoordWater, yCoordWater);
-						break;
-					}
-					default:{
-						break;
-					}
-				}
-				xCoordWater += 23;
+
+
+	var ElemInField = function(x, y, typeElem) {
+	this.x = x;
+	this.y = y;
+	this.h = 23;
+	this.w = 23;
+	this.typeElem = typeElem;
+};
+
+ctxAddShip.linewidth = 2;
+
+ElemInField.prototype = {
+	draw(){
+		drawELm(this.x, this.y, this.typeElem);
+	}
+};
+
+var drawELm = function(x, y, typeEl) {
+	switch(typeEl){
+			case 0: {
+				ctxAddShip.fillStyle = '#72CCFD';
+				ctx.AddShip.strokeStyle = '#000000';
+				ctxAddShip.fillRect(x, y, 23, 23);
+				ctxAddShip.strokeRect(x, y, 23, 23);
+				break;
 			}
-			yCoordWater += 23;
-			xCoordWater = 23;
+			case 1: {
+				ctxAddShip.fillStyle = '#C1C9CD';
+				ctxAddShip.strokeStyle = '#000000';
+				ctxAddShip.fillRect(x, y, 23, 23);
+				ctxAddShip.strokeRect(x, y, 23, 23);
+				break;
+			}
+			case 2: {
+				ctxAddShip.fillStyle = '#F63C4D';
+				ctxAddShip.strokeStyle = '#000000';
+				ctxAddShip.fillRect(x, y, 23, 23);
+				ctxAddShip.strokeRect(x, y, 23, 23);
+				break;
+			}
+			case 3: {
+				ctxAddShip.fillStyle = '#0626A7';
+				ctxAddShip.strokeStyle = '#000000';
+				ctxAddShip.fillRect(x, y, 23, 23);
+				ctxAddShip.strokeRect(x, y, 23, 23);
+				break;
+			}
+			default:{
+				break;
+			}
 		}
-	}
-	
+}
 
-	ctxAddShip.fillText("Hello HTML5!", 220, 220);
-	imgSpace.onload = function() {
-		for(var i = 0; i < 253; i += 23) {
-			ctxAddShip.drawImage(imgSpace, i, 0);
-			
-			ctxAddShip.drawImage(imgSpace, 0, i);
-		}
+var allElems = [];
+var xCoord = 23;
+var yCoord = 23;
+for (var i = 0; i < 10; i++) {
+	for( var j = 0; j < 10; j++) {
+		allElems.push(new ElemInField(xCoord, yCoord, 1));
+		xCoord += 23;
 	}
-	ctxAddShip.font = "10px Verdana";
-	imgWater.src = "../images/water.png";
-	imgSpace.src = "../images/space.png";
-	imgShip.src = "../images/ship.png";
-	imgSpaceShot.src = "../images/spaceShot.png";
-	imgShipShot.src = "../images/shipShot.png";
-	addEventListener ("mousemove", function (event) {
-                    var x = event.clientX;
-                    var y = event.clientY;
+	xCoord = 23;
+	yCoord += 23;
+}
+setInterval(function(){
+	for(i in allElems) {
+		allElems[i].draw();
+	}
+}
+, 30);
 
-                    context.fillStyle = "rgb(255, 0, 0)";  
-                    context.fillRect (x - xy[0], y - xy[1], 5, 5);
-                });
+
 }
 
 
