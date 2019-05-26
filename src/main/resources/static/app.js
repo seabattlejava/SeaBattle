@@ -61,8 +61,15 @@ window.onload = function () {
 	var canvasAddShip = document.getElementById("addShips");
 	var ctxAddShip = canvasAddShip.getContext("2d");
 
+var mouse = {
+	x : 0,
+	y : 0,
+	checked : false
+};
 
-	var ElemInField = function(x, y, typeElem) {
+var selected = false;
+
+var ElemInField = function(x, y, typeElem) {
 	this.x = x;
 	this.y = y;
 	this.h = 23;
@@ -119,25 +126,41 @@ var Ship = function(x, y, palubs, position){
 	this.y = y;
 	this.palubs = palubs;
 	this.position = position;
+	this.h = 23;
+	this.w = 23;
+
 };
 
 Ship.prototype = {
 	draw() {
 		drawShip(this.x, this.y, this.palubs, this.position);
+	},
+	checkPositionSHip() {
+		if(this.position == "horiz") {
+			this.w = 23 * this.palubs - 1;
+		}
+		if( this.position == "vert") {
+			this.h = 23 * this.palubs - 1;
+		}
 	}
 	
 };
 
 var drawShip = function(x, y, palubs, position){
 	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
-		if (position == "vertical") {
+		if (position == "vert") {
 			ctxAddShip.fillStyle = '#C1C9CD';
 			ctxAddShip.strokeStyle = '#000000';
 			ctxAddShip.fillRect(x, y, 23, 23);
 			ctxAddShip.strokeRect(x, y, 23, 23);
 			y += 23
-		} else {
-			x += 23;
+		}
+		if (position == "horiz") {
+			ctxAddShip.fillStyle = '#C1C9CD';
+			ctxAddShip.strokeStyle = '#000000';
+			ctxAddShip.fillRect(x, y, 23, 23);
+			ctxAddShip.strokeRect(x, y, 23, 23);
+			x += 23
 		}
 	}
 }
@@ -154,27 +177,82 @@ for (var i = 0; i < 10; i++) {
 	yCoord += 23;
 }
 
-var oneShip = new Ship(300, 23, 4, "vertical");
-
-
-addShips.onclick = function(e) {
-	var x = e.pageX;
-	var y = e.pageY;
+var arrayShips = [];
+var docksShip = 4; 
+var yShipCoord = 23
+for(var i = 0; i < 4; i ++) {
+	for ( var j = 0; j < i + 1; j++) {
+		arrayShips.push(new Ship(300, yShipCoord, docksShip, "horiz"));
+	}
+	yShipCoord += 56
+	docksShip--;
 }
+
+var isCursorInShip = function (ship) {
+	return (mouse.x > ship.x) && (mouse.x < ship.x + ship.w) &&
+		   (mouse.y > ship.y) && (mouse.y < ship.y + ship.h);
+};
 
 
 
 
 setInterval(function(){
+	ctxAddShip.clearRect(0, 0 , 736, 276);
 	for(i in allElems) {
 		allElems[i].draw();
 	}
-	oneShip.draw();
+	for(j in arrayShips) {
+		arrayShips[j].checkPositionSHip();
+		arrayShips[j].draw();
+		if(isCursorInShip(arrayShips[j])) {
+			console.log(mouse.x + " " + mouse.y + " | " + arrayShips[0].x + " " + arrayShips[0].y+ " | " + arrayShips[0].w + " " + arrayShips[0].h);
+		}
+	}
+	
+	if (selected) {
+		selected.x = mouse.x;
+		selected.y = mouse.y;
+	}
 }
 , 30);
 
+addShips.onmousemove = function (e) {
+	
+	mouse.x = e.offsetX;
+	mouse.y = e.offsetY;
+}
+
+addShips.onclick = function(e) {
+	if (mouse.checked == true) {
+		mouse.checked = false;
+		selected = false;
+	} else if( mouse.checked == false) {
+		mouse.checked = true;
+	if(!selected) {
+		var k;
+		for(k in arrayShips) {
+			if(isCursorInShip(arrayShips[k])) {
+				selected = arrayShips[k];
+			}
+		}
+	}
+	}
+		
+}
+
+addShips.onmousedown = function () {
+	
+}
+addShips.onmouseup = function () {
+	
+}
+
+
+
 
 }
+
+
 
 
 //txAddShip.drawImage(imgWater, 10, 10);
