@@ -1,49 +1,9 @@
 var UserName;
 
-var playerElemsTable = [
-[0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 3, 3, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 2, 2, 0, 0, 0, 0]
-];
-
-
-
-
-
-
-
- var playerTable = [
-[0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 3, 3, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 2, 2, 0, 0, 0, 0]
-];
-
-var anotherPlayerTable = [
-[0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+oneDeckShip = 4;
+twoDeckShip = 3;
+threeDeckShip = 2;
+fourDeckShip = 1;
 
 var coordin = [0, 0];
 /*
@@ -122,7 +82,7 @@ var drawELm = function(x, y, typeEl) {
 	switch(typeEl){
 			case 0: {
 				ctxAddShip.fillStyle = '#72CCFD';
-				ctx.AddShip.strokeStyle = '#000000';
+				ctxAddShip.strokeStyle = '#000000';
 				ctxAddShip.fillRect(x, y, 23, 23);
 				ctxAddShip.strokeRect(x, y, 23, 23);
 				break;
@@ -154,21 +114,62 @@ var drawELm = function(x, y, typeEl) {
 		}
 }
 
+var Ship = function(x, y, palubs, position){
+	this.x = x;
+	this.y = y;
+	this.palubs = palubs;
+	this.position = position;
+};
+
+Ship.prototype = {
+	draw() {
+		drawShip(this.x, this.y, this.palubs, this.position);
+	}
+	
+};
+
+var drawShip = function(x, y, palubs, position){
+	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
+		if (position == "vertical") {
+			ctxAddShip.fillStyle = '#C1C9CD';
+			ctxAddShip.strokeStyle = '#000000';
+			ctxAddShip.fillRect(x, y, 23, 23);
+			ctxAddShip.strokeRect(x, y, 23, 23);
+			y += 23
+		} else {
+			x += 23;
+		}
+	}
+}
+
 var allElems = [];
 var xCoord = 23;
 var yCoord = 23;
 for (var i = 0; i < 10; i++) {
 	for( var j = 0; j < 10; j++) {
-		allElems.push(new ElemInField(xCoord, yCoord, 1));
+		allElems.push(new ElemInField(xCoord, yCoord, 0));
 		xCoord += 23;
 	}
 	xCoord = 23;
 	yCoord += 23;
 }
+
+var oneShip = new Ship(300, 23, 4, "vertical");
+
+
+addShips.onclick = function(e) {
+	var x = e.pageX;
+	var y = e.pageY;
+}
+
+
+
+
 setInterval(function(){
 	for(i in allElems) {
 		allElems[i].draw();
 	}
+	oneShip.draw();
 }
 , 30);
 
