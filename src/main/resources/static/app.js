@@ -193,6 +193,10 @@ var isCursorInShip = function (ship) {
 		   (mouse.y > ship.y) && (mouse.y < ship.y + ship.h);
 };
 
+var isCursorInCell = function (element) {
+	return (mouse.x > element.x) && (mouse.x < element.x + 23) &&
+		   (mouse.y > element.y) && (mouse.y < element.y + 23);
+};
 
 
 
@@ -208,13 +212,22 @@ setInterval(function(){
 			console.log(mouse.x + " " + mouse.y + " | " + arrayShips[0].x + " " + arrayShips[0].y+ " | " + arrayShips[0].w + " " + arrayShips[0].h);
 		}
 	}
-	
+	///////
 	if (selected) {
-		selected.x = mouse.x;
-		selected.y = mouse.y;
+		if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
+			for(i in allElems) {
+				if(isCursorInCell(allElems[i])) {
+					selected.x = allElems[i].x;
+					selected.y = allElems[i].y;
+				}
+			}
+		} else {
+			selected.x = mouse.x;
+			selected.y = mouse.y;
+		}
 	}
 }
-, 30);
+, 20);
 
 addShips.onmousemove = function (e) {
 	
@@ -240,11 +253,15 @@ addShips.onclick = function(e) {
 		
 }
 
-addShips.onmousedown = function () {
-	
-}
-addShips.onmouseup = function () {
-	
+addShips.oncontextmenu = function(e) {
+	if(mouse.checked == true) {
+		if (selected.position == "horiz") {
+			selected.position = "vert";
+		} else if (selected.position == "vert") {
+			selected.position = "horiz";
+		}
+	}
+	return false;
 }
 
 
