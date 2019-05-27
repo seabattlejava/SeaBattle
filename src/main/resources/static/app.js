@@ -128,6 +128,7 @@ var Ship = function(x, y, palubs, position){
 	this.position = position;
 	this.h = 23;
 	this.w = 23;
+	this.selectOpportun = true;
 
 };
 
@@ -138,9 +139,11 @@ Ship.prototype = {
 	checkPositionSHip() {
 		if(this.position == "horiz") {
 			this.w = 23 * this.palubs - 1;
+			this.h = 23;
 		}
 		if( this.position == "vert") {
 			this.h = 23 * this.palubs - 1;
+			this.w = 23;
 		}
 	}
 	
@@ -182,7 +185,7 @@ var docksShip = 4;
 var yShipCoord = 23
 for(var i = 0; i < 4; i ++) {
 	for ( var j = 0; j < i + 1; j++) {
-		arrayShips.push(new Ship(300, yShipCoord, docksShip, "horiz"));
+		arrayShips.push(new Ship(350, yShipCoord, docksShip, "horiz"));
 	}
 	yShipCoord += 56
 	docksShip--;
@@ -198,7 +201,7 @@ var isCursorInCell = function (element) {
 		   (mouse.y > element.y) && (mouse.y < element.y + 23);
 };
 
-
+var playerShipArray = [];
 
 setInterval(function(){
 	ctxAddShip.clearRect(0, 0 , 736, 276);
@@ -208,9 +211,7 @@ setInterval(function(){
 	for(j in arrayShips) {
 		arrayShips[j].checkPositionSHip();
 		arrayShips[j].draw();
-		if(isCursorInShip(arrayShips[j])) {
-			console.log(mouse.x + " " + mouse.y + " | " + arrayShips[0].x + " " + arrayShips[0].y+ " | " + arrayShips[0].w + " " + arrayShips[0].h);
-		}
+		
 	}
 	///////
 	if (selected) {
@@ -237,20 +238,32 @@ addShips.onmousemove = function (e) {
 
 addShips.onclick = function(e) {
 	if (mouse.checked == true) {
-		mouse.checked = false;
-		selected = false;
+		if((selected.x >= 23) && (selected.y >= 23) && (selected.y + selected.h <= 253) && (selected.x + selected.w <= 253)) {
+			for(j in allElems) {
+				if((allElems[j].x >= selected.x) &&(allElems[j].x < selected.x + selected.w) &&
+					(allElems[j].y >= selected.y) && (allElems[j].y < selected.y + selected.h)) {
+					allElems[j].typeElem = 1;
+				}
+			}
+			
+			mouse.checked = false;
+			selected.selectOpportun = false;
+			selected = false;
+		}
 	} else if( mouse.checked == false) {
-		mouse.checked = true;
-	if(!selected) {
-		var k;
-		for(k in arrayShips) {
-			if(isCursorInShip(arrayShips[k])) {
-				selected = arrayShips[k];
+		
+		if(!selected) {
+			var k;
+			for(k in arrayShips) {
+				if(isCursorInShip(arrayShips[k])) {
+					if(arrayShips[k].selectOpportun == true) {
+						selected = arrayShips[k];
+						mouse.checked = true;
+					}
+				}
 			}
 		}
 	}
-	}
-		
 }
 
 addShips.oncontextmenu = function(e) {
@@ -266,10 +279,16 @@ addShips.oncontextmenu = function(e) {
 
 
 
-
 }
 
-
+var createPlayerShipArray = function(elems, playeArray) {
+	playeArray = [];
+	for(k in elems) {
+		playeArray.push(elems[k].typeElem)
+	}
+	var str = JSON.stringify(playeArray);
+	console.log(str);
+}
 
 
 //txAddShip.drawImage(imgWater, 10, 10);
