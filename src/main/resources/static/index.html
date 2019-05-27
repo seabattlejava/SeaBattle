@@ -22,14 +22,16 @@
 			</div>
 		</div>
 	</div>
-	<div>
+	<div id="adding_ship_area">
 		<canvas id="addShips" width="500" height="276"></canvas>
-		
-		
-		
+		<button id="shipsAdded" class="btn btn-default" type="button">Start</button>
+	</div>
+	
+	<div id="game-content" class="container" hidden>
 		
 	</div>
-	<div id="game-content" class="container" hidden>
+	
+	<div id = "main_game">
 		<div id="Title">Морской бой</div>
 		<table id="game_pole">
 		<tr> 
@@ -38,10 +40,10 @@
 		</tr>
 		<tr>
 			<td>
-			<canvas id="playerPole" width="253" height="253"></canvas>
+			<canvas id="playerArea" width="230" height="230"></canvas>
 			</td>
 			<td>
-			<canvas id="anotherPlayerPole" width="253" height="253"></canvas>
+			<canvas id="anotherPlayerArea" width="230" height="230"></canvas>
 			</td>
 		</tr>
 		</table>

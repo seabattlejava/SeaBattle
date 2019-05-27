@@ -1,11 +1,11 @@
 var UserName;
 
-oneDeckShip = 4;
-twoDeckShip = 3;
-threeDeckShip = 2;
-fourDeckShip = 1;
+var game_start = false;
+var playerShipArray = [];
+var playerShipArrayJson = "";
+var anotherPlayerShipArrat = [];
+var numberCellShot = 0;
 
-var coordin = [0, 0];
 /*
 function Send()
 {
@@ -49,27 +49,22 @@ function View()
     });
 }
 
-
+**/
 $(function ()
 {
-    $( "#send" ).click(function() { Send(); });
-	$(document).ready( function() { View() });
+    //$( "#send" ).click(function() { Send(); });
+	$( "#shipsAdded" ).click(function() {ShipsAdded();});
+	//$(document).ready( function() { View() });
 });
-*/
 
-window.onload = function () {
-	var canvasAddShip = document.getElementById("addShips");
-	var ctxAddShip = canvasAddShip.getContext("2d");
 
-var mouse = {
-	x : 0,
-	y : 0,
-	checked : false
-};
+var allElems = [];
+var arrayShips = [];
 
-var selected = false;
+var playerAreaTable = [];
+var anotherPlayerAreaTable = [];
 
-var ElemInField = function(x, y, typeElem) {
+var ElemInField = function(x, y, typeElem, numberCanvas) {
 	this.x = x;
 	this.y = y;
 	this.h = 23;
@@ -79,52 +74,12 @@ var ElemInField = function(x, y, typeElem) {
 	this.yCoordTrueSpace = 0;
 	this.hCoordTrueSpace = 0;
 	this.wCoordTrueSpace = 0;
+	this.numberCanvas = numberCanvas;
+	this.selected = false;
 	
 };
 
-ctxAddShip.linewidth = 2;
 
-ElemInField.prototype = {
-	draw(){
-		drawELm(this.x, this.y, this.typeElem);
-	}
-};
-
-var drawELm = function(x, y, typeEl) {
-	switch(typeEl){
-			case 0: {
-				ctxAddShip.fillStyle = '#72CCFD';
-				ctxAddShip.strokeStyle = '#000000';
-				ctxAddShip.fillRect(x, y, 23, 23);
-				ctxAddShip.strokeRect(x, y, 23, 23);
-				break;
-			}
-			case 1: {
-				ctxAddShip.fillStyle = '#C1C9CD';
-				ctxAddShip.strokeStyle = '#000000';
-				ctxAddShip.fillRect(x, y, 23, 23);
-				ctxAddShip.strokeRect(x, y, 23, 23);
-				break;
-			}
-			case 2: {
-				ctxAddShip.fillStyle = '#F63C4D';
-				ctxAddShip.strokeStyle = '#000000';
-				ctxAddShip.fillRect(x, y, 23, 23);
-				ctxAddShip.strokeRect(x, y, 23, 23);
-				break;
-			}
-			case 3: {
-				ctxAddShip.fillStyle = '#0626A7';
-				ctxAddShip.strokeStyle = '#000000';
-				ctxAddShip.fillRect(x, y, 23, 23);
-				ctxAddShip.strokeRect(x, y, 23, 23);
-				break;
-			}
-			default:{
-				break;
-			}
-		}
-}
 
 var Ship = function(x, y, palubs, position){
 	this.x = x;
@@ -137,6 +92,159 @@ var Ship = function(x, y, palubs, position){
 	this.shipIsSet = false;
 
 };
+
+
+
+
+window.onload = function () {
+	var canvasAddShip = document.getElementById("addShips");
+	var ctxAddShip = canvasAddShip.getContext("2d");
+	var canvasPlayerArea = document.getElementById("playerArea");
+	var ctxPlayerArea = canvasPlayerArea.getContext("2d");
+	var canvasAnotherPlayerArea = document.getElementById("anotherPlayerArea");
+	var ctxAnotherPlayerArea = canvasAnotherPlayerArea.getContext("2d");
+	
+	ctxAddShip.linewidth = 2;
+	ctxPlayerArea.linewidth = 2;
+	ctxAnotherPlayerArea.linewidth = 2;
+
+var drawShip = function(x, y, palubs, position){
+
+	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
+		if (position == "vert") {
+			ctxAddShip.fillStyle = '#C1C9CD';
+			ctxAddShip.strokeStyle = '#000000';
+			ctxAddShip.fillRect(x, y, 23, 23);
+			ctxAddShip.strokeRect(x, y, 23, 23);
+			y += 23
+		}
+		if (position == "horiz") {
+			ctxAddShip.fillStyle = '#C1C9CD';
+			ctxAddShip.strokeStyle = '#000000';
+			ctxAddShip.fillRect(x, y, 23, 23);
+			ctxAddShip.strokeRect(x, y, 23, 23);
+			x += 23
+		}
+	}
+}
+
+var drawELm = function(x, y, typeEl, numberCanvas) {
+	switch(numberCanvas) {
+		case 0: {
+			switch(typeEl){
+				case 0: {
+					ctxAddShip.fillStyle = '#72CCFD';
+					ctxAddShip.strokeStyle = '#000000';
+					ctxAddShip.fillRect(x, y, 23, 23);
+					ctxAddShip.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 1: {
+					ctxAddShip.fillStyle = '#C1C9CD';
+					ctxAddShip.strokeStyle = '#000000';
+					ctxAddShip.fillRect(x, y, 23, 23);
+					ctxAddShip.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 2: {
+					ctxAddShip.fillStyle = '#F63C4D';
+					ctxAddShip.strokeStyle = '#000000';
+					ctxAddShip.fillRect(x, y, 23, 23);
+					ctxAddShip.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 3: {
+					ctxAddShip.fillStyle = '#0626A7';
+					ctxAddShip.strokeStyle = '#000000';
+					ctxAddShip.fillRect(x, y, 23, 23);
+					ctxAddShip.strokeRect(x, y, 23, 23);
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+			break;
+		}
+		case 1: {
+			switch(typeEl){
+				case 0: {
+					ctxPlayerArea.fillStyle = '#72CCFD';
+					ctxPlayerArea.strokeStyle = '#000000';
+					ctxPlayerArea.fillRect(x, y, 23, 23);
+					ctxPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 1: {
+					ctxPlayerArea.fillStyle = '#C1C9CD';
+					ctxPlayerArea.strokeStyle = '#000000';
+					ctxPlayerArea.fillRect(x, y, 23, 23);
+					ctxPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 2: {
+					ctxPlayerArea.fillStyle = '#F63C4D';
+					ctxPlayerArea.strokeStyle = '#000000';
+					ctxPlayerArea.fillRect(x, y, 23, 23);
+					ctxPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 3: {
+					ctxPlayerArea.fillStyle = '#0626A7';
+					ctxPlayerArea.strokeStyle = '#000000';
+					ctxPlayerArea.fillRect(x, y, 23, 23);
+					ctxPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+			break;
+		}
+		case 2: {
+			switch(typeEl){
+				case 0: {
+					ctxAnotherPlayerArea.linewidth = 2;
+					ctxAnotherPlayerArea.fillStyle = '#72CCFD';
+					ctxAnotherPlayerArea.strokeStyle = '#000000';
+					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
+					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 1: {
+					ctxAnotherPlayerArea.linewidth = 2;
+					ctxAnotherPlayerArea.fillStyle = '#C1C9CD';
+					ctxAnotherPlayerArea.strokeStyle = '#000000';
+					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
+					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 2: {
+					ctxAnotherPlayerArea.linewidth = 2;
+					ctxAnotherPlayerArea.fillStyle = '#F63C4D';
+					ctxAnotherPlayerArea.strokeStyle = '#000000';
+					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
+					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 3: {
+					ctxAnotherPlayerArea.linewidth = 2;
+					ctxAnotherPlayerArea.fillStyle = '#0626A7';
+					ctxAnotherPlayerArea.strokeStyle = '#000000';
+					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
+					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+			break;
+		}
+	}
+		
+}
 
 Ship.prototype = {
 	draw() {
@@ -161,38 +269,58 @@ Ship.prototype = {
 	
 };
 
-var drawShip = function(x, y, palubs, position){
-	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
-		if (position == "vert") {
-			ctxAddShip.fillStyle = '#C1C9CD';
-			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
-			ctxAddShip.strokeRect(x, y, 23, 23);
-			y += 23
-		}
-		if (position == "horiz") {
-			ctxAddShip.fillStyle = '#C1C9CD';
-			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
-			ctxAddShip.strokeRect(x, y, 23, 23);
-			x += 23
-		}
+ElemInField.prototype = {
+	draw(){
+		drawELm(this.x, this.y, this.typeElem, this.numberCanvas);
+	},
+	drawSelection() {
+		drawSelect(this.x, this.y);
+	},
+	select : function () {
+		this.selected = !this.selected;
 	}
+};
+
+var drawSelect = function(x, y) {
+	ctxAnotherPlayerArea.strokeStyle = "#FD9826";
+	ctxAnotherPlayerArea.lineWidth = 4;
+	ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+	ctxAnotherPlayerArea.lineWidth = 2;
+	
 }
 
-var allElems = [];
-var xCoord = 23;
-var yCoord = 23;
-for (var i = 0; i < 10; i++) {
-	for( var j = 0; j < 10; j++) {
-		allElems.push(new ElemInField(xCoord, yCoord, 0));
-		xCoord += 23;
+var mouse = {
+	x : 0,
+	y : 0,
+	checked : false
+};
+
+var selected = false;
+
+
+
+var windowAddShips = function () {
+	
+	var xCoord = 23;
+	var yCoord = 23;
+	for (var i = 0; i < 10; i++) {
+		for( var j = 0; j < 10; j++) {
+			allElems.push(new ElemInField(xCoord, yCoord, 0, 0));
+			xCoord += 23;
+		}
+		xCoord = 23;
+		yCoord += 23;
 	}
-	xCoord = 23;
-	yCoord += 23;
+	
+	
+	
 }
 
-var arrayShips = [];
+
+
+
+
+
 var docksShip = 4; 
 var yShipCoord = 23
 for(var i = 0; i < 4; i ++) {
@@ -213,40 +341,86 @@ var isCursorInCell = function (element) {
 		   (mouse.y > element.y) && (mouse.y < element.y + 23);
 };
 
-var playerShipArray = [];
+
+
+
+
 
 setInterval(function(){
-	ctxAddShip.clearRect(0, 0 , 736, 276);
-	for(i in allElems) {
-		allElems[i].draw();
-	}
-	for(j in arrayShips) {
-		arrayShips[j].checkPositionSHip();
-		arrayShips[j].createTrueSpace();
-		arrayShips[j].draw();
-		
-	}
-	///////
-	if (selected) {
-		if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
-			for(i in allElems) {
-				if(isCursorInCell(allElems[i])) {
-					selected.x = allElems[i].x;
-					selected.y = allElems[i].y;
-				}
-			}
-		} else {
-			selected.x = mouse.x;
-			selected.y = mouse.y;
+	if(game_start == false) {
+		ctxAddShip.clearRect(0, 0 , 736, 276);
+		for(i in allElems) {
+			allElems[i].draw();
 		}
+		for(j in arrayShips) {
+			arrayShips[j].checkPositionSHip();
+			arrayShips[j].createTrueSpace();
+			arrayShips[j].draw();
+		}
+		///////
+		if (selected) {
+			if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
+				for(i in allElems) {
+					if(isCursorInCell(allElems[i])) {
+						selected.x = allElems[i].x;
+						selected.y = allElems[i].y;
+					}
+				}
+			} else {
+				selected.x = mouse.x;
+				selected.y = mouse.y;
+			}
+		}
+	} else {
+		
+		for(j in playerAreaTable) {
+			playerAreaTable[j].draw();
+			anotherPlayerAreaTable[j].draw();
+			if(anotherPlayerAreaTable[j].selected) {
+				anotherPlayerAreaTable[j].drawSelection();
+			}
+		}
+		
 	}
 }
 , 20);
 
 addShips.onmousemove = function (e) {
 	
-	mouse.x = e.offsetX;
-	mouse.y = e.offsetY;
+	if(!game_start) {
+		mouse.x = e.offsetX;
+		mouse.y = e.offsetY;
+	}
+}
+
+anotherPlayerArea.onmousemove = function(e) {
+	if(game_start) {
+		mouse.x = e.offsetX;
+		mouse.y = e.offsetY;
+	}
+}
+
+var isCursorInCellAP = function (x, y, cell) {
+	return (x > cell.x) && (x < cell.x + 23) && (y > cell.y) && (y < cell.y + 23)
+};
+
+anotherPlayerArea.onclick = function (e) {
+	var i;
+	var x = e.offsetX,
+		y = e.offsetY;
+	for(i in anotherPlayerAreaTable) {
+		if(isCursorInCellAP(x, y, anotherPlayerAreaTable[i])) {
+			if(anotherPlayerAreaTable[i].typeElem == 0) {
+				for(j in anotherPlayerAreaTable) {
+					if(anotherPlayerAreaTable[j].selected) {
+						anotherPlayerAreaTable[j].selected = false;
+					}
+				}
+				anotherPlayerAreaTable[i].select();
+				numberCellShot = i;
+			}
+		}
+	}
 }
 
 var opportToPutShip = true;
@@ -259,19 +433,17 @@ addShips.onclick = function(e) {
 				opportToPutShip = false;
 			}
 		}
-		console.log(selected.x + " " + selected.y + " " + (selected.x + selected.w) + " " + (selected.y + selected.h));
-		console.log(selected.xCoordTrueSpace + " " + selected.yCoordTrueSpace + " " + (selected.xCoordTrueSpace + selected.wCoordTrueSpace + 23) + " " +(selected.yCoordTrueSpace + selected.hCoordTrueSpace + 23));
 		if((selected.x >= 23) && (selected.y >= 23) && (selected.y + selected.h <= 253) && (selected.x + selected.w <= 253)) {
 			if(opportToPutShip == true) {
 				for(j in allElems) {
 					if((allElems[j].x >= selected.x) &&(allElems[j].x < selected.x + selected.w) &&
 						(allElems[j].y >= selected.y) && (allElems[j].y < selected.y + selected.h)) {
 						allElems[j].typeElem = 1;
-						selected.shipIsSet = true;
 					}
 				}
 				mouse.checked = false;
 				selected.selectOpportun = false;
+				selected.shipIsSet = true;
 				selected = false;
 			}
 		}
@@ -304,20 +476,52 @@ addShips.oncontextmenu = function(e) {
 }
 
 
+windowAddShips();
+
 
 }
 
-var createPlayerShipArray = function(elems, playeArray) {
-	playeArray = [];
-	for(k in elems) {
-		playeArray.push(elems[k].typeElem)
+var startGame = function () {
+	var xCoord = 0;
+	var yCoord = 0;
+	var k = 0;
+	for (var i = 0; i < 10; i++) {
+		for( var j = 0; j < 10; j++) {
+			playerAreaTable.push(new ElemInField(xCoord, yCoord, playerShipArray[k], 1));
+			anotherPlayerAreaTable.push(new ElemInField(xCoord, yCoord, 0, 2));
+			xCoord += 23;
+			k++;
+		}
+		xCoord = 0;
+		yCoord += 23;
 	}
-	var str = JSON.stringify(playeArray);
-	console.log(str);
+	anotherPlayerAreaTable[40].typeElem = 1;
+	anotherPlayerAreaTable[42].typeElem = 2;
+	anotherPlayerAreaTable[44].typeElem = 3;
+	
 }
 
 
-//txAddShip.drawImage(imgWater, 10, 10);
+function ShipsAdded() 
+{
+	game_start = true;
+	for(k in arrayShips) {
+		if(!arrayShips[k].shipIsSet) {
+			game_start = false;
+		}
+	}
+
+	if(game_start == true) {
+		for(j in allElems) {
+			playerShipArray.push(allElems[j].typeElem);
+		}
+		playerShipArrayJson = JSON.stringify(playerShipArray);
+		startGame();
+	}
+}
+
+
+
 
 
 
