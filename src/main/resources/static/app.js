@@ -6,7 +6,7 @@ var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
 
-/*
+
 function Send()
 {
     $.ajax({
@@ -49,13 +49,13 @@ function View()
     });
 }
 
-**/
+
 $(function ()
 {
-    //$( "#send" ).click(function() { Send(); });
+    $( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
-	//$(document).ready( function() { View() });
+	$(document).ready( function() { View() });
 });
 
 
