@@ -54,6 +54,7 @@ $(function ()
 {
     //$( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
+	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
 	//$(document).ready( function() { View() });
 });
 
@@ -481,6 +482,26 @@ windowAddShips();
 
 }
 
+function fastAddShipInArea()
+{
+	var fastArea = [1,1,1,1,0,0,1,1,1,0,
+					0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,1,1,1,
+					0,0,1,0,0,1,0,0,0,0,
+					0,0,1,0,0,0,0,0,0,0,
+					0,0,0,0,1,0,0,0,0,0,
+					0,0,0,0,1,0,0,1,1,0,
+					0,0,0,0,0,0,0,0,0,0,
+					1,0,0,0,0,0,0,0,0,0,
+					0,0,1,0,0,0,1,0,0,0]
+	for(var i in allElems) {
+		allElems[i].typeElem = fastArea[i];
+	}
+	for(var j in arrayShips) {
+		arrayShips[j].shipIsSet = true;
+	}
+}
+
 var startGame = function () {
 	var xCoord = 0;
 	var yCoord = 0;
@@ -516,6 +537,7 @@ function ShipsAdded()
 			playerShipArray.push(allElems[j].typeElem);
 		}
 		playerShipArrayJson = JSON.stringify(playerShipArray);
+		console.log(playerShipArrayJson);
 		startGame();
 	}
 }
