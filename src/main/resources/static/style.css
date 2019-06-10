@@ -4,6 +4,12 @@ body {
 	padding: 0px;
 }
 
+canvas { 
+	background: #eee; 
+	display: block; 
+	margin: 0 auto; 
+}
+
 #game_area {
 	width: 1004px;
 	margin: auto;
