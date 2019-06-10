@@ -15,7 +15,6 @@ body {
 #player_game_table {
 	left: 173px;
 	top: 98px;
-	//background-image: url("./Img/water.png");
 	
 }
 
@@ -35,7 +34,7 @@ body {
 #another_player_game_table {
 	left: 173px;
 	top: 98px;
-	background-image: url("./Img/water.png");
+
 	
 }
 #another_player_game_table > tbody > tr > td {

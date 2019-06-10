@@ -12,28 +12,32 @@ public class GreetingController {
 	//ArrayList<String> users = new ArrayList<String>();
 	String firstUser, secondUser;
 	
-    @GetMapping("/names")
+	@GetMapping("/names")
 	@ResponseBody
-    public String names(@RequestParam String name) {
-		Pattern pattern = Pattern.compile("[a-zA-Z0-9]");
+	public String names(@RequestParam String name) {
+		Pattern pattern = Pattern.compile("^((\\w)+)$");
 		Matcher matcher = pattern.matcher(name);
-		if (matcher.find()) { 
-			if (firstUser != null && !firstUser.isEmpty()) {
-				secondUser = name;
-				return secondUser;
-			} else  {
-				firstUser = name;
-				return firstUser;
-			}
+		if (!(firstUser != null && !firstUser.isEmpty()) || !(secondUser != null && !secondUser.isEmpty())) {
+			if (matcher.find()) { 
+				if (firstUser != null && !firstUser.isEmpty()) {
+					secondUser = name;
+					return secondUser;
+				} else  {
+					firstUser = name;
+					return firstUser;
+				}
+			} else {
+				return "/";
+			} 
 		} else {
-			return "/";
+			return "=";
 		}
-    }
+	}
 
 	/* @GetMapping("/game")
-    public String Game() {
-        return "game";
-    } */
+	public String Game() {
+		return "game";
+	} */
 	
 /* 	@GetMapping("/getName")
 	@ResponseBody
@@ -51,7 +55,7 @@ public class GreetingController {
 	@ResponseBody
 	public String Viewer ()
 	{
-		if ((firstUser != null && !firstUser.isEmpty()) && (secondUser != null && !secondUser.isEmpty())) { 
+		if ((firstUser != null && !firstUser.isEmpty()) && (secondUser != null && !secondUser.isEmpty())) {
 			return "no";
 		} else {
 			return "yes";
