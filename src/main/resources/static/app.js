@@ -81,7 +81,6 @@ var ElemInField = function(x, y, typeElem, numberCanvas) {
 };
 
 
-
 var Ship = function(x, y, palubs, position){
 	this.x = x;
 	this.y = y;
@@ -93,8 +92,6 @@ var Ship = function(x, y, palubs, position){
 	this.shipIsSet = false;
 
 };
-
-
 
 
 window.onload = function () {
@@ -133,6 +130,7 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 	switch(numberCanvas) {
 		case 0: {
 			switch(typeEl){
+				//вода
 				case 0: {
 					ctxAddShip.fillStyle = '#72CCFD';
 					ctxAddShip.strokeStyle = '#000000';
@@ -140,6 +138,7 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 					ctxAddShip.strokeRect(x, y, 23, 23);
 					break;
 				}
+				//корабль
 				case 1: {
 					ctxAddShip.fillStyle = '#C1C9CD';
 					ctxAddShip.strokeStyle = '#000000';
@@ -147,15 +146,25 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 					ctxAddShip.strokeRect(x, y, 23, 23);
 					break;
 				}
+				//промах
 				case 2: {
-					ctxAddShip.fillStyle = '#F63C4D';
+					ctxAddShip.fillStyle = '#0626A7';
 					ctxAddShip.strokeStyle = '#000000';
 					ctxAddShip.fillRect(x, y, 23, 23);
 					ctxAddShip.strokeRect(x, y, 23, 23);
 					break;
 				}
+				//попадание
 				case 3: {
-					ctxAddShip.fillStyle = '#0626A7';
+					ctxAddShip.fillStyle = '#FF05F0';
+					ctxAddShip.strokeStyle = '#000000';
+					ctxAddShip.fillRect(x, y, 23, 23);
+					ctxAddShip.strokeRect(x, y, 23, 23);
+					break;
+				}
+				//УБИЙСТВО!!!!
+				case 4: {
+					ctxAddShip.fillStyle = '#F63C4D';
 					ctxAddShip.strokeStyle = '#000000';
 					ctxAddShip.fillRect(x, y, 23, 23);
 					ctxAddShip.strokeRect(x, y, 23, 23);
@@ -184,14 +193,21 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 					break;
 				}
 				case 2: {
-					ctxPlayerArea.fillStyle = '#F63C4D';
+					ctxPlayerArea.fillStyle = '#0626A7';
 					ctxPlayerArea.strokeStyle = '#000000';
 					ctxPlayerArea.fillRect(x, y, 23, 23);
 					ctxPlayerArea.strokeRect(x, y, 23, 23);
 					break;
 				}
 				case 3: {
-					ctxPlayerArea.fillStyle = '#0626A7';
+					ctxPlayerArea.fillStyle = '#FF05F0';
+					ctxPlayerArea.strokeStyle = '#000000';
+					ctxPlayerArea.fillRect(x, y, 23, 23);
+					ctxPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 4: {
+					ctxPlayerArea.fillStyle = '#F63C4D';
 					ctxPlayerArea.strokeStyle = '#000000';
 					ctxPlayerArea.fillRect(x, y, 23, 23);
 					ctxPlayerArea.strokeRect(x, y, 23, 23);
@@ -223,7 +239,7 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 				}
 				case 2: {
 					ctxAnotherPlayerArea.linewidth = 2;
-					ctxAnotherPlayerArea.fillStyle = '#F63C4D';
+					ctxAnotherPlayerArea.fillStyle = '#0626A7';
 					ctxAnotherPlayerArea.strokeStyle = '#000000';
 					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
 					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
@@ -231,7 +247,14 @@ var drawELm = function(x, y, typeEl, numberCanvas) {
 				}
 				case 3: {
 					ctxAnotherPlayerArea.linewidth = 2;
-					ctxAnotherPlayerArea.fillStyle = '#0626A7';
+					ctxAnotherPlayerArea.fillStyle = '#FF05F0';
+					ctxAnotherPlayerArea.strokeStyle = '#000000';
+					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
+					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
+					break;
+				}
+				case 4: {
+					ctxAnotherPlayerArea.fillStyle = '#F63C4D';
 					ctxAnotherPlayerArea.strokeStyle = '#000000';
 					ctxAnotherPlayerArea.fillRect(x, y, 23, 23);
 					ctxAnotherPlayerArea.strokeRect(x, y, 23, 23);
@@ -450,7 +473,6 @@ addShips.onclick = function(e) {
 		}
 		opportToPutShip = true;
 	} else if( mouse.checked == false) {
-		
 		if(!selected) {
 			var k;
 			for(k in arrayShips) {
@@ -500,6 +522,8 @@ function fastAddShipInArea()
 	for(var j in arrayShips) {
 		arrayShips[j].shipIsSet = true;
 	}
+	arrayShips[0].x = 23;
+	arrayShips[0].y = 23;
 }
 
 var startGame = function () {
@@ -516,9 +540,14 @@ var startGame = function () {
 		xCoord = 0;
 		yCoord += 23;
 	}
+
+
+
 	anotherPlayerAreaTable[40].typeElem = 1;
 	anotherPlayerAreaTable[42].typeElem = 2;
 	anotherPlayerAreaTable[44].typeElem = 3;
+	anotherPlayerAreaTable[46].typeElem = 4;
+	
 	
 }
 
@@ -531,12 +560,38 @@ function ShipsAdded()
 			game_start = false;
 		}
 	}
-
 	if(game_start == true) {
+		
 		for(j in allElems) {
 			playerShipArray.push(allElems[j].typeElem);
 		}
-		playerShipArrayJson = JSON.stringify(playerShipArray);
+		
+		var numbersPlayerShipArray = [];
+		var coordVertHoriz = 0;
+		for(kInShips in arrayShips) {
+			for(kInElem in allElems) {
+				if(arrayShips[kInShips].x == allElems[kInElem].x && arrayShips[kInShips].y == allElems[kInElem].y) {
+					if(arrayShips[kInShips].position == "horiz") {
+						coordVertHoriz = parseInt(kInElem, 10);
+						for(j = 0; j < arrayShips[kInShips].palubs; j++) {
+							numbersPlayerShipArray.push(coordVertHoriz);
+							coordVertHoriz++;
+						}
+					} else {
+						coordVertHoriz = parseInt(kInElem, 10);
+						for(j = 0; j < arrayShips[kInShips].palubs; j++) {
+							numbersPlayerShipArray.push(coordVertHoriz);
+							coordVertHoriz = coordVertHoriz + 10;
+						}
+					}
+					break;
+				}
+			}
+		}
+		
+		
+		
+		playerShipArrayJson = JSON.stringify(numbersPlayerShipArray);
 		console.log(playerShipArrayJson);
 		startGame();
 	}
