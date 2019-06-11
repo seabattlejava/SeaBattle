@@ -1,75 +1,39 @@
 package hello.logic;
 
-import com.google.gson.Gson;
-
 public class Logic {
 
-    final static Gson gson = new Gson();
+    static int [][] map = new int [10][4];
 
-    public static int[][] playerOne = new int[10][10];
-    public static int[][] playerTwo = new int[10][10];
+    public static void main(String[] args) {
+        int [] mas = {0,1,2,3, 20,21,22, 9,19,29, 47,48, 96,97, 89,99, 40, 34, 7, 15};
+        int shoot = 3;
+        int result;
+        int count = 0;
 
-    public static void battleShip(String input) {
+        System.out.println("Start map");
 
-        int[][] mas1 = {
-                {0, 2, 2, 2, 1, 0, 1, 0, 2, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 0, 0, 1, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {2, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0}
-        };
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) map[i][j] = 100;
+                else map[i][j] = mas[count++];
 
-        int[][] mas2 = {
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
-        };
-
-        //String input;
-
-       // input = gson.toJson(mas1);
-//        System.out.println(input);
-
-       // playerOne = gson.fromJson(input, int[][].class);
-
-//        for(int i=0; i<10; i++){
-//            for(int j=0; j<10; j++){
-//                System.out.print(playerOne[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-
-       // input = gson.toJson(mas2);
-//        System.out.println(input);
-
-    //    playerTwo = gson.fromJson(input, int[][].class);
-
-//        for(int i=0; i<10; i++){
-//            for(int j=0; j<10; j++){
-//                System.out.print(playerTwo[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-
-       // Shoot.hit(playerOne);
-      /*   for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
-                System.out.print(playerOne[i][j] + " ");
+                System.out.print(map[i][j] + " ");
             }
             System.out.println();
-        } */
+        }
+
+        result = Shoot.hit(map, shoot);
+
+        System.out.println("Result");
+        System.out.println(result);
+
+        System.out.println("Edit map");
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
 
     }
 }
