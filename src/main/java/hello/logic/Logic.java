@@ -4,12 +4,11 @@ public class Logic {
 
     static int [][] map = new int [10][4];
 
-    public static void main(String[] args) {
-        int [] mas = {0,1,2,3, 20,21,22, 9,19,29, 47,48, 96,97, 89,99, 40, 34, 7, 15};
+    public static String input(String mas) {
         int shoot = 3;
         int result;
         int count = 0;
-
+/* 
         System.out.println("Start map");
 
         for (int i = 0; i < map.length; i++) {
@@ -33,7 +32,7 @@ public class Logic {
                 System.out.print(map[i][j] + " ");
             }
             System.out.println();
-        }
-
+        } */
+		return "lol";
     }
 }

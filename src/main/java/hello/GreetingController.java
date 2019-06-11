@@ -40,10 +40,8 @@ public class GreetingController {
 	@GetMapping("/addShips")
 	@ResponseBody
 	public String addShips(@RequestParam String mas) {
-		return mas;
+		return Logic.input(mas);
 	}
-	
-	
 	
 	
 	/* @GetMapping("/game")

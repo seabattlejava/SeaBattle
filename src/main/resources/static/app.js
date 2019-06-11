@@ -607,7 +607,7 @@ function ShipsAdded()
 			url: 'addShips', // адрес обработчика
 			data: { mas : playerShipArrayJson} , // отправляемые данные
 			success: function(msg) { // получен ответ сервера
-				console.log("Massiva: " + msg);
+				console.log("Otvetka: " + msg);
 			}
 		});
 		startGame();
