@@ -9,14 +9,19 @@ var numberCellShot = 0;
 
 function View()
 {
+	$('#adding_ship_area').hide();
+	$('#game-content').hide();
+	$('#main_game').hide();
+	$('#chat_window').hide();
+	$('#message_template').hide();
 	$.ajax({
 		url: 'viewer', // адрес обработчика
 		success: function(msg) { // получен ответ сервера
 			console.log("Log: " + msg);
 			if (msg == "no") {
-				$('#send').hide();
-				$('#name').hide();
-				$('#name_mini').hide();
+				$('#main-content').hide();
+				$('#chat_window').show();
+				$('#message_template').show();
 			}
 		}
 	});
@@ -30,8 +35,10 @@ function Send()
 		success: function(msg) { // получен ответ сервера
 			if (msg != "=") {
 				if(msg != "/") {
-					$('#main-content').hide();
+					$('#adding_ship_area').show();
 					$('#game-content').show();
+					$('#main_game').show();
+					$('#main-content').hide();
 					add_UserName(msg);
 					console.log("Save:" + UserName);
 					//$(location).attr('href', 'game');
@@ -557,6 +564,7 @@ var startGame = function () {
 
 function ShipsAdded() 
 {
+	$('#shipsAdded').hide();
 	game_start = true;
 	for(k in arrayShips) {
 		if(!arrayShips[k].shipIsSet) {
@@ -595,9 +603,45 @@ function ShipsAdded()
 		
 		
 		playerShipArrayJson = JSON.stringify(numbersPlayerShipArray);
-		console.log(playerShipArrayJson);
+		$.ajax({
+			url: 'addShips', // адрес обработчика
+			data: { mas : playerShipArrayJson} , // отправляемые данные
+			success: function(msg) { // получен ответ сервера
+				console.log("Massiva: " + msg);
+			}
+		});
 		startGame();
 	}
+}
+
+function connect() {
+	var socket = new SockJS('/chat-messaging');
+	stompClient = Stomp.over(socket);
+	stompClient.connect({}, function(frame) {
+		console.log("connected: " + frame);
+		stompClient.subscribe('/chat/messages', function(response) {
+			var data = JSON.parse(response.body);
+			draw("left", data.message);
+		});
+	});
+}
+
+function draw(side, text) {
+	console.log("drawing...");
+    var $message;
+    $message = $($('.message_template').clone().html());
+    $message.addClass(side).find('.text').html(text);
+    $('.messages').append($message);
+    return setTimeout(function () {
+        return $message.addClass('appeared');
+    }, 0);
+
+}
+function disconnect(){
+	stompClient.disconnect();
+}
+function sendMessage(){
+	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
 }
 
 

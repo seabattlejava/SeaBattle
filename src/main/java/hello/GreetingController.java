@@ -3,8 +3,11 @@ package hello;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import java.util.regex.*;
 import hello.logic.*;
+import hello.chat.*;
 
 @Controller
 public class GreetingController {
@@ -34,6 +37,15 @@ public class GreetingController {
 		}
 	}
 
+	@GetMapping("/addShips")
+	@ResponseBody
+	public String addShips(@RequestParam String mas) {
+		return mas;
+	}
+	
+	
+	
+	
 	/* @GetMapping("/game")
 	public String Game() {
 		return "game";
@@ -60,5 +72,12 @@ public class GreetingController {
 		} else {
 			return "yes";
 		}
+	}
+	
+	@MessageMapping("/message")
+	@SendTo("/chat/messages")
+	public Message getMessages(Message message) {
+		System.out.println(message);
+		return message;
 	}
 }
