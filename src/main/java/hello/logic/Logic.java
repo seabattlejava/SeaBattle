@@ -1,10 +1,12 @@
 package hello.logic;
 
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 public class Logic {
 
     final static Gson gson = new Gson();
+    final static Logger log = Logger.getLogger(Logic.class);
 
     static int [] map = new int [20];
     static int [][] PlayerOne = new int [10][4];
@@ -18,33 +20,49 @@ public class Logic {
 
         switch (player){
             case 0:
-                System.out.println("Player 1");
                 for (int i = 0; i < PlayerOne.length; i++) {
                     for (int j = 0; j < PlayerOne[i].length; j++) {
                         if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerOne[i][j] = 100;
                         else PlayerOne[i][j] = map[count++];
-
-                        System.out.print(PlayerOne[i][j] + " ");
+                        log.info("Player 1 is ready");
                     }
-                    System.out.println();
                 }
                 player = 1;
                 break;
             case 1:
-                System.out.println("Player 2");
                 for (int i = 0; i < PlayerTwo.length; i++) {
                     for (int j = 0; j < PlayerTwo[i].length; j++) {
                         if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerTwo[i][j] = 100;
                         else PlayerTwo[i][j] = map[count++];
-
-                        System.out.print(PlayerTwo[i][j] + " ");
+                        log.info("Player 2 is ready");
                     }
-                    System.out.println();
                 }
+                player = 0;
                 break;
             default:
-                return ("Not OK!");
+                log.info("Array" + player + "did not register");
+                return "Not OK!";
         }
 		return "OK!";
+    }
+
+    public static String shoot(int shot) {
+        String output;
+        int result;
+
+        switch (player) {
+            case 0:
+                result = Shoot.hit(PlayerOne, shot);
+                player = 1;
+                break;
+            case 1:
+                result = Shoot.hit(PlayerTwo, shot);
+                player = 0;
+                break;
+            default:
+                return "Not OK!";
+        }
+        output = gson.toJson(result);
+        return output;
     }
 }
