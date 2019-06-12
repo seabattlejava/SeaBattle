@@ -7,7 +7,6 @@ package hello.logic;
 public class Shoot {
 
     public static int hit(int[][] map, int shoot) {
-
         int check = 0;
 
         for (int i = 0; i < map.length; i++) {
