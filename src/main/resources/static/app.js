@@ -65,6 +65,7 @@ $(function ()
     $( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
+	$( "#shoot" ).click(function() {shoot();});
 	$(document).ready( function() { View() });
 });
 
@@ -644,7 +645,16 @@ function sendMessage(){
 	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
 }
 
-
+function shoot() 
+{
+	var positionShoot = "";
+	for(k in anotherPlayerAreaTable) {
+		if(anotherPlayerAreaTable[k].selected == true) {
+			positionShoot = JSON.stringify(k);
+		}
+	}
+	console.log(positionShoot);
+}
 
 
 
