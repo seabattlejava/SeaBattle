@@ -62,7 +62,7 @@ function add_UserName(data)
 
 $(function ()
 {
-    $( "#send" ).click(function() { Send(); });
+	$( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
 	$(document).ready( function() { View() });
@@ -628,13 +628,13 @@ function connect() {
 
 function draw(side, text) {
 	console.log("drawing...");
-    var $message;
-    $message = $($('.message_template').clone().html());
-    $message.addClass(side).find('.text').html(text);
-    $('.messages').append($message);
-    return setTimeout(function () {
-        return $message.addClass('appeared');
-    }, 0);
+	var $message;
+	$message = $($('.message_template').clone().html());
+	$message.addClass(side).find('.text').html(text);
+	$('.messages').append($message);
+	return setTimeout(function () {
+		return $message.addClass('appeared');
+	}, 0);
 
 }
 function disconnect(){
@@ -644,6 +644,23 @@ function sendMessage(){
 	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
 }
 
+///////////////////////////////////////////
+//Функиця таймре 
+function Timer()
+{
+	var timerId = setInterval(function() {
+		$.ajax({
+			url: 'Timer', // адрес обработчика
+			success: function(msg) { // получен ответ сервера
+				if (msg != "no") {
+				clearInterval(timerId);
+				console.log("Otvetka: " + msg);
+				}
+			}
+		});
+	}, 1000);
+}
+/////////////////////////////////////////
 
 
 

@@ -37,12 +37,22 @@ public class GreetingController {
 		}
 	}
 
+	
+	// Вот тут корабли передаются
 	@GetMapping("/addShips")
 	@ResponseBody
 	public String addShips(@RequestParam String mas) {
 		return Logic.input(mas);
 	}
 	
+	//////////////////////////////////
+	//Таймер
+	/*@GetMapping("/timer")
+	@ResponseBody
+	public String Timer() {
+		return Logic.Timer;
+	}*/
+	///////////////////////////////
 	
 	/* @GetMapping("/game")
 	public String Game() {
@@ -61,6 +71,19 @@ public class GreetingController {
 		}
 	}
 	 */
+	
+	////////////////////////////////////////////////////
+	// Вот тут выстрел передается
+	/*@GetMapping("/shoot")
+	@ResponseBody
+	public String Shoot (@RequestParam String fire)
+	{
+		return Logic.Shoot(fire);
+	}
+	*/
+	/////////////////////////////////////////////////////
+	
+	
 	@GetMapping("/viewer")
 	@ResponseBody
 	public String Viewer ()
