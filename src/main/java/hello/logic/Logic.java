@@ -1,38 +1,69 @@
 package hello.logic;
 
+import com.google.gson.Gson;
+import org.apache.log4j.Logger;
+
 public class Logic {
 
-    static int [][] map = new int [10][4];
+    final static Gson gson = new Gson();
+    final static Logger log = Logger.getLogger(Logic.class);
+
+    static int [] map = new int [20];
+    static int [][] PlayerOne = new int [10][4];
+    static int [][] PlayerTwo = new int [10][4];
+    static int player = 0;
 
     public static String input(String mas) {
-        int shoot = 3;
-        int result;
         int count = 0;
-/* 
-        System.out.println("Start map");
 
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) map[i][j] = 100;
-                else map[i][j] = mas[count++];
+        map = gson.fromJson(mas, int[].class);
 
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
+        switch (player){
+            case 0:
+                for (int i = 0; i < PlayerOne.length; i++) {
+                    for (int j = 0; j < PlayerOne[i].length; j++) {
+                        if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerOne[i][j] = 100;
+                        else PlayerOne[i][j] = map[count++];
+                    }
+                }
+                log.info("Player 1 is ready");
+                player = 1;
+                break;
+            case 1:
+                for (int i = 0; i < PlayerTwo.length; i++) {
+                    for (int j = 0; j < PlayerTwo[i].length; j++) {
+                        if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerTwo[i][j] = 100;
+                        else PlayerTwo[i][j] = map[count++];
+                    }
+                }
+                log.info("Player 2 is ready");
+                player = 0;
+                break;
+            default:
+                log.info("Array" + player + "did not register");
+                return "Not OK!";
         }
+		return "OK!";
+    }
 
-        result = Shoot.hit(map, shoot);
+    public static String shoot(int shot) {
+        String output;
+        int result;
 
-        System.out.println("Result");
-        System.out.println(result);
-
-        System.out.println("Edit map");
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
-        } */
-		return "lol";
+        switch (player) {
+            case 0:
+                result = Shoot.hit(PlayerOne, shot);
+                player = 1;
+                break;
+            case 1:
+                result = Shoot.hit(PlayerTwo, shot);
+                player = 0;
+                break;
+            default:
+                return "Not OK!";
+        }
+        output = gson.toJson(result);
+        log.info("Output: " + output);
+        return output;
     }
 }
