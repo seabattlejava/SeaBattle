@@ -45,14 +45,12 @@ public class GreetingController {
 		return Logic.input(mas);
 	}
 	
-	//////////////////////////////////
 	//Таймер
-	/*@GetMapping("/timer")
+	@GetMapping("/timer")
 	@ResponseBody
 	public String Timer() {
 		return Logic.Timer;
-	}*/
-	///////////////////////////////
+	}
 	
 	/* @GetMapping("/game")
 	public String Game() {
@@ -72,16 +70,14 @@ public class GreetingController {
 	}
 	 */
 	
-	////////////////////////////////////////////////////
 	// Вот тут выстрел передается
-	/*@GetMapping("/shoot")
+	@GetMapping("/shoot")
 	@ResponseBody
 	public String Shoot (@RequestParam String fire)
 	{
 		return Logic.Shoot(fire);
 	}
-	*/
-	/////////////////////////////////////////////////////
+
 	
 	
 	@GetMapping("/viewer")
