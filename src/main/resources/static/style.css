@@ -1,9 +1,10 @@
-/* body {
-	background-color: #67657B;
+ body {
+	background-color: #E2EAED;
 	margin: 0px;
 	padding: 0px;
+	font-family: "Calibri", "Roboto", sans-serif;
 }
- */
+ 
 canvas { 
 	background: #eee; 
 	display: block; 
@@ -18,51 +19,11 @@ canvas {
 	background-color: #5C5893;
 }
 
-#player_game_table {
-	left: 173px;
-	top: 98px;
-	
-}
 
-#player_game_table > tbody > tr > td {
-	width: 23px;
-	height: 23px;
-	cursor: pointer;
-}
-
-#player_game_table > thead > tr > td > p,
-#player_game_table > tbody > tr > td > p {
-	color: #ffffff;
-	font-size: 8px;
-	text-align: center;
-}
-
-#another_player_game_table {
-	left: 173px;
-	top: 98px;
-
-	
-}
-#another_player_game_table > tbody > tr > td {
-	width: 23px;
-	height: 23px;
-	cursor: pointer;
-}
-
-#another_player_game_table > thead > tr > td > p,
-#another_player_game_table > tbody > tr > td > p {
-	color: #ffffff;
-	font-size: 8px;
-	text-align: center;
-}
 * {
   box-sizing: border-box;
 }
 
-body {
-  background-color: #edeff2;
-  font-family: "Calibri", "Roboto", sans-serif;
-}
 
 .chat_window {
   position: absolute;

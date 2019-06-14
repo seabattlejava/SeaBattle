@@ -36,8 +36,8 @@ function Send()
 			if (msg != "=") {
 				if(msg != "/") {
 					$('#adding_ship_area').show();
-					$('#game-content').show();
-					$('#main_game').show();
+					//$('#game-content').show();
+					$('#main_game').hide();
 					$('#main-content').hide();
 					add_UserName(msg);
 					console.log("Save:" + UserName);
@@ -65,6 +65,7 @@ $(function ()
 	$( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
+	$( "#shoot" ).click(function() {shoot();});
 	$(document).ready( function() { View() });
 });
 
@@ -459,7 +460,8 @@ anotherPlayerArea.onclick = function (e) {
 
 var opportToPutShip = true;
 
-addShips.onclick = function(e) {
+addShips.onclick = function(e) 
+{
 	if (mouse.checked == true) {
 		for(k in allElems) {
 			if((allElems[k].typeElem == 1) && (allElems[k].x >= selected.xCoordTrueSpace) && (allElems[k].x < selected.xCoordTrueSpace + selected.wCoordTrueSpace + 23)
@@ -498,6 +500,7 @@ addShips.onclick = function(e) {
 }
 
 addShips.oncontextmenu = function(e) {
+	
 	if(mouse.checked == true) {
 		if (selected.position == "horiz") {
 			selected.position = "vert";
@@ -536,7 +539,8 @@ function fastAddShipInArea()
 	arrayShips[0].y = 23;
 }
 
-var startGame = function () {
+var startGame = function ()
+{
 	var xCoord = 0;
 	var yCoord = 0;
 	var k = 0;
@@ -550,7 +554,8 @@ var startGame = function () {
 		xCoord = 0;
 		yCoord += 23;
 	}
-
+	$('#adding_ship_area').hide();
+	$('#main_game').show();
 
 
 	anotherPlayerAreaTable[40].typeElem = 1;
@@ -661,7 +666,16 @@ function Timer()
 	}, 1000);
 }
 /////////////////////////////////////////
-
+function shoot() 
+{
+	var positionShoot = "";
+	for(k in anotherPlayerAreaTable) {
+		if(anotherPlayerAreaTable[k].selected == true) {
+			positionShoot = JSON.stringify(k);
+		}
+	}
+	console.log(positionShoot);
+}
 
 
 
