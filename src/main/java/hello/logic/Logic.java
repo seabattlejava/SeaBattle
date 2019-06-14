@@ -24,9 +24,9 @@ public class Logic {
                     for (int j = 0; j < PlayerOne[i].length; j++) {
                         if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerOne[i][j] = 100;
                         else PlayerOne[i][j] = map[count++];
-                        log.info("Player 1 is ready");
                     }
                 }
+                log.info("Player 1 is ready");
                 player = 1;
                 break;
             case 1:
@@ -34,9 +34,9 @@ public class Logic {
                     for (int j = 0; j < PlayerTwo[i].length; j++) {
                         if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerTwo[i][j] = 100;
                         else PlayerTwo[i][j] = map[count++];
-                        log.info("Player 2 is ready");
                     }
                 }
+                log.info("Player 2 is ready");
                 player = 0;
                 break;
             default:
@@ -63,6 +63,7 @@ public class Logic {
                 return "Not OK!";
         }
         output = gson.toJson(result);
+        log.info("Output: " + output);
         return output;
     }
 }
