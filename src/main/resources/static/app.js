@@ -5,7 +5,7 @@ var playerShipArray = [];
 var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
-
+var num = 0;
 
 function View()
 {
@@ -14,6 +14,7 @@ function View()
 	$('#main_game').hide();
 	$('#chat_window').hide();
 	$('#message_template').hide();
+	$("#shoot").attr("disabled", true);
 	$.ajax({
 		url: 'viewer', // адрес обработчика
 		success: function(msg) { // получен ответ сервера
@@ -39,8 +40,9 @@ function Send()
 					//$('#game-content').show();
 					$('#main_game').hide();
 					$('#main-content').hide();
-					add_UserName(msg);
-					console.log("Save:" + UserName);
+					add_UserName($('#name').val());
+					num = msg;
+					console.log("Save:" + num);
 					//$(location).attr('href', 'game');
 				} else {
 					alert("Wrong Number -_-");
@@ -557,11 +559,6 @@ var startGame = function ()
 	$('#adding_ship_area').hide();
 	$('#main_game').show();
 
-
-	anotherPlayerAreaTable[40].typeElem = 1;
-	anotherPlayerAreaTable[42].typeElem = 2;
-	anotherPlayerAreaTable[44].typeElem = 3;
-	anotherPlayerAreaTable[46].typeElem = 4;
 	
 	
 }
@@ -569,7 +566,6 @@ var startGame = function ()
 
 function ShipsAdded() 
 {
-	$('#shipsAdded').hide();
 	game_start = true;
 	for(k in arrayShips) {
 		if(!arrayShips[k].shipIsSet) {
@@ -577,6 +573,7 @@ function ShipsAdded()
 		}
 	}
 	if(game_start == true) {
+		$('#shipsAdded').hide();
 		
 		for(j in allElems) {
 			playerShipArray.push(allElems[j].typeElem);
@@ -612,10 +609,11 @@ function ShipsAdded()
 			url: 'addShips', // адрес обработчика
 			data: { mas : playerShipArrayJson} , // отправляемые данные
 			success: function(msg) { // получен ответ сервера
-				console.log("Otvetka: " + msg);
+				console.log("Otvetka korbl: " + msg);
 			}
 		});
 		startGame();
+		TimerStartGame();
 	}
 }
 
@@ -655,16 +653,50 @@ function Timer()
 {
 	var timerId = setInterval(function() {
 		$.ajax({
-			url: 'Timer', // адрес обработчика
+			url: 'timer', // адрес обработчика
 			success: function(msg) { // получен ответ сервера
-				if (msg != "no") {
+				if (msg == "yes") {
 				clearInterval(timerId);
-				console.log("Otvetka: " + msg);
+				$("#shoot").attr("disabled", false);
 				}
 			}
 		});
 	}, 1000);
 }
+
+function TimerStartGame()
+{
+	var timerId = setInterval(function() {
+		$.ajax({
+			url: 'timerstartgame', // адрес обработчика
+			success: function(msg) { // получен ответ сервера
+				if (msg == "yes") {
+				clearInterval(timerId);
+				console.log("Gotov?: " + msg);
+				Start();
+				}
+			}
+		});
+	}, 1000);
+}
+
+function Start()
+{
+	$.ajax({
+			url: 'playerNumber', // адрес обработчика
+			data: { number : num} , // отправляемые данные
+			success: function(msg) { // получен ответ сервера
+				if (msg == "yes") {
+					console.log("Perviy: " + msg);
+					$("#shoot").attr("disabled", false);
+				} else {
+					console.log("Vtoroi: " + msg);
+					Timer();
+				}
+			}
+		});
+}
+
 /////////////////////////////////////////
 function shoot() 
 {
@@ -675,6 +707,20 @@ function shoot()
 		}
 	}
 	console.log(positionShoot);
+	$.ajax({
+			url: 'shoot', // адрес обработчика
+			data: { fire : positionShoot} , // отправляемые данные
+			success: function(msg) { // получен ответ сервера
+				console.log("otvetka: " + msg);
+				for(k in anotherPlayerAreaTable) {
+					if(anotherPlayerAreaTable[k].selected == true) {
+							anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
+					}
+				}
+			}
+	});
+	$("#shoot").attr("disabled", true);
+	Timer();
 }
 
 

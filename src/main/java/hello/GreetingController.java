@@ -8,12 +8,17 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import java.util.regex.*;
 import hello.logic.*;
 import hello.chat.*;
+import org.apache.log4j.Logger;
+import com.google.gson.Gson;
 
 @Controller
 public class GreetingController {
-
+	final static Logger log = Logger.getLogger(GreetingController.class);
+	final static Gson gson = new Gson();
 	//ArrayList<String> users = new ArrayList<String>();
-	String firstUser, secondUser;
+	String firstUser = "", secondUser = "";
+	int flag = 0;
+	int usersoff = 0;
 	
 	@GetMapping("/names")
 	@ResponseBody
@@ -24,10 +29,11 @@ public class GreetingController {
 			if (matcher.find()) { 
 				if (firstUser != null && !firstUser.isEmpty()) {
 					secondUser = name;
-					return secondUser;
+					usersoff = 1;
+					return "2";
 				} else  {
 					firstUser = name;
-					return firstUser;
+					return "1";
 				}
 			} else {
 				return "/";
@@ -42,40 +48,46 @@ public class GreetingController {
 	@GetMapping("/addShips")
 	@ResponseBody
 	public String addShips(@RequestParam String mas) {
+		flag++;
+		log.info("Some message");
 		return Logic.input(mas);
 	}
 	
-	//Таймер
-	@GetMapping("/timer")
+	@GetMapping("/playerNumber")
 	@ResponseBody
-	public String Timer() {
-		return Logic.Timer;
-	}
-	
-	/* @GetMapping("/game")
-	public String Game() {
-		return "game";
-	} */
-	
-/* 	@GetMapping("/getName")
-	@ResponseBody
-	public String getName(@RequestParam String name)
-	{
-		if (name.equals(firstUser))
-		{
-			return firstUser;
+	public String numbers(@RequestParam String number) {
+		int chel = gson.fromJson(number, int.class);
+		if (chel == 1) {
+			return "yes";
 		} else {
-			return secondUser;
+			return "no";
 		}
 	}
-	 */
+	
+	//Таймер ожидания
+	@GetMapping("/timer")
+	@ResponseBody
+	public String timer() {
+		return Logic.check();
+	}
+	
+	//Таймер начало игры
+	@GetMapping("/timerstartgame")
+	@ResponseBody
+	public String timerStarttart() {
+		if (flag == 2) {
+			return "yes";
+		} else {
+			return "no";
+		}
+	}
 	
 	// Вот тут выстрел передается
 	@GetMapping("/shoot")
 	@ResponseBody
 	public String Shoot (@RequestParam String fire)
 	{
-		return Logic.Shoot(fire);
+		return Logic.shoot(fire);
 	}
 
 	
@@ -84,7 +96,7 @@ public class GreetingController {
 	@ResponseBody
 	public String Viewer ()
 	{
-		if ((firstUser != null && !firstUser.isEmpty()) && (secondUser != null && !secondUser.isEmpty())) {
+		if (usersoff == 1) {
 			return "no";
 		} else {
 			return "yes";
