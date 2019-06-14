@@ -46,9 +46,13 @@ public class Logic {
 		return "OK!";
     }
 
-    public static String shoot(int shot) {
+    public static String shoot(String temp) {
         String output;
+        int shot;
         int result;
+
+        shot = gson.fromJson(temp, int.class);
+
 
         switch (player) {
             case 0:
