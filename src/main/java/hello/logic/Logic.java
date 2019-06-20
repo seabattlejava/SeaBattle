@@ -13,6 +13,7 @@ public class Logic {
 	static int [][] PlayerTwo = new int [10][4];
 	static int player = 0;
 	static int flag = 0;
+
 	public static String input(String mas) {
 		int count = 0;
 
@@ -56,11 +57,11 @@ public class Logic {
 
 		switch (player) {
 			case 0:
-				result = Shoot.hit(PlayerOne, shot);
+				result = Shoot.hit(PlayerTwo, shot);
 				player = 1;
 				break;
 			case 1:
-				result = Shoot.hit(PlayerTwo, shot);
+				result = Shoot.hit(PlayerOne, shot);
 				player = 0;
 				break;
 			default:
