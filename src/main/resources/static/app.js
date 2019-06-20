@@ -41,8 +41,6 @@ function Send()
 					$('#main_game').hide();
 					$('#main-content').hide();
 					add_UserName($('#name').val());
-					num = msg;
-					console.log("Save:" + num);
 					//$(location).attr('href', 'game');
 				} else {
 					alert("Wrong Number -_-");
@@ -601,6 +599,13 @@ function ShipsAdded()
 				}
 			}
 		}
+		
+		$.ajax({
+			url: 'giveNumber', // адрес обработчика
+			success: function(msg) { // получен ответ сервера
+				num = msg;
+			}
+		});
 		
 		
 		

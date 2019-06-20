@@ -17,6 +17,7 @@ public class GreetingController {
 	//ArrayList<String> users = new ArrayList<String>();
 	String firstUser = "", secondUser = "";
 	int flag = 0;
+	int num = 0;
 	int usersoff = 0;
 	
 	@GetMapping("/names")
@@ -30,7 +31,7 @@ public class GreetingController {
 					secondUser = name;
 					usersoff = 1;
 					return "2";
-				} else  {
+				} else	{
 					firstUser = name;
 					return "1";
 				}
@@ -42,6 +43,13 @@ public class GreetingController {
 		}
 	}
 
+	
+	@GetMapping("/giveNumber")
+	@ResponseBody
+	public int giveNumber() {
+		num++;
+		return num;
+	}
 	
 	// Вот тут корабли передаются
 	@GetMapping("/addShips")
