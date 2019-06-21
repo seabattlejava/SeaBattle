@@ -58,11 +58,15 @@ public class Logic {
 		switch (player) {
 			case 0:
 				result = Shoot.hit(PlayerTwo, shot);
-				player = 1;
+				if (result == 2) {
+					player = 1;
+				}
 				break;
 			case 1:
 				result = Shoot.hit(PlayerOne, shot);
-				player = 0;
+				if (result == 2) {
+					player = 0;
+				}
 				break;
 			default:
 				return "Not OK!";
@@ -70,7 +74,7 @@ public class Logic {
 
 		if (result == 5) {
 			flag = 2;
-		} else {
+		} else if (result == 2) {
 			flag = 1;
 		}
 

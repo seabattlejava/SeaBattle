@@ -660,6 +660,7 @@ function Timer()
 		$.ajax({
 			url: 'timer', // адрес обработчика
 			success: function(msg) { // получен ответ сервера
+			    console.log("Teper I igray: " + msg);
 				if (msg == "yes") {
 				clearInterval(timerId);
 				$("#shoot").attr("disabled", false);
@@ -707,28 +708,32 @@ function Start()
 /////////////////////////////////////////
 function shoot() 
 {
-	var positionShoot = "";
-	for(k in anotherPlayerAreaTable) {
-		if(anotherPlayerAreaTable[k].selected == true) {
-			positionShoot = JSON.stringify(k);
-		}
-	}
-	console.log(positionShoot);
-	$.ajax({
-			url: 'shoot', // адрес обработчика
-			data: { fire : positionShoot} , // отправляемые данные
-			success: function(msg) { // получен ответ сервера
-				console.log("otvetka: " + msg);
-				if (msg == 5) $(location).attr('href', 'win');
-				for(k in anotherPlayerAreaTable) {
-					if(anotherPlayerAreaTable[k].selected == true) {
-							anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
-					}
-				}
-			}
-	});
-	$("#shoot").attr("disabled", true);
-	Timer();
+    var temp = "yes";
+    var positionShoot = "";
+    for(k in anotherPlayerAreaTable) {
+        if(anotherPlayerAreaTable[k].selected == true) {
+            positionShoot = JSON.stringify(k);
+        }
+    }
+    console.log(positionShoot);
+    $.ajax({
+        url: 'shoot', // адрес обработчика
+        data: { fire : positionShoot} , // отправляемые данные
+        success: function(msg) { // получен ответ сервера
+            console.log("otvetka: " + msg);
+            if (msg == 5) $(location).attr('href', 'win');
+
+            for(k in anotherPlayerAreaTable) {
+                if(anotherPlayerAreaTable[k].selected == true) {
+                    anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
+                }
+            }
+            if (msg == 2) {
+                $("#shoot").attr("disabled", true);
+                Timer();
+            }
+        }
+    });
 }
 
 
