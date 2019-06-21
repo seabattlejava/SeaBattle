@@ -50,7 +50,7 @@ function Send()
 			}
 		}
 	});
-	
+
 	//каждую секунду посылает запрос на сервер
 	
 }
@@ -663,6 +663,8 @@ function Timer()
 				if (msg == "yes") {
 				clearInterval(timerId);
 				$("#shoot").attr("disabled", false);
+				} else if (msg == "end") {
+                    $(location).attr('href', 'lose');
 				}
 			}
 		});
@@ -717,6 +719,7 @@ function shoot()
 			data: { fire : positionShoot} , // отправляемые данные
 			success: function(msg) { // получен ответ сервера
 				console.log("otvetka: " + msg);
+				if (msg == 5) $(location).attr('href', 'win');
 				for(k in anotherPlayerAreaTable) {
 					if(anotherPlayerAreaTable[k].selected == true) {
 							anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);

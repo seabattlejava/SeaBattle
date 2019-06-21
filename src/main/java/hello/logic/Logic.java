@@ -67,9 +67,15 @@ public class Logic {
 			default:
 				return "Not OK!";
 		}
+
+		if (result == 5) {
+			flag = 2;
+		} else {
+			flag = 1;
+		}
+
 		output = gson.toJson(result);
 		log.info("Output: " + output);
-		flag = 1;
 		return output;
 	}
 	
@@ -77,8 +83,12 @@ public class Logic {
 		if (flag == 1) {
 			flag = 0;
 			return "yes";
-		} else {
+		} else if (flag == 0) {
 			return "no";
+		} else {
+			player = 0;
+			flag = 0;
+			return"end";
 		}
 	}
 }

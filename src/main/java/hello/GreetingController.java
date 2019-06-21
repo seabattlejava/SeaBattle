@@ -116,4 +116,19 @@ public class GreetingController {
 		System.out.println(message);
 		return message;
 	}
+
+	@GetMapping("/win")
+	public String win() {
+		return "win";
+	}
+
+	@GetMapping("/lose")
+	public String lose() {
+		firstUser = "";
+		secondUser = "";
+		flag = 0;
+		num = 0;
+		usersoff = 0;
+		return "lose";
+	}
 }
