@@ -79,7 +79,6 @@ public class Logic {
 		}
 
 		output = gson.toJson(result);
-		log.info("Output: " + output);
 		return output;
 	}
 	

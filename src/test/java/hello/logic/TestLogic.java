@@ -11,12 +11,6 @@ public class TestLogic {
     static String Shot2 = "11";
     static String Shot3 = "15";
 
-    @Before
-    public void addArray(){
-        Logic.input(InputArrayClient1);
-        Logic.input(InputArrayClient2);
-    }
-
     @Test
     public void recordArray(){
         String expected = Logic.input(InputArrayClient1);
@@ -25,9 +19,10 @@ public class TestLogic {
         Assert.assertEquals("Player2", expected, "OK!");
     }
 
-
     @Test
     public void checkShoot(){
+        Logic.input(InputArrayClient1);
+        Logic.input(InputArrayClient2);
         String expected = Logic.shoot(Shot);
         Assert.assertEquals("First shot, player 1", expected, "3");
         expected = Logic.shoot(Shot2);
