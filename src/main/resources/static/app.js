@@ -695,7 +695,7 @@ function Timer()
 				clearInterval(timerId);
 				$("#shoot").attr("disabled", false);
 				} else if (msg == "end") {
-                    $(location).attr('href', 'lose');
+					$(location).attr('href', 'lose');
 				}
 			}
 		});
@@ -738,32 +738,40 @@ function Start()
 /////////////////////////////////////////
 function shoot() 
 {
-    var temp = "yes";
-    var positionShoot = "";
-    for(k in anotherPlayerAreaTable) {
-        if(anotherPlayerAreaTable[k].selected == true) {
-            positionShoot = JSON.stringify(k);
-        }
-    }
-    console.log(positionShoot);
-    $.ajax({
-        url: 'shoot', // адрес обработчика
-        data: { fire : positionShoot} , // отправляемые данные
-        success: function(msg) { // получен ответ сервера
-            console.log("otvetka: " + msg);
-            if (msg == 5) $(location).attr('href', 'win');
+	var selectedCell = false;
+	for(k in anotherPlayerAreaTable) {
+		if (anotherPlayerAreaTable[k].selected == true) {
+			selectedCell = true;
+		}
+	}
+	if(selectedCell) {
+		var temp = "yes";
+		var positionShoot = "";
+		for(k in anotherPlayerAreaTable) {
+			if(anotherPlayerAreaTable[k].selected == true) {
+				positionShoot = JSON.stringify(k);
+			}
+		}
+		console.log(positionShoot);
+		$.ajax({
+			url: 'shoot', // адрес обработчика
+			data: { fire : positionShoot} , // отправляемые данные
+			success: function(msg) { // получен ответ сервера
+				console.log("otvetka: " + msg);
+				if (msg == 5) $(location).attr('href', 'win');
 
-            for(k in anotherPlayerAreaTable) {
-                if(anotherPlayerAreaTable[k].selected == true) {
-                    anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
-                }
-            }
-            if (msg == 2) {
-                $("#shoot").attr("disabled", true);
-                Timer();
-            }
-        }
-    });
+				for(k in anotherPlayerAreaTable) {
+					if(anotherPlayerAreaTable[k].selected == true) {
+						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
+					}
+				}
+				if (msg == 2) {
+					$("#shoot").attr("disabled", true);
+					Timer();
+				}
+			}
+		});
+	}
 }
 
 
