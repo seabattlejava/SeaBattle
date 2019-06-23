@@ -813,7 +813,30 @@ function checkDeathShipHorizontal(i) {
 	}
 	
 	indexIterator = parseInt(i, 10);
+}
 
+function checkDeathShip(i) {
+	var indexIterator = parseInt(i, 10);
+	if((indexIterator - 10) >= 0) {
+		while((anotherPlayerAreaTable[indexIterator - 10].typeElem == 3) && ((indexIterator - 10) >= 0)) {
+			anotherPlayerAreaTable[indexIterator - 1].typeElem = 4;
+			if ((indexIterator - 10) > 0) {
+				indexIterator -= 10;
+			}
+		}
+	}
+	
+	
+	indexIterator = parseInt(i, 10);
+	
+	if((indexIterator + 10) < 100) {
+		while((anotherPlayerAreaTable[indexIterator + 10].typeElem == 3) && ((indexIterator + 10) < 100)) {
+			anotherPlayerAreaTable[indexIterator + 10].typeElem = 4;
+			if ((indexIterator + 10) < 99) {
+				indexIterator += 10;
+			}
+		}
+	}
 }
 
 //целое от деления
