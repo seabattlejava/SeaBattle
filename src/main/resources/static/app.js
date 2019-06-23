@@ -535,8 +535,38 @@ function fastAddShipInArea()
 	for(var j in arrayShips) {
 		arrayShips[j].shipIsSet = true;
 	}
+	//4
 	arrayShips[0].x = 23;
 	arrayShips[0].y = 23;
+	//3
+	arrayShips[1].x = 161;
+	arrayShips[1].y = 23;
+	
+	arrayShips[2].x = 184;
+	arrayShips[2].y = 69;
+	//2
+	arrayShips[3].x = 69;
+	arrayShips[3].y = 92;
+	arrayShips[3].position = "vert";
+	
+	arrayShips[4].x = 115;
+	arrayShips[4].y = 138;
+	arrayShips[4].position = "vert";
+	
+	arrayShips[5].x = 184;
+	arrayShips[5].y = 161;
+	//1
+	arrayShips[6].x = 138;
+	arrayShips[6].y = 92;
+	
+	arrayShips[7].x = 23;
+	arrayShips[7].y = 207;
+	
+	arrayShips[8].x = 69;
+	arrayShips[8].y = 230;
+	
+	arrayShips[9].x = 161;
+	arrayShips[9].y = 230;
 }
 
 var startGame = function ()
