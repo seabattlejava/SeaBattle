@@ -763,6 +763,10 @@ function shoot()
 				for(k in anotherPlayerAreaTable) {
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
+						if (msg == 4) {
+							checkDeathShipHorizontal(k);
+						}
+						anotherPlayerAreaTable[k].selected = false;
 					}
 				}
 				if (msg == 2) {
@@ -774,6 +778,45 @@ function shoot()
 	}
 }
 
+//Смерть корабля
+function checkDeathShipHorizontal(i) {
+	console.log("in check ship");
+	var indexIterator = parseInt(i, 10);
+	if((indexIterator - 1) >= 0) {
+		while((anotherPlayerAreaTable[indexIterator - 1].typeElem == 3) && ((indexIterator - 1) >= 0)) {
+			anotherPlayerAreaTable[indexIterator - 1].typeElem = 4;
+			if ((indexIterator - 1) > 0) {
+				indexIterator--;
+			}
+			
+		}
+		console.log("tuda cikl");
+	}
+	if((indexIterator - 1 > 0) && (div(indexIterator, 10) == div((indexIterator - 1), 10))) {
+		anotherPlayerAreaTable[indexIterator - 1].typeElem = 2;
+		console.log("tuda ");
+	}
+	
+	indexIterator = parseInt(i, 10);
+	if(indexIterator + 1 < 100) {
+		while((anotherPlayerAreaTable[indexIterator + 1].typeElem == 3) && ((indexIterator + 1) < 100)) {
+			anotherPlayerAreaTable[indexIterator + 1].typeElem = 4;
+			if ((indexIterator + 1) < 99) {
+				indexIterator++;
+			}
+		}
+		console.log("suda cikl");
+	}
+	if((indexIterator + 1 < 99) && (div(indexIterator, 10) == div((indexIterator + 1), 10))) {
+		anotherPlayerAreaTable[indexIterator + 1].typeElem = 2;
+		console.log("suda ");
+	}
+	
+	indexIterator = parseInt(i, 10);
 
+}
 
-
+//целое от деления
+function div(val, by){
+	return (val - val % by) / by;
+}
