@@ -1,75 +1,98 @@
 package hello.logic;
 
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 public class Logic {
 
-    final static Gson gson = new Gson();
+	final static Gson gson = new Gson();
+	final static Logger log = Logger.getLogger(Logic.class);
 
-    public static int[][] playerOne = new int[10][10];
-    public static int[][] playerTwo = new int[10][10];
+	static int [] map = new int [20];
+	static int [][] PlayerOne = new int [10][4];
+	static int [][] PlayerTwo = new int [10][4];
+	static int player = 0;
+	static int flag = 0;
 
-    public static void battleShip(String input) {
+	public static String input(String mas) {
+		int count = 0;
 
-        int[][] mas1 = {
-                {0, 2, 2, 2, 1, 0, 1, 0, 2, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 0, 0, 1, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {2, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0}
-        };
+		map = gson.fromJson(mas, int[].class);
 
-        int[][] mas2 = {
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
-        };
+		switch (player){
+			case 0:
+				for (int i = 0; i < PlayerOne.length; i++) {
+					for (int j = 0; j < PlayerOne[i].length; j++) {
+						if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerOne[i][j] = 100;
+						else PlayerOne[i][j] = map[count++];
+					}
+				}
+				log.info("Player 1 is ready");
+				player = 1;
+				break;
+			case 1:
+				for (int i = 0; i < PlayerTwo.length; i++) {
+					for (int j = 0; j < PlayerTwo[i].length; j++) {
+						if (((i == 1 || i ==2) && j == 3) || ((i == 3 || i == 4  || i == 5) && (j == 2 || j == 3)) || ((i == 6 || i == 7 || i == 8 || i == 9) && (j == 1 || j ==2 || j == 3))) PlayerTwo[i][j] = 100;
+						else PlayerTwo[i][j] = map[count++];
+					}
+				}
+				log.info("Player 2 is ready");
+				player = 0;
+				break;
+			default:
+				log.info("Array" + player + "did not register");
+				return "Not OK!";
+		}
+		return "OK!";
+	}
 
-        //String input;
+	public static String shoot(String temp) {
+		String output;
+		int shot;
+		int result;
 
-       // input = gson.toJson(mas1);
-//        System.out.println(input);
+		shot = gson.fromJson(temp, int.class);
 
-       // playerOne = gson.fromJson(input, int[][].class);
 
-//        for(int i=0; i<10; i++){
-//            for(int j=0; j<10; j++){
-//                System.out.print(playerOne[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
+		switch (player) {
+			case 0:
+				result = Shoot.hit(PlayerTwo, shot);
+				if (result == 2) {
+					player = 1;
+				}
+				break;
+			case 1:
+				result = Shoot.hit(PlayerOne, shot);
+				if (result == 2) {
+					player = 0;
+				}
+				break;
+			default:
+				return "Not OK!";
+		}
 
-       // input = gson.toJson(mas2);
-//        System.out.println(input);
+		if (result == 5) {
+			flag = 2;
+		} else if (result == 2) {
+			flag = 1;
+		}
 
-    //    playerTwo = gson.fromJson(input, int[][].class);
-
-//        for(int i=0; i<10; i++){
-//            for(int j=0; j<10; j++){
-//                System.out.print(playerTwo[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-
-       // Shoot.hit(playerOne);
-      /*   for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
-                System.out.print(playerOne[i][j] + " ");
-            }
-            System.out.println();
-        } */
-
-    }
+		output = gson.toJson(result);
+		log.info("Output: " + output);
+		return output;
+	}
+	
+	public static String check() {
+		if (flag == 1) {
+			flag = 0;
+			return "yes";
+		} else if (flag == 0) {
+			return "no";
+		} else {
+			player = 0;
+			flag = 0;
+			return"end";
+		}
+	}
 }
