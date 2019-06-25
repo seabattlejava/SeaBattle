@@ -764,7 +764,7 @@ function shoot()
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
-							checkDeathShipHorizontal(k);
+							checkDeathShip(k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
 					}
@@ -811,32 +811,47 @@ function checkDeathShipHorizontal(i) {
 		anotherPlayerAreaTable[indexIterator + 1].typeElem = 2;
 		console.log("suda ");
 	}
-	
-	indexIterator = parseInt(i, 10);
 }
 
-function checkDeathShip(i) {
-	var indexIterator = parseInt(i, 10);
+function checkDeathShip(j) {
+	var indexIterator = parseInt(j, 10);
+	checkDeathShipHorizontal(indexIterator);
 	if((indexIterator - 10) >= 0) {
 		while((anotherPlayerAreaTable[indexIterator - 10].typeElem == 3) && ((indexIterator - 10) >= 0)) {
-			anotherPlayerAreaTable[indexIterator - 1].typeElem = 4;
+			anotherPlayerAreaTable[indexIterator - 10].typeElem = 4;
+			checkDeathShipHorizontal(indexIterator);
 			if ((indexIterator - 10) > 0) {
 				indexIterator -= 10;
 			}
+			
 		}
+		console.log("tuda cikl");
+	}
+	
+	if((indexIterator - 10 > 0) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
+		anotherPlayerAreaTable[indexIterator - 10].typeElem = 2;
+		console.log("tuda ");
 	}
 	
 	
-	indexIterator = parseInt(i, 10);
-	
-	if((indexIterator + 10) < 100) {
+	indexIterator = parseInt(j, 10);
+	if(indexIterator + 10 < 100) {
 		while((anotherPlayerAreaTable[indexIterator + 10].typeElem == 3) && ((indexIterator + 10) < 100)) {
 			anotherPlayerAreaTable[indexIterator + 10].typeElem = 4;
+			checkDeathShipHorizontal(indexIterator);
 			if ((indexIterator + 10) < 99) {
 				indexIterator += 10;
 			}
 		}
+		console.log("suda cikl");
 	}
+	
+	
+	if((indexIterator + 10 < 99) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
+		anotherPlayerAreaTable[indexIterator + 10].typeElem = 2;
+		console.log("suda ");
+	}
+	
 }
 
 //целое от деления
