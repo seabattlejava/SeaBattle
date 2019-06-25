@@ -62,6 +62,7 @@ function add_UserName(data)
 
 $(function ()
 {
+	$(window).on('load', function(){$('#before-load').find('i').fadeOut().end().delay(400).fadeOut('slow');});
 	$( "#send" ).click(function() { Send(); });
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
@@ -658,14 +659,29 @@ function Timer()
 {
 	var timerId = setInterval(function() {
 		$.ajax({
-			url: 'timer', // адрес обработчика
+			url: 'timer', // адрес обработчика7
 			success: function(msg) { // получен ответ сервера
 			    console.log("Teper I igray: " + msg);
 				if (msg == "yes") {
-				clearInterval(timerId);
-				$("#shoot").attr("disabled", false);
+					$.ajax({
+						url: 'shootMe', // адрес обработчика7
+						success: function(msg) { // получен ответ сервера
+							var event = JSON.parse(msg);
+							playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
+						}
+					});
+					clearInterval(timerId);
+					$("#shoot").attr("disabled", false);
 				} else if (msg == "end") {
-                    $(location).attr('href', 'lose');
+					$(location).attr('href', 'lose');
+				} else if (msg == "nope") {
+					$.ajax({
+						url: 'shootMe', // адрес обработчика7
+						success: function(msg) { // получен ответ сервера
+							var event = JSON.parse(msg);
+							playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
+						}
+					});
 				}
 			}
 		});

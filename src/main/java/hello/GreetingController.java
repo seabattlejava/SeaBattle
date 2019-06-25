@@ -78,6 +78,12 @@ public class GreetingController {
 		return Logic.check();
 	}
 	
+	@GetMapping("/shootMe")
+	@ResponseBody
+	public String shootme() {
+		return Logic.shootme();
+	}
+	
 	//Таймер начало игры
 	@GetMapping("/timerstartgame")
 	@ResponseBody

@@ -13,6 +13,8 @@ public class Logic {
 	static int [][] PlayerTwo = new int [10][4];
 	static int player = 0;
 	static int flag = 0;
+	static int shot = 0;
+	static int result = 0;
 
 	public static String input(String mas) {
 		int count = 0;
@@ -49,8 +51,6 @@ public class Logic {
 
 	public static String shoot(String temp) {
 		String output;
-		int shot;
-		int result;
 
 		shot = gson.fromJson(temp, int.class);
 
@@ -72,6 +72,7 @@ public class Logic {
 				return "Not OK!";
 		}
 
+		flag = 3;
 		if (result == 5) {
 			flag = 2;
 		} else if (result == 2) {
@@ -82,16 +83,27 @@ public class Logic {
 		return output;
 	}
 	
+	public static String shootme() {
+		int [] A = new int [2];
+		String output;
+		A[0] = shot;
+		A[1] = result;
+		output = gson.toJson(A);
+		return output;
+	}
+	
 	public static String check() {
 		if (flag == 1) {
 			flag = 0;
 			return "yes";
 		} else if (flag == 0) {
 			return "no";
-		} else {
+		} else if (flag == 2){
 			player = 0;
 			flag = 0;
 			return"end";
+		} else {
+			return"nope";
 		}
 	}
 }
