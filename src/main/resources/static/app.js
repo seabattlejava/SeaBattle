@@ -586,8 +586,6 @@ var startGame = function ()
 	}
 	$('#adding_ship_area').hide();
 	$('#main_game').show();
-
-	
 	
 }
 
@@ -764,7 +762,7 @@ function shoot()
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
-							checkDeathShip(k);
+							checkDeathShip(anotherPlayerAreaTable, k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
 					}
@@ -779,79 +777,162 @@ function shoot()
 }
 
 //Смерть корабля
-function checkDeathShipHorizontal(i) {
-	console.log("in check ship");
+function checkDeathShipHorizontal(gameArea, i) {
 	var indexIterator = parseInt(i, 10);
 	if((indexIterator - 1) >= 0) {
-		while((anotherPlayerAreaTable[indexIterator - 1].typeElem == 3) && ((indexIterator - 1) >= 0)) {
-			anotherPlayerAreaTable[indexIterator - 1].typeElem = 4;
+		while((gameArea[indexIterator - 1].typeElem == 3) && ((indexIterator - 1) >= 0)) {
+			gameArea[indexIterator - 1].typeElem = 4;
+			
+			if (indexIterator - 1 - 10 >= 0) {
+				gameArea[indexIterator - 1 - 10].typeElem = 2;
+			}
+			if (indexIterator - 1 + 10 < 100) {
+				gameArea[indexIterator - 1 + 10].typeElem = 2;
+			}
+			
 			if ((indexIterator - 1) > 0) {
 				indexIterator--;
 			}
 			
 		}
-		console.log("tuda cikl");
 	}
 	if((indexIterator - 1 > 0) && (div(indexIterator, 10) == div((indexIterator - 1), 10))) {
-		anotherPlayerAreaTable[indexIterator - 1].typeElem = 2;
-		console.log("tuda ");
+		if (indexIterator - 1 - 10 >= 0) {
+				gameArea[indexIterator - 1 - 10].typeElem = 2;
+			}
+		if (indexIterator - 1 + 10 < 100) {
+			gameArea[indexIterator - 1 + 10].typeElem = 2;
+		}
+		gameArea[indexIterator - 1].typeElem = 2;
 	}
 	
 	indexIterator = parseInt(i, 10);
+	
+	if (indexIterator + 10 < 100) {
+		gameArea[indexIterator + 10].typeElem = 2;
+	}
+	if (indexIterator - 10 >= 0) {
+		gameArea[indexIterator - 10].typeElem = 2;
+	}
+	
 	if(indexIterator + 1 < 100) {
-		while((anotherPlayerAreaTable[indexIterator + 1].typeElem == 3) && ((indexIterator + 1) < 100)) {
-			anotherPlayerAreaTable[indexIterator + 1].typeElem = 4;
+		while((gameArea[indexIterator + 1].typeElem == 3) && ((indexIterator + 1) < 100)) {
+			gameArea[indexIterator + 1].typeElem = 4;
+			if (indexIterator + 1 + 10 < 100) {
+				gameArea[indexIterator + 1 + 10].typeElem = 2;
+			}
+			if (indexIterator + 1 - 10 >= 0) {
+				gameArea[indexIterator + 1 - 10].typeElem = 2;
+			}
 			if ((indexIterator + 1) < 99) {
 				indexIterator++;
 			}
 		}
-		console.log("suda cikl");
 	}
 	if((indexIterator + 1 < 99) && (div(indexIterator, 10) == div((indexIterator + 1), 10))) {
-		anotherPlayerAreaTable[indexIterator + 1].typeElem = 2;
-		console.log("suda ");
+		if (indexIterator + 1 + 10 < 100) {
+				gameArea[indexIterator + 1 + 10].typeElem = 2;
+			}
+		if (indexIterator + 1 - 10 >= 0) {
+			gameArea[indexIterator + 1 - 10].typeElem = 2;
+		}
+		gameArea[indexIterator + 1].typeElem = 2;
 	}
 }
 
-function checkDeathShip(j) {
+function checkDeathShipVertical(gameArea, j) {
 	var indexIterator = parseInt(j, 10);
-	checkDeathShipHorizontal(indexIterator);
 	if((indexIterator - 10) >= 0) {
-		while((anotherPlayerAreaTable[indexIterator - 10].typeElem == 3) && ((indexIterator - 10) >= 0)) {
-			anotherPlayerAreaTable[indexIterator - 10].typeElem = 4;
-			checkDeathShipHorizontal(indexIterator);
+		while((gameArea[indexIterator - 10].typeElem == 3) && ((indexIterator - 10) >= 0)) {
+			gameArea[indexIterator - 10].typeElem = 4;
+			if ((indexIterator - 10 - 1 >= 0) && (div(indexIterator - 10 - 1, 10) == div(indexIterator - 10, 10))) {
+				gameArea[indexIterator - 10 - 1].typeElem = 2;
+			}
+			if ((indexIterator - 10 + 1 < 100) && (div(indexIterator - 10 + 1, 10) == div(indexIterator - 10, 10))) {
+				gameArea[indexIterator - 10 + 1].typeElem = 2;
+			}
 			if ((indexIterator - 10) > 0) {
 				indexIterator -= 10;
 			}
 			
 		}
-		console.log("tuda cikl");
 	}
 	
 	if((indexIterator - 10 > 0) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
-		anotherPlayerAreaTable[indexIterator - 10].typeElem = 2;
-		console.log("tuda ");
+		if ((indexIterator - 10 - 1 >= 0) && (div(indexIterator - 10 - 1, 10) == div(indexIterator - 10, 10))) {
+				gameArea[indexIterator - 10 - 1].typeElem = 2;
+			}
+		if ((indexIterator - 10 + 1 < 100) && (div(indexIterator - 10 + 1, 10) == div(indexIterator - 10, 10))) {
+			gameArea[indexIterator - 10 + 1].typeElem = 2;
+		}
+		gameArea[indexIterator - 10].typeElem = 2;
+	}
+	
+	indexIterator = parseInt(j, 10);
+	
+	if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
+		gameArea[indexIterator + 1].typeElem = 2;
+	}
+	if ((indexIterator - 1 >= 0 ) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
+		gameArea[indexIterator - 1].typeElem = 2;
 	}
 	
 	
-	indexIterator = parseInt(j, 10);
 	if(indexIterator + 10 < 100) {
-		while((anotherPlayerAreaTable[indexIterator + 10].typeElem == 3) && ((indexIterator + 10) < 100)) {
-			anotherPlayerAreaTable[indexIterator + 10].typeElem = 4;
-			checkDeathShipHorizontal(indexIterator);
+		while((gameArea[indexIterator + 10].typeElem == 3) && ((indexIterator + 10) < 100)) {
+			gameArea[indexIterator + 10].typeElem = 4;
+			if ((indexIterator + 10 + 1 < 100) && (div(indexIterator + 10 + 1, 10) == div(indexIterator + 10, 10))) {
+				gameArea[indexIterator + 10 + 1].typeElem = 2;
+			}
+			if ((indexIterator + 10 - 1 >= 0) && (div(indexIterator + 10 - 1, 10) == div(indexIterator + 10, 10))) {
+				gameArea[indexIterator + 10 - 1].typeElem = 2;
+			}
 			if ((indexIterator + 10) < 99) {
 				indexIterator += 10;
 			}
 		}
-		console.log("suda cikl");
 	}
-	
 	
 	if((indexIterator + 10 < 99) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
-		anotherPlayerAreaTable[indexIterator + 10].typeElem = 2;
-		console.log("suda ");
+		if ((indexIterator + 10 + 1 < 100) && (div(indexIterator + 10 + 1, 10) == div(indexIterator + 10, 10))) {
+				gameArea[indexIterator + 10 + 1].typeElem = 2;
+			}
+		if ((indexIterator + 10 - 1 >= 0) && (div(indexIterator + 10 - 1, 10) == div(indexIterator + 10, 10))) {
+			gameArea[indexIterator + 10 - 1].typeElem = 2;
+		}
+		gameArea[indexIterator + 10].typeElem = 2;
 	}
 	
+}
+
+function checkDeathShip (gameArea, indx)
+{
+	var index = parseInt(indx, 10);
+	if (index - 1 >= 0) {
+		if (gameArea[index - 1].typeElem == 3) {
+			checkDeathShipHorizontal(gameArea, index);
+			return;
+		}
+	}
+	if (index + 1 < 100) {
+		if (gameArea[index + 1].typeElem == 3) {
+			checkDeathShipHorizontal(gameArea, index);
+			return;
+		}
+	}
+	if (index - 10 >= 0) {
+		if (gameArea[index - 10].typeElem == 3) {
+			checkDeathShipVertical(gameArea, index);
+			return;
+		}
+	}
+	if (index + 10 < 100) {
+		if (gameArea[index + 10].typeElem == 3) {
+			checkDeathShipVertical(gameArea, index);
+			return;
+		}
+	}
+	checkDeathShipHorizontal(gameArea, index);
 }
 
 //целое от деления
