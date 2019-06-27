@@ -601,6 +601,7 @@ function sendMessage(){
 //Функиця таймре 
 function Timer()
 {
+	var flagShoot = 0;
 	var timerId = setInterval(function() {
 		$.ajax({
 			url: 'timer', // адрес обработчика7
@@ -623,7 +624,15 @@ function Timer()
 						url: 'shootMe', // адрес обработчика7
 						success: function(msg) { // получен ответ сервера
 							var event = JSON.parse(msg);
-							playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
+							if (flagShoot != msg) {
+								playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
+								if (parseInt(event[1], 10) == 4) {
+									console.log("yes");
+									checkDeathShip(playerAreaTable, parseInt(event[0], 10));
+								}
+								flagShoot = msg;
+							}
+							
 						}
 					});
 				}
