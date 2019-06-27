@@ -1,4 +1,8 @@
 package hello.chat;
+
+/**
+ * Создается и читается сообщение
+ */
 public class Message {
  
 	private String from;
