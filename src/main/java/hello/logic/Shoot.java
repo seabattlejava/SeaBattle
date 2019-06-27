@@ -1,11 +1,18 @@
 package hello.logic;
 
-//2-промах
-//3-попадание
-//4-убийство
-
+/**
+ * Класс для проверки результата выстрела игрока
+ * @author Munhama
+ */
 public class Shoot {
 
+    /**
+     * Проверяет нахождение корабля в клетке выстрела
+     * @param map Массив кораблей противника
+     * @param shoot Клетка выстрела игрока
+     * @see Shoot#endGame(int[][])
+     * @return Результат попадания
+     */
     public static int hit(int[][] map, int shoot) {
         int check = 0;
         int end;
@@ -27,6 +34,11 @@ public class Shoot {
         return 2;
     }
 
+    /**
+     * Определяет окончание игры
+     * @param map Массив кораблей противника
+     * @return Результат проверки
+     */
     public static int endGame(int[][] map) {
         int end = 0;
         for (int i = 0; i < map.length; i++) {

@@ -10,6 +10,10 @@ import hello.chat.*;
 import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 
+/**
+ * Класс содержащий контроллеры
+ * @author Dmitriy8726
+ */
 @Controller
 public class GreetingController {
 	final static Logger log = Logger.getLogger(GreetingController.class);
@@ -19,7 +23,12 @@ public class GreetingController {
 	int flag = 0;
 	int num = 0;
 	int usersoff = 0;
-	
+
+	/**
+	 * Проверяет имя входящего игрока
+	 * @param name Имя клиента
+	 * @return Символ разрешающий или запрещающий дальнейшие действия
+	 */
 	@GetMapping("/names")
 	@ResponseBody
 	public String names(@RequestParam String name) {
@@ -43,15 +52,23 @@ public class GreetingController {
 		}
 	}
 
-	
+	/**
+	 * Присваевает игроку номер
+	 * @return Номер игрока
+	 */
 	@GetMapping("/giveNumber")
 	@ResponseBody
 	public int giveNumber() {
 		num++;
 		return num;
 	}
-	
-	// Вот тут корабли передаются
+
+	/**
+	 * Передает расположение кораблей от клиента к логике
+	 * @param mas Строка содержащая расположения кораблей
+	 * @see Logic#input(String)
+	 * @return Ответ от вызова метода логики
+	 */
 	@GetMapping("/addShips")
 	@ResponseBody
 	public String addShips(@RequestParam String mas) {
@@ -59,7 +76,12 @@ public class GreetingController {
 		log.info("Some message");
 		return Logic.input(mas);
 	}
-	
+
+	/**
+	 * Определяет порядок хода игроков
+	 * @param number Номер игрока
+	 * @return Разрешение на ход
+	 */
 	@GetMapping("/playerNumber")
 	@ResponseBody
 	public String numbers(@RequestParam String number) {
@@ -70,21 +92,33 @@ public class GreetingController {
 			return "no";
 		}
 	}
-	
-	//Таймер ожидания
+
+	/**
+	 * Таймер ожидающий ответа
+	 * @see Logic#check()
+	 * @return Результат о возможности сделать ход
+	 */
 	@GetMapping("/timer")
 	@ResponseBody
 	public String timer() {
 		return Logic.check();
 	}
-	
+
+	/**
+	 * Отображает попадания по игроку
+	 * @see Logic#shootme()
+	 * @return Клетку и результат выстрела
+	 */
 	@GetMapping("/shootMe")
 	@ResponseBody
 	public String shootme() {
 		return Logic.shootme();
 	}
-	
-	//Таймер начало игры
+
+	/**
+	 * Таймер начала игры
+	 * @return Можно начать игру или нет
+	 */
 	@GetMapping("/timerstartgame")
 	@ResponseBody
 	public String timerStarttart() {
@@ -94,8 +128,13 @@ public class GreetingController {
 			return "no";
 		}
 	}
-	
-	// Вот тут выстрел передается
+
+	/**
+	 * Передает выстрел игрока
+	 * @param fire Клетка куда был произведен выстрел
+	 * @see Logic#shoot(String)
+	 * @return Строку содержащую результат выстрела
+	 */
 	@GetMapping("/shoot")
 	@ResponseBody
 	public String Shoot (@RequestParam String fire)
@@ -103,8 +142,10 @@ public class GreetingController {
 		return Logic.shoot(fire);
 	}
 
-	
-	
+	/**
+	 * Определяет является ли пользователь зрителем
+	 * @return Строку с результатом является ли пользователь зрителем
+	 */
 	@GetMapping("/viewer")
 	@ResponseBody
 	public String Viewer ()
@@ -115,7 +156,12 @@ public class GreetingController {
 			return "yes";
 		}
 	}
-	
+
+	/**
+	 * Подключает пользователя к каналу чата
+	 * @param message Сообщения пользователя
+	 * @return Сообщения в чате
+	 */
 	@MessageMapping("/message")
 	@SendTo("/chat/messages")
 	public Message getMessages(Message message) {
@@ -123,11 +169,19 @@ public class GreetingController {
 		return message;
 	}
 
+	/**
+	 * Показывает пользователю что он победил
+	 * @return Строку для перехода на нужную страницу
+	 */
 	@GetMapping("/win")
 	public String win() {
 		return "win";
 	}
 
+	/**
+	 * Показывает пользователю что он проиграл
+	 * @return Строку для перехода на нужную страницу
+	 */
 	@GetMapping("/lose")
 	public String lose() {
 		firstUser = "";

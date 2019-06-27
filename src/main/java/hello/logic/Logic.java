@@ -3,6 +3,10 @@ package hello.logic;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
+/**
+ * Класс инициализирует корабли игроков, определяет попадания
+ * @author Munhama
+ */
 public class Logic {
 
 	final static Gson gson = new Gson();
@@ -16,6 +20,11 @@ public class Logic {
 	static int shot = 0;
 	static int result = 0;
 
+	/**
+	 * Записывает и хранит массивы кораблей
+	 * @param mas Строка содержащая расположения кораблей
+	 * @return Ответ о записи данных и готовности игрока
+	 */
 	public static String input(String mas) {
 		int count = 0;
 
@@ -49,6 +58,12 @@ public class Logic {
 		return "OK!";
 	}
 
+	/**
+	 * Проверяет результат выстрела игрока
+	 * @param temp Строка содержащая клетку выстрела
+	 * @see Shoot#hit(int[][], int)
+	 * @return Строку содержащую результат выстрела
+	 */
 	public static String shoot(String temp) {
 		String output;
 
@@ -82,7 +97,11 @@ public class Logic {
 		output = gson.toJson(result);
 		return output;
 	}
-	
+
+	/**
+	 * Позволяет отображать игроку куда в него попадают
+	 * @return Строку с координатой и результатом попадания
+	 */
 	public static String shootme() {
 		int [] A = new int [2];
 		String output;
@@ -91,7 +110,11 @@ public class Logic {
 		output = gson.toJson(A);
 		return output;
 	}
-	
+
+	/**
+	 * Проверяет может ли игрок начать свой ход
+	 * @return Результат о возможности сделать ход
+	 */
 	public static String check() {
 		if (flag == 1) {
 			flag = 0;
