@@ -1,7 +1,6 @@
 var UserName;
 
 var game_start = false;
-var playerShipArray = [];
 var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
@@ -497,7 +496,7 @@ var startGame = function ()
 	var k = 0;
 	for (var i = 0; i < 10; i++) {
 		for( var j = 0; j < 10; j++) {
-			playerAreaTable.push(new ElemInField(xCoord, yCoord, playerShipArray[k], ctxPlayerArea));
+			playerAreaTable.push(new ElemInField(xCoord, yCoord, parseInt(allElems[k].typeElem, 10), ctxPlayerArea));
 			anotherPlayerAreaTable.push(new ElemInField(xCoord, yCoord, 0, ctxAnotherPlayerArea));
 			xCoord += 23;
 			k++;
@@ -521,11 +520,6 @@ function ShipsAdded()
 	}
 	if(game_start == true) {
 		$('#shipsAdded').hide();
-		
-		for(j in allElems) {
-			playerShipArray.push(allElems[j].typeElem);
-		}
-		
 		var numbersPlayerShipArray = [];
 		var coordVertHoriz = 0;
 		for(kInShips in arrayShips) {
