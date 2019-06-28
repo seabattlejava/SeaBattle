@@ -22,6 +22,7 @@ function View()
 				$('#main-content').hide();
 				$('#chat_window').show();
 				$('#message_template').show();
+				connect();
 			}
 		}
 	});

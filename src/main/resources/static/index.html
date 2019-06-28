@@ -58,13 +58,10 @@
 		</table>
 		<button id="shoot" class="btn btn-default" type="button">Attack</button>
 	</div>
-	<div id = "chat_window" class="chat_window">
+	<div id = "guest_area">
+	
+		<div id = "chat_window" class="chat_window">
 		<div class="top_menu">
-			<div class="buttons">
-				<div class="button close"></div>
-				<div class="button minimize"></div>
-				<div class="button maximize"></div>
-			</div>
 			<div class="title">Chat</div>
 		</div>
 		<ul class="messages"></ul>
@@ -76,18 +73,18 @@
 				<div class="icon"></div>
 				
 			</div>
-			
-			<button onclick="connect()">Connect to chat</button>
-			<button onclick="sendMessage()" class="text">Send</button>
-				<button onclick="disconnect()">Disconnect from chat</button>
 		</div>
+		</div>
+		<div id="message_template" class="message_template">
+			<li class="message"><div class="avatar"></div>
+				<div class="text_wrapper">
+					<div class="text"></div>
+				</div>
+			</li>
+		</div>
+	
 	</div>
-	<div id="message_template" class="message_template">
-		<li class="message"><div class="avatar"></div>
-			<div class="text_wrapper">
-				<div class="text"></div>
-			</div></li>
-	</div>
+	
 </div>
 </body>
 </html>
