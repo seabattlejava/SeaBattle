@@ -1,17 +1,19 @@
 var UserName;
 
 var game_start = false;
+var you_are_guest = false;
 var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
 var num = 0;
+
 
 function View()
 {
 	$('#adding_ship_area').hide();
 	$('#game-content').hide();
 	$('#main_game').hide();
-	$('#chat_window').hide();
+	$('#guest_area').hide();
 	$('#message_template').hide();
 	$("#shoot").attr("disabled", true);
 	$.ajax({
@@ -20,8 +22,10 @@ function View()
 			console.log("Log: " + msg);
 			if (msg == "no") {
 				$('#main-content').hide();
-				$('#chat_window').show();
+				$('#guest_area').show();
 				$('#message_template').show();
+				you_are_guest = true;
+				createGuestArrays();
 				connect();
 			}
 		}
@@ -77,6 +81,9 @@ var arrayShips = [];
 var playerAreaTable = [];
 var anotherPlayerAreaTable = [];
 
+var playerOneGuest = [];
+var playerTwoGuest = [];
+
 var ElemInField = function(x, y, typeElem, nameCtx)
 {
 	this.x = x;
@@ -114,19 +121,33 @@ var Ship = function(x, y, palubs, position)
 	var ctxPlayerArea;
 	var canvasAnotherPlayerArea;
 	var ctxAnotherPlayerArea;
+	var canvasGuestPlayerOne;
+	var ctxGuestPlayerOne;
+	var canvasGuestPlayerTwo;
+	var ctxGuestPlayerTwo;
 
 window.onload = function ()
 {
 	canvasAddShip = document.getElementById("addShips");
 	ctxAddShip = canvasAddShip.getContext("2d");
+	
 	canvasPlayerArea = document.getElementById("playerArea");
 	ctxPlayerArea = canvasPlayerArea.getContext("2d");
 	canvasAnotherPlayerArea = document.getElementById("anotherPlayerArea");
 	ctxAnotherPlayerArea = canvasAnotherPlayerArea.getContext("2d");
 	
+	canvasGuestPlayerOne = document.getElementById("canvasPlayerOne");
+	ctxGuestPlayerOne = canvasGuestPlayerOne.getContext("2d");
+	canvasGuestPlayerTwo = document.getElementById("canvasPlayerTwo");
+	ctxGuestPlayerTwo = canvasGuestPlayerTwo.getContext("2d");
+	
 	ctxAddShip.linewidth = 2;
+	
 	ctxPlayerArea.linewidth = 2;
 	ctxAnotherPlayerArea.linewidth = 2;
+	
+	ctxGuestPlayerOne.linewidth = 2;
+	ctxGuestPlayerTwo.linewidth = 2;
 
 var drawShip = function(x, y, palubs, position)
 {
@@ -300,40 +321,46 @@ var isCursorInCell = function (element)
 
 
 setInterval(function(){
-	if(game_start == false) {
-		ctxAddShip.clearRect(0, 0 , 736, 276);
-		for(i in allElems) {
-			allElems[i].draw();
-		}
-		for(j in arrayShips) {
-			arrayShips[j].checkPositionSHip();
-			arrayShips[j].createTrueSpace();
-			arrayShips[j].draw();
-		}
-		///////
-		if (selected) {
-			if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
-				for(i in allElems) {
-					if(isCursorInCell(allElems[i])) {
-						selected.x = allElems[i].x;
-						selected.y = allElems[i].y;
-					}
-				}
-			} else {
-				selected.x = mouse.x;
-				selected.y = mouse.y;
-			}
+	if (you_are_guest == true) {
+		for (j in playerOneGuest) {
+			playerOneGuest[j].draw();
+			playerTwoGuest[j].draw();
 		}
 	} else {
-		
-		for(j in playerAreaTable) {
-			playerAreaTable[j].draw();
-			anotherPlayerAreaTable[j].draw();
-			if(anotherPlayerAreaTable[j].selected) {
-				anotherPlayerAreaTable[j].drawSelection();
+		if (game_start == false) {
+			ctxAddShip.clearRect(0, 0 , 736, 276);
+			for (i in allElems) {
+				allElems[i].draw();
 			}
+			for (j in arrayShips) {
+				arrayShips[j].checkPositionSHip();
+				arrayShips[j].createTrueSpace();
+				arrayShips[j].draw();
+			}
+		///////
+			if (selected) {
+				if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
+					for(i in allElems) {
+						if(isCursorInCell(allElems[i])) {
+							selected.x = allElems[i].x;
+							selected.y = allElems[i].y;
+						}
+					}
+				} else {
+					selected.x = mouse.x;
+					selected.y = mouse.y;
+				}
+			}
+		} else {
+			for (j in playerAreaTable) {
+				playerAreaTable[j].draw();
+				anotherPlayerAreaTable[j].draw();
+				if (anotherPlayerAreaTable[j].selected) {
+					anotherPlayerAreaTable[j].drawSelection();
+				}
+			}
+			
 		}
-		
 	}
 }
 , 20);
@@ -568,34 +595,37 @@ function ShipsAdded()
 }
 
 //Чат
-function connect() {
+var Side = "left";
+function connect()
+{
 	var socket = new SockJS('/chat-messaging');
 	stompClient = Stomp.over(socket);
 	stompClient.connect({}, function(frame) {
 		console.log("connected: " + frame);
 		stompClient.subscribe('/chat/messages', function(response) {
 			var data = JSON.parse(response.body);
-			draw("left", data.message);
+			draw(Side, data.message);
 		});
 	});
 }
 
-function draw(side, text) {
+function draw(side, text)
+{
 	console.log("drawing...");
 	var $message;
 	$message = $($('.message_template').clone().html());
 	$message.addClass(side).find('.text').html(text);
 	$('.messages').append($message);
+	Side = "left";
 	return setTimeout(function () {
 		return $message.addClass('appeared');
 	}, 0);
+}
 
-}
-function disconnect(){
-	stompClient.disconnect();
-}
-function sendMessage(){
+function sendMessage()
+{
 	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
+	Side = "right";
 }
 
 ///////////////////////////////////////////
@@ -880,8 +910,24 @@ function checkDeathShip (gameArea, indx)
 }
 
 //целое от деления
-function div(val, by){
+function div(val, by)
+{
 	return (val - val % by) / by;
 }
 
-
+function createGuestArrays () 
+{
+	var xCoord = 0;
+	var yCoord = 0;
+	var k = 0;
+	for (var i = 0; i < 10; i++) {
+		for( var j = 0; j < 10; j++) {
+			playerOneGuest.push(new ElemInField(xCoord, yCoord, 0, ctxGuestPlayerOne));
+			playerTwoGuest.push(new ElemInField(xCoord, yCoord, 0, ctxGuestPlayerTwo));
+			xCoord += 23;
+			k++;
+		}
+		xCoord = 0;
+		yCoord += 23;
+	}
+}

@@ -59,29 +59,37 @@
 		<button id="shoot" class="btn btn-default" type="button">Attack</button>
 	</div>
 	<div id = "guest_area">
-	
-		<div id = "chat_window" class="chat_window">
-		<div class="top_menu">
-			<div class="title">Chat</div>
-		</div>
-		<ul class="messages"></ul>
-		<div class="bottom_wrapper clearfix">
-			<div class="message_input_wrapper">
-				<input id="message_input_value" class="message_input" placeholder="Type your message here..." />
-			</div>
-			<div onclick="sendMessage()" class ="send_message">
-				<div class="icon"></div>
-				
-			</div>
-		</div>
-		</div>
-		<div id="message_template" class="message_template">
-			<li class="message"><div class="avatar"></div>
-				<div class="text_wrapper">
-					<div class="text"></div>
+		<table>
+		<tr></tr>
+		<tr>
+			<td><canvas id="canvasPlayerOne" width="230" height="230"></canvas></td>
+			<td><canvas id="canvasPlayerTwo" width="230" height="230"></canvas></td>
+			<td>
+				<div id = "chat_window" class="chat_window">
+					<div class="top_menu">
+						<div class="title">Chat</div>
+					</div>
+					<ul class="messages"></ul>
+					<div class="bottom_wrapper clearfix">
+						<div class="message_input_wrapper">
+							<input id="message_input_value" class="message_input" placeholder="Type your message here..." />
+						</div>
+						<div onclick="sendMessage()" class ="send_message">
+							<div class="icon"></div>
+						</div>
+					</div>
 				</div>
-			</li>
-		</div>
+				<div id="message_template" class="message_template">
+					<li class="message"><div class="avatar"></div>
+						<div class="text_wrapper">
+							<div class="text"></div>
+						</div>
+					</li>
+				</div>
+			</td>
+		</tr>
+		</table>
+		
 	
 	</div>
 	

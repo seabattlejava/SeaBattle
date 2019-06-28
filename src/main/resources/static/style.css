@@ -26,8 +26,8 @@ canvas {
 
 
 .chat_window {
-  position: absolute;
-  width: calc(100% - 20px);
+  position: relative;
+  width: 5000%;
   max-width: 800px;
   height: 500px;
   border-radius: 10px;
