@@ -27,6 +27,7 @@ function View()
 				you_are_guest = true;
 				createGuestArrays();
 				connect();
+				ViewerShow();
 			}
 		}
 	});
@@ -764,6 +765,18 @@ function shoot()
 			}
 		});
 	}
+}
+
+function ViewerShow()
+{
+	var timerId = setInterval(function() {
+		$.ajax({
+			url: 'showViewer', // адрес обработчика
+			success: function(msg) { // получен ответ сервера
+				
+			}
+		});
+	}, 2000);
 }
 
 //Смерть корабля

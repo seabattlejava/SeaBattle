@@ -15,6 +15,7 @@ public class Logic {
 	static int [] map = new int [20];
 	static int [][] PlayerOne = new int [10][4];
 	static int [][] PlayerTwo = new int [10][4];
+	static int [][] ViewerMap = new int [2][100];
 	static int player = 0;
 	static int flag = 0;
 	static int shot = 0;
@@ -73,12 +74,14 @@ public class Logic {
 		switch (player) {
 			case 0:
 				result = Shoot.hit(PlayerTwo, shot);
+				ViewerMap[1][shot] = result;
 				if (result == 2) {
 					player = 1;
 				}
 				break;
 			case 1:
 				result = Shoot.hit(PlayerOne, shot);
+				ViewerMap[0][shot] = result;
 				if (result == 2) {
 					player = 0;
 				}
@@ -129,4 +132,15 @@ public class Logic {
 			return"nope";
 		}
 	}
+	
+	/**
+	 * Преобразует массив в Json строку
+	 * @return Json строку
+	 */
+	public static String parser() {
+		String output;
+		output = gson.toJson(ViewerMap);
+		return output;
+	}
 }
+

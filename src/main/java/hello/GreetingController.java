@@ -170,6 +170,17 @@ public class GreetingController {
 	}
 
 	/**
+	 * Показывает поля зрителям
+	 * @see Logic#parser()
+	 * @return Строку содержащию попадания 
+	 */
+	@GetMapping("/showViewer")
+	@ResponseBody
+	public String showViewer() {
+		return Logic.parser();
+	}
+	
+	/**
 	 * Показывает пользователю что он победил
 	 * @return Строку для перехода на нужную страницу
 	 */
