@@ -6,7 +6,7 @@ var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
 var num = 0;
-
+var timerShoot;
 
 function View()
 {
@@ -632,8 +632,13 @@ function sendMessage()
 //Функиця таймре 
 function Timer()
 {
+	var tt = 0;
 	var flagShoot = 0;
 	var timerId = setInterval(function() {
+		tt++;
+		if (tt == 60) {
+			$(location).attr('href', 'win');
+		}
 		$.ajax({
 			url: 'timer', // адрес обработчика7
 			success: function(msg) { // получен ответ сервера
@@ -648,6 +653,7 @@ function Timer()
 					});
 					clearInterval(timerId);
 					$("#shoot").attr("disabled", false);
+					timerShoot = setTimeout(TimerLose, 60000);
 				} else if (msg == "end") {
 					$(location).attr('href', 'lose');
 				} else if (msg == "nope") {
@@ -688,8 +694,14 @@ function TimerStartGame()
 	}, 1000);
 }
 
+function TimerLose()
+{
+	$(location).attr('href', 'lose');
+}
+
 function Start()
 {
+	
 	$.ajax({
 			url: 'playerNumber', // адрес обработчика
 			data: { number : num} , // отправляемые данные
@@ -697,6 +709,7 @@ function Start()
 				if (msg == "yes") {
 					console.log("Perviy: " + msg);
 					$("#shoot").attr("disabled", false);
+					timerShoot = setTimeout(TimerLose, 60000);
 				} else {
 					console.log("Vtoroi: " + msg);
 					Timer();
@@ -728,18 +741,23 @@ function shoot()
 			data: { fire : positionShoot} , // отправляемые данные
 			success: function(msg) { // получен ответ сервера
 				console.log("otvetka: " + msg);
-				if (msg == 5) $(location).attr('href', 'win');
-
+				if (msg == 5) {
+					clearTimeout(timerShoot);
+					$(location).attr('href', 'win');
+				}
 				for(k in anotherPlayerAreaTable) {
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
+							clearTimeout(timerShoot);
 							checkDeathShip(anotherPlayerAreaTable, k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
 					}
 				}
 				if (msg == 2) {
+					clearTimeout(timerShoot);
+					timerShoot = setTimeout(TimerLose, 60000);
 					$("#shoot").attr("disabled", true);
 					Timer();
 				}
