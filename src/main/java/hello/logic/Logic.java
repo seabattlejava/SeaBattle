@@ -89,8 +89,9 @@ public class Logic {
 			default:
 				return "Not OK!";
 		}
-
-		flag = 3;
+		if ((result == 3) || (result == 4)) {
+			flag = 3;
+		}
 		if (result == 5) {
 			flag = 2;
 		} else if (result == 2) {
@@ -129,6 +130,7 @@ public class Logic {
 			flag = 0;
 			return"end";
 		} else {
+			flag = 0;
 			return"nope";
 		}
 	}

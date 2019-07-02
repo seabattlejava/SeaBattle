@@ -666,7 +666,6 @@ function Timer()
 							if (flagShoot != msg) {
 								playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
 								if (parseInt(event[1], 10) == 4) {
-									console.log("yes");
 									checkDeathShip(playerAreaTable, parseInt(event[0], 10));
 								}
 								flagShoot = msg;
@@ -674,6 +673,7 @@ function Timer()
 							
 						}
 					});
+					tt = 0;
 				}
 			}
 		});
@@ -752,6 +752,7 @@ function shoot()
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
 							clearTimeout(timerShoot);
+							timerShoot = setTimeout(TimerLose, 60000);
 							checkDeathShip(anotherPlayerAreaTable, k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
@@ -759,9 +760,12 @@ function shoot()
 				}
 				if (msg == 2) {
 					clearTimeout(timerShoot);
-					timerShoot = setTimeout(TimerLose, 60000);
 					$("#shoot").attr("disabled", true);
 					Timer();
+				}
+				if (msg == 3) {
+					clearTimeout(timerShoot);
+					timerShoot = setTimeout(TimerLose, 60000);
 				}
 			}
 		});
