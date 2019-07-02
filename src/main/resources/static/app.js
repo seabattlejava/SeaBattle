@@ -780,12 +780,20 @@ function ViewerShow()
 					playerOneGuest[i].typeElem = parseInt(arrayViewer[0][i], 10);
 					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
 				}
+				for (k in playerOneGuest) {
+					if (playerOneGuest[k].typeElem == 4) {
+						checkDeathShip(playerOneGuest, k);
+					}
+					if (playerTwoGuest[k].typeElem == 4) {
+						checkDeathShip(playerTwoGuest, k);
+					}
+				}
 			}
 		});
-	}, 2000);
+	}, 1000);
 }
 
-//Смерть корабля
+//Отрисовка смерти коробля и ячеек рядом с кораблем для горизонтальных кораблей
 function checkDeathShipHorizontal(gameArea, i)
 {
 	var indexIterator = parseInt(i, 10);
@@ -849,7 +857,7 @@ function checkDeathShipHorizontal(gameArea, i)
 		gameArea[indexIterator + 1].typeElem = 2;
 	}
 }
-
+//Отрисовка смерти коробля и ячеек рядом с кораблем для вертикальных кораблей
 function checkDeathShipVertical(gameArea, j)
 {
 	var indexIterator = parseInt(j, 10);
@@ -916,9 +924,32 @@ function checkDeathShipVertical(gameArea, j)
 	
 }
 
+//Проверка расположения корабля и выбор нужной функции для отрисовки смерти корабля
 function checkDeathShip (gameArea, indx)
 {
 	var index = parseInt(indx, 10);
+	
+	if (index - 1 >= 1) {
+		if (gameArea[index - 1].typeElem == 4) {
+			return;
+		}
+	}
+	if (index - 10 >= 0) {
+		if (gameArea[index - 10].typeElem == 4) {
+			return;
+		}
+	}
+	if (index + 1 < 100) {
+		if (gameArea[index + 1].typeElem == 4) {
+			return;
+		}
+	}
+	if (index + 10 < 100) {
+		if (gameArea[index + 10].typeElem == 4) {
+			return;
+		}
+	}
+	
 	if (index - 1 >= 0) {
 		if (gameArea[index - 1].typeElem == 3) {
 			checkDeathShipHorizontal(gameArea, index);
@@ -951,7 +982,7 @@ function div(val, by)
 {
 	return (val - val % by) / by;
 }
-
+// Заполнение полей для зрителя
 function createGuestArrays () 
 {
 	var xCoord = 0;
