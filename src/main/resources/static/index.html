@@ -18,23 +18,25 @@
 </div>
 
 <div id="game_area">
-	<div id="main-content" class="container">
+	<div id="main-content" class="container" align="center">
 		<div class="row">
 			<div class="col-md-6">
 				<form class="form-inline">
 					<div class="form-group">
 						<label id="name_mini" for="name">What is your name?</label>
-						<input type="text" id="name" class="form-control" placeholder="Your name here...">
 					</div>
 					<button id="send" class="btn btn-default" type="button">Send</button>
+					<input type="text" id="name" class="form-control" placeholder="Your name here...">
 				</form>
 			</div>
 		</div>
 	</div>
 	<div id="adding_ship_area">
 		<canvas id="addShips" width="500" height="276"></canvas>
-		<button id="shipsAdded" class="btn btn-default" type="button">Start</button>
-		<button id="fastAddShips" class="btn btn-default" type="button">Fast ships</button>
+		<form class="form-inline" align="center">
+			<button id="shipsAdded" class="btn btn-default" type="button">Start</button>
+			<button id="fastAddShips" class="btn btn-default" type="button">Fast ships</button>
+		</form>
 	</div>
 	
 
@@ -42,10 +44,11 @@
 
 	<div id = "main_game">
 		<div id="Title">Sea Battle</div>
-		<table id="game_pole">
+		<table id="game_pole" align="center">
 		<tr> 
 			<td>Your place:</td>
 			<td>Enemy place</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>
@@ -54,12 +57,15 @@
 			<td>
 			<canvas id="anotherPlayerArea" width="230" height="230"></canvas>
 			</td>
+			<td>
+					<button id="shoot" class="btn btn-default" type="button">Attack</button>
+			</td>
 		</tr>
 		</table>
-		<button id="shoot" class="btn btn-default" type="button">Attack</button>
+
 	</div>
 	<div id = "guest_area">
-		<table>
+		<table align="center">
 		<tr></tr>
 		<tr>
 			<td><canvas id="canvasPlayerOne" width="230" height="230"></canvas></td>
@@ -75,7 +81,7 @@
 							<input id="message_input_value" class="message_input" placeholder="Type your message here..." />
 						</div>
 						<div onclick="sendMessage()" class ="send_message">
-							<div class="icon"></div>
+							<div class="icon"> Send </div>
 						</div>
 					</div>
 				</div>
