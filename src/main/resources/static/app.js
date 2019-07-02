@@ -60,6 +60,7 @@ function Send()
 	
 }
 
+
 function add_UserName(data)
 {
 	UserName = data;
@@ -769,11 +770,16 @@ function shoot()
 
 function ViewerShow()
 {
+	var arrayViewer;
 	var timerId = setInterval(function() {
 		$.ajax({
 			url: 'showViewer', // адрес обработчика
 			success: function(msg) { // получен ответ сервера
-				
+				arrayViewer = JSON.parse(msg);
+				for (i = 0; i < 100; i++) {
+					playerOneGuest[i].typeElem = parseInt(arrayViewer[0][i], 10);
+					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
+				}
 			}
 		});
 	}, 2000);

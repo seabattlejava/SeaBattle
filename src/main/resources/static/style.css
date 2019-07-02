@@ -11,9 +11,15 @@ canvas {
 	margin: 0 auto; 
 }
 
+li {
+	list-style-type: none; /* Убираем маркеры */
+}
+
 #game_area {
 	width: 1004px;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
 	padding: 0px;
 	position: relative;
 	background-color: #5C5893;
@@ -27,7 +33,7 @@ canvas {
 
 .chat_window {
   position: relative;
-  width: 65%;
+  width: 500px;
   max-width: 800px;
   /* height: 500px; */
   border-radius: 10px;
