@@ -12,8 +12,8 @@ body {
 }
 
 canvas { 
-	background: #eee; 
-	display: block; 
+	background-color: rgba(255, 255, 255, 0.5);
+	display: block;
 	margin: 0 auto; 
 }
 
@@ -22,13 +22,39 @@ li {
 }
 
 #game_area {
-	width: 1004px;
-	margin: 238px auto 238px;
-	margin-left: auto;
-	margin-right: auto;
-	vertical-align: middle;
-	padding: 0px;
-	position: relative;
+	display: table;
+    width: 100%;
+}
+
+#main-content {
+    display: table-cell;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#main_game {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#adding_ship_area {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#guest_area {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
 .chat_window {
