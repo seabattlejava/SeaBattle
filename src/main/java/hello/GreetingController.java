@@ -186,6 +186,7 @@ public class GreetingController {
 	 */
 	@GetMapping("/win")
 	public String win() {
+		Logic.win();
 		return "win";
 	}
 
@@ -201,5 +202,14 @@ public class GreetingController {
 		num = 0;
 		usersoff = 0;
 		return "lose";
+	}
+
+	/**
+	 * Возвращает на главную страницу
+	 * @return Ссылку для перехода на главную страницу
+	 */
+	@GetMapping("/index")
+	public String index() {
+		return "index";
 	}
 }

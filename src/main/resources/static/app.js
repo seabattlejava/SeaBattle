@@ -784,6 +784,13 @@ function ViewerShow()
 					playerOneGuest[i].typeElem = parseInt(arrayViewer[0][i], 10);
 					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
 				}
+				if (arrayViewer[0][100] == 5) {
+                    clearTimeout(timerId);
+                 	$(location).attr('href', 'index');
+                } else if (arrayViewer[1][100] == 5) {
+                    clearTimeout(timerId);
+                    $(location).attr('href', 'index');
+                }
 				for (k in playerOneGuest) {
 					if (playerOneGuest[k].typeElem == 4) {
 						checkDeathShip(playerOneGuest, k);

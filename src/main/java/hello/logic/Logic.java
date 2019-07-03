@@ -15,7 +15,7 @@ public class Logic {
 	static int [] map = new int [20];
 	static int [][] PlayerOne = new int [10][4];
 	static int [][] PlayerTwo = new int [10][4];
-	static int [][] ViewerMap = new int [2][100];
+	static int [][] ViewerMap = new int [2][101];
 	static int player = 0;
 	static int flag = 0;
 	static int shot = 0;
@@ -143,6 +143,17 @@ public class Logic {
 		String output;
 		output = gson.toJson(ViewerMap);
 		return output;
+	}
+
+	/**
+	 * Определяет какой игрок выйграл (для зрителя)
+	 */
+	public static void win() {
+		if (player == 0) {
+			ViewerMap[0][100] = 5;
+		} else {
+			ViewerMap[1][100] = 5;
+		}
 	}
 }
 
