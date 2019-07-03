@@ -785,10 +785,10 @@ function ViewerShow()
 					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
 				}
 				if (arrayViewer[0][100] == 5) {
-                    clearTimeout(timerId);
+                   clearInterval(timerId);
                  	$(location).attr('href', 'index');
                 } else if (arrayViewer[1][100] == 5) {
-                    clearTimeout(timerId);
+                    clearInterval(timerId);
                     $(location).attr('href', 'index');
                 }
 				for (k in playerOneGuest) {
