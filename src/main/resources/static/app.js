@@ -8,6 +8,17 @@ var numberCellShot = 0;
 var num = 0;
 var timerShoot;
 var timerShow = 60;
+var water = new Image();
+var ship = new Image();
+var miss = new Image();
+var hit = new Image();
+var kill = new Image();
+
+water.src = "/img/0.png";
+ship.src = "/img/1.png";
+miss.src = "/img/2.png";
+hit.src = "/img/3.png";
+kill.src = "/img/4.png";
 
 function View()
 {
@@ -170,16 +181,14 @@ var drawShip = function(x, y, palubs, position)
 {
 	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
 		if (position == "vert") {
-			ctxAddShip.fillStyle = '#C1C9CD';
+		    ctxAddShip.drawImage(ship, x, y);
 			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
 			ctxAddShip.strokeRect(x, y, 23, 23);
 			y += 23
 		}
 		if (position == "horiz") {
-			ctxAddShip.fillStyle = '#C1C9CD';
+		    ctxAddShip.drawImage(ship, x, y);
 			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
 			ctxAddShip.strokeRect(x, y, 23, 23);
 			x += 23
 		}
@@ -191,41 +200,36 @@ var drawELm = function(x, y, typeEl, nameCtx)
 	switch(typeEl){
 	//вода
 		case 0: {
-			nameCtx.fillStyle = '#72CCFD';
+        	nameCtx.drawImage(water, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//корабль
 		case 1: {
-			nameCtx.fillStyle = '#C1C9CD';
+		    nameCtx.drawImage(ship, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//промах
 		case 2: {
-			nameCtx.fillStyle = '#0626A7';
+		    nameCtx.drawImage(miss, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//попадание
 		case 3: {
-			nameCtx.fillStyle = '#FF05F0';
+		    nameCtx.drawImage(hit, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//УБИЙСТВО!!!!
 		case 4: {
-			nameCtx.fillStyle = '#F63C4D';
+		    nameCtx.drawImage(kill, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
@@ -291,7 +295,6 @@ var selected = false;
 
 var windowAddShips = function ()
 {
-	
 	var xCoord = 23;
 	var yCoord = 23;
 	for (var i = 0; i < 10; i++) {
@@ -302,13 +305,7 @@ var windowAddShips = function ()
 		xCoord = 23;
 		yCoord += 23;
 	}
-	
-	
-	
 }
-
-
-
 
 var docksShip = 4; 
 var yShipCoord = 23
@@ -331,11 +328,6 @@ var isCursorInCell = function (element)
 	return (mouse.x > element.x) && (mouse.x < element.x + 23) &&
 		   (mouse.y > element.y) && (mouse.y < element.y + 23);
 };
-
-
-
-
-
 
 setInterval(function(){
 	if (you_are_guest == true) {
@@ -554,7 +546,6 @@ var startGame = function ()
 	$('#main_game').show();
 	
 }
-
 
 function ShipsAdded() 
 {
