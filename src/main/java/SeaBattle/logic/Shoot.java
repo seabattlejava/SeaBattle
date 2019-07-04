@@ -1,4 +1,4 @@
-package hello.logic;
+package SeaBattle.logic;
 
 /**
  * Класс для проверки результата выстрела игрока

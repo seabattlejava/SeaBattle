@@ -1,4 +1,4 @@
-package hello.chat;
+package SeaBattle.chat;
 
 /**
  * Создается и читается сообщение

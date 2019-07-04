@@ -1,4 +1,4 @@
-package hello.logic;
+package SeaBattle.logic;
 
 import org.junit.Assert;
 import org.junit.Test;

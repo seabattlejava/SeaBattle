@@ -1,12 +1,12 @@
-package hello;
+package SeaBattle;
 
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import java.util.regex.*;
-import hello.logic.*;
-import hello.chat.*;
+import SeaBattle.logic.*;
+import SeaBattle.chat.*;
 import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 

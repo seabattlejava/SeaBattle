@@ -1,4 +1,4 @@
-package hello.logic;
+package SeaBattle.logic;
 
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
