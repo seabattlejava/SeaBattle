@@ -212,4 +212,21 @@ public class GreetingController {
 	public String index() {
 		return "index";
 	}
+
+	/**
+	 * Возвращает имена играков
+	 * @return Имена играков
+	 */
+	@GetMapping("/playername")
+	@ResponseBody
+	public String playername() {
+		String[] PlayerName = new String[2];
+		String output;
+
+		PlayerName[0] = firstUser;
+		PlayerName[1] = secondUser;
+		output = gson.toJson(PlayerName);
+
+		return output;
+	}
 }

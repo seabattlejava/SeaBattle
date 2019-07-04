@@ -7,6 +7,7 @@ var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
 var num = 0;
 var timerShoot;
+var timerShow = 60;
 
 function View()
 {
@@ -28,9 +29,23 @@ function View()
 				createGuestArrays();
 				connect();
 				ViewerShow();
+				GetNamePlayer();
 			}
 		}
 	});
+}
+
+function GetNamePlayer()
+{
+    $.ajax({
+    		url: 'playername', // адрес обработчика
+    		success: function(msg) { // получен ответ сервера
+    			console.log("Name: " + msg);
+                var player = JSON.parse(msg);
+                $('#player_one_name').html(player[0]);
+                $('#player_two_name').html(player[1]);
+    		}
+    	});
 }
 
 function Send()
@@ -655,7 +670,7 @@ function Timer()
 					});
 					clearInterval(timerId);
 					$("#shoot").attr("disabled", false);
-					timerShoot = setTimeout(TimerLose, 60000);
+					timerShoot = setInterval(TimerLose, 1000);
 				} else if (msg == "end") {
 					$(location).attr('href', 'lose');
 				} else if (msg == "nope") {
@@ -698,7 +713,11 @@ function TimerStartGame()
 
 function TimerLose()
 {
-	$(location).attr('href', 'lose');
+    timerShow--;
+    $('#timer_show').html(timerShow);
+    if (timerShow == 0) {
+        $(location).attr('href', 'lose');
+    }
 }
 
 function Start()
@@ -711,7 +730,7 @@ function Start()
 				if (msg == "yes") {
 					console.log("Perviy: " + msg);
 					$("#shoot").attr("disabled", false);
-					timerShoot = setTimeout(TimerLose, 60000);
+					timerShoot = setInterval(TimerLose, 1000);
 				} else {
 					console.log("Vtoroi: " + msg);
 					Timer();
@@ -744,28 +763,32 @@ function shoot()
 			success: function(msg) { // получен ответ сервера
 				console.log("otvetka: " + msg);
 				if (msg == 5) {
-					clearTimeout(timerShoot);
+					clearInterval(timerShoot);
+					timerShow = 60;
 					$(location).attr('href', 'win');
 				}
 				for(k in anotherPlayerAreaTable) {
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
-							clearTimeout(timerShoot);
-							timerShoot = setTimeout(TimerLose, 60000);
+							clearInterval(timerShoot);
+							timerShow = 60;
+							timerShoot = setInterval(TimerLose, 1000);
 							checkDeathShip(anotherPlayerAreaTable, k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
 					}
 				}
 				if (msg == 2) {
-					clearTimeout(timerShoot);
+					clearInterval(timerShoot);
+					timerShow = 60;
 					$("#shoot").attr("disabled", true);
 					Timer();
 				}
 				if (msg == 3) {
-					clearTimeout(timerShoot);
-					timerShoot = setTimeout(TimerLose, 60000);
+					clearInterval(timerShoot);
+					timerShow = 60;
+					timerShoot = setInterval(TimerLose, 1000);
 				}
 			}
 		});

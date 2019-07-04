@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<link rel="icon" href="/templates/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="/templates/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Getting Started: Serving Web Content</title> 
+	<title>Sea Battle</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="app.js"></script>
@@ -41,6 +43,9 @@
 	</div>
 
 	<div id = "main_game">
+		<div id = "timer_show">
+			60
+		</div>
 		<table id="game_pole" align="center">
 		<tr> 
 			<td>Your place</td>
@@ -64,8 +69,14 @@
 		<table align="center">
 		<tr></tr>
 		<tr>
-			<td><canvas id="canvasPlayerOne" width="230" height="230"></canvas></td>
-			<td><canvas id="canvasPlayerTwo" width="230" height="230"></canvas></td>
+			<td>
+				<div id = "player_one_name"></div>
+				<canvas id="canvasPlayerOne" width="230" height="230"></canvas>
+			</td>
+			<td>
+				<div id = "player_two_name"></div>
+				<canvas id="canvasPlayerTwo" width="230" height="230"></canvas>
+			</td>
 			<td>
 				<div id = "chat_window" class="chat_window">
 					<div class="top_menu">
