@@ -99,6 +99,8 @@ $(function ()
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
 	$( "#shoot" ).click(function() {shoot();});
+	$( "#shot_win" ).click(function() {$(location).attr('href', 'index');});
+	$( "#shot_lose" ).click(function() {$(location).attr('href', 'index');});
 	$(document).ready( function() { View() });
 });
 
