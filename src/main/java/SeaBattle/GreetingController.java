@@ -181,6 +181,16 @@ public class GreetingController {
 	}
 	
 	/**
+	 * Обновляет все переменные
+	 * @see Logic#reset()
+	 */
+	@GetMapping("/reset")
+	@ResponseBody
+	public void reset() {
+		Logic.reset();
+	}
+	
+	/**
 	 * Показывает пользователю что он победил
 	 * @return Строку для перехода на нужную страницу
 	 */

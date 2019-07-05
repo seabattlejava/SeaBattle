@@ -155,5 +155,17 @@ public class Logic {
 			ViewerMap[1][100] = 5;
 		}
 	}
+	
+	/**
+	*
+	* Обновление переменных
+	*/
+	public static void reset() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 101; j++) {
+				ViewerMap[i][j] = 0;
+			}
+		}
+	}
 }
 

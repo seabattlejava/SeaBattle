@@ -800,11 +800,22 @@ function ViewerShow()
 					playerOneGuest[i].typeElem = parseInt(arrayViewer[0][i], 10);
 					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
 				}
+				//console.log("элемент: " + arrayViewer[0][100]);
 				if (arrayViewer[0][100] == 5) {
                    clearInterval(timerId);
-                 	$(location).attr('href', 'index');
+					$(location).attr('href', 'index');
+					$.ajax({
+						url: 'reset', // адрес обработчика
+						success: function() { // получен ответ сервера
+						}
+					});
                 } else if (arrayViewer[1][100] == 5) {
-                    clearInterval(timerId);
+					clearInterval(timerId);
+					$.ajax({
+						url: 'reset', // адрес обработчика
+						success: function() { // получен ответ сервера
+						}
+					});
                     $(location).attr('href', 'index');
                 }
 				for (k in playerOneGuest) {
