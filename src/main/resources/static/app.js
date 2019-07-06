@@ -38,11 +38,12 @@ function View()
 				$('#guest_area').show();
 				$('#message_template').show();
 				you_are_guest = true;
-				if (workSend == true) {
-					createGuestArrays();
-				} else {
-					setTimeout(function(){createGuestArrays();}, 1000);
-				}
+				// if (workSend == true) {
+					// createGuestArrays();
+				// } else {
+					// setTimeout(function(){createGuestArrays();}, 1000);
+				// }
+				createGuestArrays();
 				connect();
 				ViewerShow();
 				GetNamePlayer();
@@ -163,7 +164,7 @@ var Ship = function(x, y, palubs, position)
 	var canvasGuestPlayerTwo;
 	var ctxGuestPlayerTwo;
 
-window.onload = function ()
+$(document).ready( function() 
 {
 	canvasAddShip = document.getElementById("addShips");
 	ctxAddShip = canvasAddShip.getContext("2d");
@@ -483,7 +484,7 @@ windowAddShips();
 
 
 
-}
+});
 
 function fastAddShipInArea()
 {
@@ -644,6 +645,7 @@ function sendMessage()
 {
 	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
 	Side = "right";
+	$("#message_input_value").val("");
 }
 
 ///////////////////////////////////////////
