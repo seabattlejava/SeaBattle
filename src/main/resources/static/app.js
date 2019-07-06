@@ -621,12 +621,14 @@ var Side = "left";
 function connect()
 {
 	var socket = new SockJS('/chat-messaging');
+	var messagesField = document.getElementById("messages");
 	stompClient = Stomp.over(socket);
 	stompClient.connect({}, function(frame) {
 		console.log("connected: " + frame);
 		stompClient.subscribe('/chat/messages', function(response) {
 			var data = JSON.parse(response.body);
 			draw(Side, data.message);
+			messagesField.scrollTop = messagesField.scrollHeight;
 		});
 	});
 }
@@ -646,12 +648,10 @@ function draw(side, text)
 
 function sendMessage()
 {
-	var messagesField = document.getElementById("messages");
 	if ($("#message_input_value").val() != "") {
 		stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
 		Side = "right";
 		$("#message_input_value").val("");
-		messagesField.scrollTop = (messagesField.scrollHeight + 80);
 	}
 }
 
