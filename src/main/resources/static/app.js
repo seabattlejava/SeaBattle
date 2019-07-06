@@ -181,6 +181,15 @@ $(document).ready( function()
 	ctxGuestPlayerOne.linewidth = 2;
 	ctxGuestPlayerTwo.linewidth = 2;
 	
+	//Отправление сообщения по нажатию enter
+	document.getElementById("message_input_value")
+	.addEventListener("keyup", function(event) {
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("send_message_button").click();
+	}
+	});
+
 var drawShip = function(x, y, palubs, position)
 {
 	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
