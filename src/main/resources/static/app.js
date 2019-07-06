@@ -14,6 +14,7 @@ var miss = new Image();
 var hit = new Image();
 var kill = new Image();
 
+
 water.src = "/img/0.png";
 ship.src = "/img/1.png";
 miss.src = "/img/2.png";
@@ -37,7 +38,11 @@ function View()
 				$('#guest_area').show();
 				$('#message_template').show();
 				you_are_guest = true;
-				createGuestArrays();
+				if (workSend == true) {
+					createGuestArrays();
+				} else {
+					setTimeout(function(){createGuestArrays();}, 1000);
+				}
 				connect();
 				ViewerShow();
 				GetNamePlayer();
@@ -59,6 +64,7 @@ function GetNamePlayer()
     	});
 }
 
+var workSend = false;
 function Send()
 {
 	$.ajax({
@@ -77,6 +83,7 @@ function Send()
 					alert("Wrong Number -_-");
 				}
 			} else {
+				workSend = true;
 				View();
 			}
 		}
@@ -473,6 +480,7 @@ addShips.oncontextmenu = function(e) {
 
 
 windowAddShips();
+
 
 
 }
