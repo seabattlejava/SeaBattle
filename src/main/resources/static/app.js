@@ -38,11 +38,6 @@ function View()
 				$('#guest_area').show();
 				$('#message_template').show();
 				you_are_guest = true;
-				// if (workSend == true) {
-					// createGuestArrays();
-				// } else {
-					// setTimeout(function(){createGuestArrays();}, 1000);
-				// }
 				createGuestArrays();
 				connect();
 				ViewerShow();
@@ -65,7 +60,6 @@ function GetNamePlayer()
     	});
 }
 
-var workSend = false;
 function Send()
 {
 	$.ajax({
@@ -84,7 +78,6 @@ function Send()
 					alert("Wrong Number -_-");
 				}
 			} else {
-				workSend = true;
 				View();
 			}
 		}
@@ -163,6 +156,7 @@ var Ship = function(x, y, palubs, position)
 	var ctxGuestPlayerOne;
 	var canvasGuestPlayerTwo;
 	var ctxGuestPlayerTwo;
+	
 
 $(document).ready( function() 
 {
@@ -186,7 +180,7 @@ $(document).ready( function()
 	
 	ctxGuestPlayerOne.linewidth = 2;
 	ctxGuestPlayerTwo.linewidth = 2;
-
+	
 var drawShip = function(x, y, palubs, position)
 {
 	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
@@ -643,9 +637,13 @@ function draw(side, text)
 
 function sendMessage()
 {
-	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
-	Side = "right";
-	$("#message_input_value").val("");
+	var messagesField = document.getElementById("messages");
+	if ($("#message_input_value").val() != "") {
+		stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
+		Side = "right";
+		$("#message_input_value").val("");
+		messagesField.scrollTop = (messagesField.scrollHeight + 80);
+	}
 }
 
 ///////////////////////////////////////////
