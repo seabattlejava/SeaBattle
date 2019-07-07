@@ -1,40 +1,90 @@
- body {
-	background-color: #E2EAED;
+body {
+    background: url(https://wallpapershome.ru/images/wallpapers/world-of-warships-3840x2160-korabli-ogon-morskoy-boy-onlayn-luchshie-10321.jpg) no-repeat;
+    -moz-background-size: 100%;
+    -webkit-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
 	margin: 0px;
 	padding: 0px;
+	font-size: xx-large;
+    color: #3b2751;
 	font-family: "Calibri", "Roboto", sans-serif;
 }
- 
+
 canvas { 
-	background: #eee; 
-	display: block; 
+	background-color: rgba(255, 255, 255, 0.5);
+	display: block;
 	margin: 0 auto; 
 }
 
+li {
+	list-style-type: none; /* Убираем маркеры */
+}
+
 #game_area {
-	width: 1004px;
-	margin: auto;
-	padding: 0px;
-	position: relative;
-	background-color: #5C5893;
+	display: table;
+    width: 100%;
 }
 
-
-* {
-  box-sizing: border-box;
+#main-content {
+    display: table-cell;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
 }
 
+#main_game {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#adding_ship_area {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#guest_area {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#timer_show {
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: -10%;
+    left: 38%;
+    color: red;
+    font-size: -webkit-xxx-large;
+}
+
+#player_one_name {
+    text-align: center;
+}
+
+#player_two_name {
+    text-align: center;
+}
 
 .chat_window {
-  position: absolute;
-  width: calc(100% - 20px);
+  position: relative;
+  width: 500px;
   max-width: 800px;
-  height: 500px;
+  /* height: 500px; */
   border-radius: 10px;
   background-color: #fff;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  /* left: 50%; */
+  /* top: 1450%; */
+  /* transform: translateX(-50%) translateY(-50%); */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   background-color: #f8f8f8;
   overflow: hidden;
@@ -76,7 +126,7 @@ canvas {
 .messages {
   position: relative;
   list-style: none;
-  padding: 20px 10px 0 10px;
+  padding: 20px 10px 80px 10px;
   margin: 0;
   height: 347px;
   overflow: scroll;
@@ -132,7 +182,7 @@ canvas {
   display: inline-block;
   padding: 20px;
   border-radius: 6px;
-  width: calc(100% - 85px);
+  width: calc(100% - 120px);
   min-width: 100px;
   position: relative;
 }
@@ -156,11 +206,12 @@ canvas {
 .messages .message .text_wrapper .text {
   font-size: 18px;
   font-weight: 300;
+  word-wrap: break-word;
 }
 
 .bottom_wrapper {
   position: relative;
-  width: 100%;
+  width: 470px;
   background-color: #fff;
   padding: 20px 20px;
   position: absolute;
@@ -168,10 +219,10 @@ canvas {
 }
 .bottom_wrapper .message_input_wrapper {
   display: inline-block;
-  height: 50px;
+  height: 60px;
   border-radius: 25px;
   border: 1px solid #bcbdc0;
-  width: calc(100% - 160px);
+  width: calc(100% - 140px);
   position: relative;
   padding: 0 20px;
 }
@@ -185,21 +236,22 @@ canvas {
   color: gray;
 }
 .bottom_wrapper .send_message {
-  width: 140px;
-  height: 50px;
+  width: 80px;
+  height: 60px;
+  line-height:60px;
   display: inline-block;
   border-radius: 50px;
-  background-color: #a3d063;
-  border: 2px solid #a3d063;
-  color: #fff;
+  background-color: #36234b;
+  border: 2px solid #36234b;
+  color: #a675b3;
   cursor: pointer;
   transition: all 0.2s linear;
   text-align: center;
   float: right;
+  font-size: 25;
 }
 .bottom_wrapper .send_message:hover {
-  color: #a3d063;
-  background-color: #fff;
+  color: #f0f0f0;
 }
 .bottom_wrapper .send_message .text {
   font-size: 18px;
@@ -210,4 +262,182 @@ canvas {
 
 .message_template {
   display: none;
+}
+
+#before-load {
+  position: fixed; /*фиксированное положение блока*/
+  left: 0; /*положение элемента слева*/
+  top: 0; /*положение элемента сверху*/
+  right: 0; /*положение элемента справа*/
+  bottom: 0; /*положение элемента снизу*/
+  background: #fff; /*цвет заднего фона блока*/
+  z-index: 1001; /*располагаем его над всеми элементами на странице*/
+}
+#before-load i {
+  font-size: 70px; /*размер иконки*/
+  position: absolute; /*положение абсолютное, позиционируется относительно его ближайшего предка*/
+  left: 50%; /*слева 50% от ширины родительского блока*/
+  top: 50%; /*сверху 50% от высоты родительского блока*/
+  margin: -35px 0 0 -35px; /*смещение иконки, чтобы она располагалась по центру*/
+}
+
+a.buttons {
+  width: 100px;
+  height: 30px;
+  text-decoration: none;
+  padding-top: 9px;
+  color: #a675b3;
+  text-align: center;
+  line-height: 20px;
+  display: inline-block;
+  margin: 20px auto;
+  font: normal 17px arial;
+  border-radius: 8px;
+}
+
+a.buttons:not(.active) {
+  box-shadow: inset 0 1px 1px rgba(111, 55, 125, 0.8), inset 0 -1px 0px rgba(63, 59, 113, 0.2), 0 9px 16px 0 rgba(0, 0, 0, 0.3), 0 4px 3px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px #150a1e;
+  background-image: linear-gradient(#3b2751, #271739);
+  text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 -1px 0 #311d47;
+}
+
+a.buttons:not(.active):hover,
+a.buttons:not(.active):focus {
+  transition: color 200ms linear, text-shadow 500ms linear;
+  color: #fff;
+  text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 0 10px rgba(223, 206, 228, 0.4), 0 0 2px #2a153c;
+}
+a.buttons:not(:hover) {
+    transition: 0.6s;
+}
+
+.form-control {
+overflow: auto;
+
+	/* = Убираем увеличение */
+	resize: none;
+	width: 300px;
+	height: 30px;
+
+	/* = Добавим фон, рамку, отступ*/
+	background: #f6f6f6;
+	border: 1px solid #3b2751;
+	border-radius: 8px;
+	padding: 8px 0 8px 10px;
+	font-size: medium;
+}
+
+.btn {
+    position: relative;
+    width:100px;
+    height:100px;
+    text-align:center;
+    color:#FFF;
+    text-decoration:none;
+    line-height:43px;
+    font-family:'Oswald', Helvetica;
+    display: block;
+    margin: 30px 30px;
+}
+.btn:before {
+    background:#f0f0f0;
+    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#D0D0D0), to(#f0f0f0));
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    -webkit-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 1px 0 #FFF;
+    -moz-box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 1px 0 #FFF;
+    box-shadow:0 1px 2px rgba(0, 0, 0, .5) inset, 0 1px 0 #FFF;
+    position: absolute;
+    content: "";
+    left: -6px; right: -6px;
+    top: -6px; bottom: -10px;
+    z-index: -1;
+    border-radius: 50%;
+}
+.btn:active {
+    -webkit-box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset;
+    top:5px;
+}
+.btn:active:before{
+    top: -11px;
+    bottom: -5px;
+    content: "";
+}
+.btn-default {
+    text-shadow:-1px -1px 0 #A84155;
+    background: #D25068;
+    text-transform: uppercase;
+    border:1px solid #D25068;
+    background-image:-webkit-linear-gradient(top, #F66C7B, #D25068);
+    background-image:-moz-linear-gradient(top, #F66C7B, #D25068);
+    background-image:-ms-linear-gradient(top, #F66C7B, #D25068);
+    background-image:-o-linear-gradient(top, #F66C7B, #D25068);
+    background-image:linear-gradient(to bottom, #F66C7B, #D25068);
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    -webkit-box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset, 0 4px 0 #AD4257, 0 4px 2px rgba(0, 0, 0, .5);
+    -moz-box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset, 0 4px 0 #AD4257, 0 4px 2px rgba(0, 0, 0, .5);
+    box-shadow:0 1px 0 rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .1) inset, 0 4px 0 #AD4257, 0 4px 2px rgba(0, 0, 0, .5);
+    border-radius: 50%;
+}
+.btn-default:hover {
+    background: #F66C7B;
+    color: #fff;
+    background-image:-webkit-linear-gradient(top, #D25068, #F66C7B);
+    background-image:-moz-linear-gradient(top, #D25068, #F66C7B);
+    background-image:-ms-linear-gradient(top, #D25068, #F66C7B);
+    background-image:-o-linear-gradient(top, #D25068, #F66C7B);
+    background-image:linear-gradient(top, #D25068, #F66C7B);
+}
+
+a.butt {
+        text-align:center;
+        font-size: medium;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 3px 6px;
+        background: #49ff00;
+        width:60px;
+        margin: 20px;
+        background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.1));
+        border-radius: 3px;
+        color: rgba(0,0,0,.6);
+        text-shadow: 0 1px 1px rgba(255,255,255,.7);
+        box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.2), inset 0 1px 2px rgba(255,255,255,.7);
+}
+
+a.butt:hover, a.butt.hover {
+        background: #8fff00;
+}
+a.butt:active, a.butt.active {
+        background: #25ff00;
+        background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0));
+        box-shadow: inset 0 0 2px rgba(0,0,0,.2), inset 0 2px 5px rgba(0,0,0,.2), 0 1px rgba(255,255,255,.2);
+}
+
+a.buttl {
+        text-align:center;
+        font-size: medium;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 3px 6px;
+        background: #fb4a36;
+        width:60px;
+        margin: 20px;
+        background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.1));
+        border-radius: 3px;
+        color: rgba(0,0,0);
+        text-shadow: 0 1px 1px rgba(255,255,255,.7);
+        box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.2), inset 0 1px 2px rgba(255,255,255,.7);
+}
+
+a.buttl:hover, a.buttl.hover {
+        background: #ff0000;
+}
+a.buttl:active, a.buttl.active {
+        background: #ff6000;
+        background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0));
+        box-shadow: inset 0 0 2px rgba(0,0,0,.2), inset 0 2px 5px rgba(0,0,0,.2), 0 1px rgba(255,255,255,.2);
 }
