@@ -1,17 +1,32 @@
 var UserName;
 
 var game_start = false;
+var you_are_guest = false;
 var playerShipArrayJson = "";
 var anotherPlayerShipArrat = [];
 var numberCellShot = 0;
 var num = 0;
+var timerShoot;
+var timerShow = 60;
+var water = new Image();
+var ship = new Image();
+var miss = new Image();
+var hit = new Image();
+var kill = new Image();
+
+
+water.src = "/img/0.png";
+ship.src = "/img/1.png";
+miss.src = "/img/2.png";
+hit.src = "/img/3.png";
+kill.src = "/img/4.png";
 
 function View()
 {
 	$('#adding_ship_area').hide();
 	$('#game-content').hide();
 	$('#main_game').hide();
-	$('#chat_window').hide();
+	$('#guest_area').hide();
 	$('#message_template').hide();
 	$("#shoot").attr("disabled", true);
 	$.ajax({
@@ -20,11 +35,29 @@ function View()
 			console.log("Log: " + msg);
 			if (msg == "no") {
 				$('#main-content').hide();
-				$('#chat_window').show();
+				$('#guest_area').show();
 				$('#message_template').show();
+				you_are_guest = true;
+				createGuestArrays();
+				connect();
+				ViewerShow();
+				GetNamePlayer();
 			}
 		}
 	});
+}
+
+function GetNamePlayer()
+{
+    $.ajax({
+    		url: 'playername', // адрес обработчика
+    		success: function(msg) { // получен ответ сервера
+    			console.log("Name: " + msg);
+                var player = JSON.parse(msg);
+                $('#player_one_name').html(player[0]);
+                $('#player_two_name').html(player[1]);
+    		}
+    	});
 }
 
 function Send()
@@ -54,6 +87,7 @@ function Send()
 	
 }
 
+
 function add_UserName(data)
 {
 	UserName = data;
@@ -66,6 +100,8 @@ $(function ()
 	$( "#shipsAdded" ).click(function() {ShipsAdded();});
 	$( "#fastAddShips" ).click(function() {fastAddShipInArea();});
 	$( "#shoot" ).click(function() {shoot();});
+	$( "#shot_win" ).click(function() {$(location).attr('href', 'index');});
+	$( "#shot_lose" ).click(function() {$(location).attr('href', 'index');});
 	$(document).ready( function() { View() });
 });
 
@@ -75,6 +111,9 @@ var arrayShips = [];
 
 var playerAreaTable = [];
 var anotherPlayerAreaTable = [];
+
+var playerOneGuest = [];
+var playerTwoGuest = [];
 
 var ElemInField = function(x, y, typeElem, nameCtx)
 {
@@ -113,34 +152,56 @@ var Ship = function(x, y, palubs, position)
 	var ctxPlayerArea;
 	var canvasAnotherPlayerArea;
 	var ctxAnotherPlayerArea;
+	var canvasGuestPlayerOne;
+	var ctxGuestPlayerOne;
+	var canvasGuestPlayerTwo;
+	var ctxGuestPlayerTwo;
+	
 
-window.onload = function ()
+$(document).ready( function() 
 {
 	canvasAddShip = document.getElementById("addShips");
 	ctxAddShip = canvasAddShip.getContext("2d");
+	
 	canvasPlayerArea = document.getElementById("playerArea");
 	ctxPlayerArea = canvasPlayerArea.getContext("2d");
 	canvasAnotherPlayerArea = document.getElementById("anotherPlayerArea");
 	ctxAnotherPlayerArea = canvasAnotherPlayerArea.getContext("2d");
 	
+	canvasGuestPlayerOne = document.getElementById("canvasPlayerOne");
+	ctxGuestPlayerOne = canvasGuestPlayerOne.getContext("2d");
+	canvasGuestPlayerTwo = document.getElementById("canvasPlayerTwo");
+	ctxGuestPlayerTwo = canvasGuestPlayerTwo.getContext("2d");
+	
 	ctxAddShip.linewidth = 2;
+	
 	ctxPlayerArea.linewidth = 2;
 	ctxAnotherPlayerArea.linewidth = 2;
+	
+	ctxGuestPlayerOne.linewidth = 2;
+	ctxGuestPlayerTwo.linewidth = 2;
+	
+	//Отправление сообщения по нажатию enter
+	document.getElementById("message_input_value")
+	.addEventListener("keyup", function(event) {
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("send_message_button").click();
+	}
+	});
 
 var drawShip = function(x, y, palubs, position)
 {
 	for(var countPalubs = 0; countPalubs < palubs; countPalubs++) {
 		if (position == "vert") {
-			ctxAddShip.fillStyle = '#C1C9CD';
+		    ctxAddShip.drawImage(ship, x, y);
 			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
 			ctxAddShip.strokeRect(x, y, 23, 23);
 			y += 23
 		}
 		if (position == "horiz") {
-			ctxAddShip.fillStyle = '#C1C9CD';
+		    ctxAddShip.drawImage(ship, x, y);
 			ctxAddShip.strokeStyle = '#000000';
-			ctxAddShip.fillRect(x, y, 23, 23);
 			ctxAddShip.strokeRect(x, y, 23, 23);
 			x += 23
 		}
@@ -152,41 +213,36 @@ var drawELm = function(x, y, typeEl, nameCtx)
 	switch(typeEl){
 	//вода
 		case 0: {
-			nameCtx.fillStyle = '#72CCFD';
+        	nameCtx.drawImage(water, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//корабль
 		case 1: {
-			nameCtx.fillStyle = '#C1C9CD';
+		    nameCtx.drawImage(ship, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//промах
 		case 2: {
-			nameCtx.fillStyle = '#0626A7';
+		    nameCtx.drawImage(miss, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//попадание
 		case 3: {
-			nameCtx.fillStyle = '#FF05F0';
+		    nameCtx.drawImage(hit, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
 	//УБИЙСТВО!!!!
 		case 4: {
-			nameCtx.fillStyle = '#F63C4D';
+		    nameCtx.drawImage(kill, x, y);
 			nameCtx.strokeStyle = '#000000';
-			nameCtx.fillRect(x, y, 23, 23);
 			nameCtx.strokeRect(x, y, 23, 23);
 			break;
 		}
@@ -252,7 +308,6 @@ var selected = false;
 
 var windowAddShips = function ()
 {
-	
 	var xCoord = 23;
 	var yCoord = 23;
 	for (var i = 0; i < 10; i++) {
@@ -263,13 +318,7 @@ var windowAddShips = function ()
 		xCoord = 23;
 		yCoord += 23;
 	}
-	
-	
-	
 }
-
-
-
 
 var docksShip = 4; 
 var yShipCoord = 23
@@ -293,46 +342,47 @@ var isCursorInCell = function (element)
 		   (mouse.y > element.y) && (mouse.y < element.y + 23);
 };
 
-
-
-
-
-
 setInterval(function(){
-	if(game_start == false) {
-		ctxAddShip.clearRect(0, 0 , 736, 276);
-		for(i in allElems) {
-			allElems[i].draw();
-		}
-		for(j in arrayShips) {
-			arrayShips[j].checkPositionSHip();
-			arrayShips[j].createTrueSpace();
-			arrayShips[j].draw();
-		}
-		///////
-		if (selected) {
-			if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
-				for(i in allElems) {
-					if(isCursorInCell(allElems[i])) {
-						selected.x = allElems[i].x;
-						selected.y = allElems[i].y;
-					}
-				}
-			} else {
-				selected.x = mouse.x;
-				selected.y = mouse.y;
-			}
+	if (you_are_guest == true) {
+		for (j in playerOneGuest) {
+			playerOneGuest[j].draw();
+			playerTwoGuest[j].draw();
 		}
 	} else {
-		
-		for(j in playerAreaTable) {
-			playerAreaTable[j].draw();
-			anotherPlayerAreaTable[j].draw();
-			if(anotherPlayerAreaTable[j].selected) {
-				anotherPlayerAreaTable[j].drawSelection();
+		if (game_start == false) {
+			ctxAddShip.clearRect(0, 0 , 736, 276);
+			for (i in allElems) {
+				allElems[i].draw();
 			}
+			for (j in arrayShips) {
+				arrayShips[j].checkPositionSHip();
+				arrayShips[j].createTrueSpace();
+				arrayShips[j].draw();
+			}
+		///////
+			if (selected) {
+				if ((mouse.x > 23) && (mouse.x < 253) && (mouse.y > 23) && (mouse.y < 253)) {
+					for(i in allElems) {
+						if(isCursorInCell(allElems[i])) {
+							selected.x = allElems[i].x;
+							selected.y = allElems[i].y;
+						}
+					}
+				} else {
+					selected.x = mouse.x;
+					selected.y = mouse.y;
+				}
+			}
+		} else {
+			for (j in playerAreaTable) {
+				playerAreaTable[j].draw();
+				anotherPlayerAreaTable[j].draw();
+				if (anotherPlayerAreaTable[j].selected) {
+					anotherPlayerAreaTable[j].drawSelection();
+				}
+			}
+			
 		}
-		
 	}
 }
 , 20);
@@ -436,7 +486,8 @@ addShips.oncontextmenu = function(e) {
 windowAddShips();
 
 
-}
+
+});
 
 function fastAddShipInArea()
 {
@@ -510,7 +561,6 @@ var startGame = function ()
 	
 }
 
-
 function ShipsAdded() 
 {
 	game_start = true;
@@ -567,42 +617,55 @@ function ShipsAdded()
 }
 
 //Чат
-function connect() {
+var Side = "left";
+function connect()
+{
 	var socket = new SockJS('/chat-messaging');
+	var messagesField = document.getElementById("messages");
 	stompClient = Stomp.over(socket);
 	stompClient.connect({}, function(frame) {
 		console.log("connected: " + frame);
 		stompClient.subscribe('/chat/messages', function(response) {
 			var data = JSON.parse(response.body);
-			draw("left", data.message);
+			draw(Side, data.message);
+			messagesField.scrollTop = messagesField.scrollHeight;
 		});
 	});
 }
 
-function draw(side, text) {
+function draw(side, text)
+{
 	console.log("drawing...");
 	var $message;
 	$message = $($('.message_template').clone().html());
 	$message.addClass(side).find('.text').html(text);
 	$('.messages').append($message);
+	Side = "left";
 	return setTimeout(function () {
 		return $message.addClass('appeared');
 	}, 0);
+}
 
-}
-function disconnect(){
-	stompClient.disconnect();
-}
-function sendMessage(){
-	stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
+function sendMessage()
+{
+	if ($("#message_input_value").val() != "") {
+		stompClient.send("/app/message", {}, JSON.stringify({'message': $("#message_input_value").val()}));
+		Side = "right";
+		$("#message_input_value").val("");
+	}
 }
 
 ///////////////////////////////////////////
 //Функиця таймре 
 function Timer()
 {
+	var tt = 0;
 	var flagShoot = 0;
 	var timerId = setInterval(function() {
+		tt++;
+		if (tt == 60) {
+			$(location).attr('href', 'win');
+		}
 		$.ajax({
 			url: 'timer', // адрес обработчика7
 			success: function(msg) { // получен ответ сервера
@@ -617,6 +680,7 @@ function Timer()
 					});
 					clearInterval(timerId);
 					$("#shoot").attr("disabled", false);
+					timerShoot = setInterval(TimerLose, 1000);
 				} else if (msg == "end") {
 					$(location).attr('href', 'lose');
 				} else if (msg == "nope") {
@@ -627,7 +691,6 @@ function Timer()
 							if (flagShoot != msg) {
 								playerAreaTable[parseInt(event[0], 10)].typeElem = parseInt(event[1], 10);
 								if (parseInt(event[1], 10) == 4) {
-									console.log("yes");
 									checkDeathShip(playerAreaTable, parseInt(event[0], 10));
 								}
 								flagShoot = msg;
@@ -635,6 +698,7 @@ function Timer()
 							
 						}
 					});
+					tt = 0;
 				}
 			}
 		});
@@ -657,8 +721,18 @@ function TimerStartGame()
 	}, 1000);
 }
 
+function TimerLose()
+{
+    timerShow--;
+    $('#timer_show').html(timerShow);
+    if (timerShow == 0) {
+        $(location).attr('href', 'lose');
+    }
+}
+
 function Start()
 {
+	
 	$.ajax({
 			url: 'playerNumber', // адрес обработчика
 			data: { number : num} , // отправляемые данные
@@ -666,6 +740,7 @@ function Start()
 				if (msg == "yes") {
 					console.log("Perviy: " + msg);
 					$("#shoot").attr("disabled", false);
+					timerShoot = setInterval(TimerLose, 1000);
 				} else {
 					console.log("Vtoroi: " + msg);
 					Timer();
@@ -697,27 +772,83 @@ function shoot()
 			data: { fire : positionShoot} , // отправляемые данные
 			success: function(msg) { // получен ответ сервера
 				console.log("otvetka: " + msg);
-				if (msg == 5) $(location).attr('href', 'win');
-
+				if (msg == 5) {
+					clearInterval(timerShoot);
+					timerShow = 60;
+					$(location).attr('href', 'win');
+				}
 				for(k in anotherPlayerAreaTable) {
 					if(anotherPlayerAreaTable[k].selected == true) {
 						anotherPlayerAreaTable[k].typeElem = parseInt(msg, 10);
 						if (msg == 4) {
+							clearInterval(timerShoot);
+							timerShow = 60;
+							timerShoot = setInterval(TimerLose, 1000);
 							checkDeathShip(anotherPlayerAreaTable, k);
 						}
 						anotherPlayerAreaTable[k].selected = false;
 					}
 				}
 				if (msg == 2) {
+					clearInterval(timerShoot);
+					timerShow = 60;
 					$("#shoot").attr("disabled", true);
 					Timer();
+				}
+				if (msg == 3) {
+					clearInterval(timerShoot);
+					timerShow = 60;
+					timerShoot = setInterval(TimerLose, 1000);
 				}
 			}
 		});
 	}
 }
 
-//Смерть корабля
+function ViewerShow()
+{
+	var arrayViewer;
+	var timerId = setInterval(function() {
+		$.ajax({
+			url: 'showViewer', // адрес обработчика
+			success: function(msg) { // получен ответ сервера
+				arrayViewer = JSON.parse(msg);
+				for (i = 0; i < 100; i++) {
+					playerOneGuest[i].typeElem = parseInt(arrayViewer[0][i], 10);
+					playerTwoGuest[i].typeElem = parseInt(arrayViewer[1][i], 10);
+				}
+				//console.log("элемент: " + arrayViewer[0][100]);
+				if (arrayViewer[0][100] == 5) {
+                   clearInterval(timerId);
+					$(location).attr('href', 'index');
+					$.ajax({
+						url: 'reset', // адрес обработчика
+						success: function() { // получен ответ сервера
+						}
+					});
+                } else if (arrayViewer[1][100] == 5) {
+					clearInterval(timerId);
+					$.ajax({
+						url: 'reset', // адрес обработчика
+						success: function() { // получен ответ сервера
+						}
+					});
+                    $(location).attr('href', 'index');
+                }
+				for (k in playerOneGuest) {
+					if (playerOneGuest[k].typeElem == 4) {
+						checkDeathShip(playerOneGuest, k);
+					}
+					if (playerTwoGuest[k].typeElem == 4) {
+						checkDeathShip(playerTwoGuest, k);
+					}
+				}
+			}
+		});
+	}, 1000);
+}
+
+//Отрисовка смерти коробля и ячеек рядом с кораблем для горизонтальных кораблей
 function checkDeathShipHorizontal(gameArea, i)
 {
 	var indexIterator = parseInt(i, 10);
@@ -781,7 +912,7 @@ function checkDeathShipHorizontal(gameArea, i)
 		gameArea[indexIterator + 1].typeElem = 2;
 	}
 }
-
+//Отрисовка смерти коробля и ячеек рядом с кораблем для вертикальных кораблей
 function checkDeathShipVertical(gameArea, j)
 {
 	var indexIterator = parseInt(j, 10);
@@ -848,9 +979,32 @@ function checkDeathShipVertical(gameArea, j)
 	
 }
 
+//Проверка расположения корабля и выбор нужной функции для отрисовки смерти корабля
 function checkDeathShip (gameArea, indx)
 {
 	var index = parseInt(indx, 10);
+	
+	if (index - 1 >= 1) {
+		if (gameArea[index - 1].typeElem == 4) {
+			return;
+		}
+	}
+	if (index - 10 >= 0) {
+		if (gameArea[index - 10].typeElem == 4) {
+			return;
+		}
+	}
+	if (index + 1 < 100) {
+		if (gameArea[index + 1].typeElem == 4) {
+			return;
+		}
+	}
+	if (index + 10 < 100) {
+		if (gameArea[index + 10].typeElem == 4) {
+			return;
+		}
+	}
+	
 	if (index - 1 >= 0) {
 		if (gameArea[index - 1].typeElem == 3) {
 			checkDeathShipHorizontal(gameArea, index);
@@ -879,8 +1033,24 @@ function checkDeathShip (gameArea, indx)
 }
 
 //целое от деления
-function div(val, by){
+function div(val, by)
+{
 	return (val - val % by) / by;
 }
-
-
+// Заполнение полей для зрителя
+function createGuestArrays () 
+{
+	var xCoord = 0;
+	var yCoord = 0;
+	var k = 0;
+	for (var i = 0; i < 10; i++) {
+		for( var j = 0; j < 10; j++) {
+			playerOneGuest.push(new ElemInField(xCoord, yCoord, 0, ctxGuestPlayerOne));
+			playerTwoGuest.push(new ElemInField(xCoord, yCoord, 0, ctxGuestPlayerTwo));
+			xCoord += 23;
+			k++;
+		}
+		xCoord = 0;
+		yCoord += 23;
+	}
+}

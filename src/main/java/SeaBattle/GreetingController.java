@@ -1,12 +1,12 @@
-package hello;
+package SeaBattle;
 
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import java.util.regex.*;
-import hello.logic.*;
-import hello.chat.*;
+import SeaBattle.logic.*;
+import SeaBattle.chat.*;
 import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 
@@ -170,11 +170,33 @@ public class GreetingController {
 	}
 
 	/**
+	 * Показывает поля зрителям
+	 * @see Logic#parser()
+	 * @return Строку содержащию попадания 
+	 */
+	@GetMapping("/showViewer")
+	@ResponseBody
+	public String showViewer() {
+		return Logic.parser();
+	}
+	
+	/**
+	 * Обновляет все переменные
+	 * @see Logic#reset()
+	 */
+	@GetMapping("/reset")
+	@ResponseBody
+	public void reset() {
+		Logic.reset();
+	}
+	
+	/**
 	 * Показывает пользователю что он победил
 	 * @return Строку для перехода на нужную страницу
 	 */
 	@GetMapping("/win")
 	public String win() {
+		Logic.win();
 		return "win";
 	}
 
@@ -190,5 +212,31 @@ public class GreetingController {
 		num = 0;
 		usersoff = 0;
 		return "lose";
+	}
+
+	/**
+	 * Возвращает на главную страницу
+	 * @return Ссылку для перехода на главную страницу
+	 */
+	@GetMapping("/index")
+	public String index() {
+		return "index";
+	}
+
+	/**
+	 * Возвращает имена играков
+	 * @return Имена играков
+	 */
+	@GetMapping("/playername")
+	@ResponseBody
+	public String playername() {
+		String[] PlayerName = new String[2];
+		String output;
+
+		PlayerName[0] = firstUser;
+		PlayerName[1] = secondUser;
+		output = gson.toJson(PlayerName);
+
+		return output;
 	}
 }

@@ -1,4 +1,4 @@
-package hello.logic;
+package SeaBattle.logic;
 
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -15,6 +15,7 @@ public class Logic {
 	static int [] map = new int [20];
 	static int [][] PlayerOne = new int [10][4];
 	static int [][] PlayerTwo = new int [10][4];
+	static int [][] ViewerMap = new int [2][101];
 	static int player = 0;
 	static int flag = 0;
 	static int shot = 0;
@@ -73,12 +74,14 @@ public class Logic {
 		switch (player) {
 			case 0:
 				result = Shoot.hit(PlayerTwo, shot);
+				ViewerMap[1][shot] = result;
 				if (result == 2) {
 					player = 1;
 				}
 				break;
 			case 1:
 				result = Shoot.hit(PlayerOne, shot);
+				ViewerMap[0][shot] = result;
 				if (result == 2) {
 					player = 0;
 				}
@@ -86,8 +89,9 @@ public class Logic {
 			default:
 				return "Not OK!";
 		}
-
-		flag = 3;
+		if ((result == 3) || (result == 4)) {
+			flag = 3;
+		}
 		if (result == 5) {
 			flag = 2;
 		} else if (result == 2) {
@@ -126,7 +130,42 @@ public class Logic {
 			flag = 0;
 			return"end";
 		} else {
+			flag = 0;
 			return"nope";
 		}
 	}
+	
+	/**
+	 * Преобразует массив в Json строку
+	 * @return Json строку
+	 */
+	public static String parser() {
+		String output;
+		output = gson.toJson(ViewerMap);
+		return output;
+	}
+
+	/**
+	 * Определяет какой игрок выйграл (для зрителя)
+	 */
+	public static void win() {
+		if (player == 0) {
+			ViewerMap[0][100] = 5;
+		} else {
+			ViewerMap[1][100] = 5;
+		}
+	}
+	
+	/**
+	*
+	* Обновление переменных
+	*/
+	public static void reset() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 101; j++) {
+				ViewerMap[i][j] = 0;
+			}
+		}
+	}
 }
+

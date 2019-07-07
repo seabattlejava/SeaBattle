@@ -1,7 +1,6 @@
-package hello.logic;
+package SeaBattle.logic;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestLogic {
