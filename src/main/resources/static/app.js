@@ -800,7 +800,7 @@ function checkDeathShipHorizontal(gameArea, i)
 {
 	var indexIterator = parseInt(i, 10);
 	if((indexIterator - 1) >= 0) {
-		while((gameArea[indexIterator - 1].typeElem == 3) && ((indexIterator - 1) >= 0)) {
+		while(((indexIterator - 1) >= 0) && (gameArea[indexIterator - 1].typeElem == 3) && (div(indexIterator, 10) == div(indexIterator - 1, 10))) {
 			gameArea[indexIterator - 1].typeElem = 4;
 			
 			if (indexIterator - 1 - 10 >= 0) {
@@ -809,14 +809,10 @@ function checkDeathShipHorizontal(gameArea, i)
 			if (indexIterator - 1 + 10 < 100) {
 				gameArea[indexIterator - 1 + 10].typeElem = 2;
 			}
-			
-			if ((indexIterator - 1) > 0) {
-				indexIterator--;
-			}
-			
+			indexIterator--;
 		}
 	}
-	if((indexIterator - 1 > 0) && (div(indexIterator, 10) == div((indexIterator - 1), 10))) {
+	if((indexIterator - 1 >= 0) && (div(indexIterator, 10) == div((indexIterator - 1), 10))) {
 		if (indexIterator - 1 - 10 >= 0) {
 				gameArea[indexIterator - 1 - 10].typeElem = 2;
 			}
@@ -836,7 +832,7 @@ function checkDeathShipHorizontal(gameArea, i)
 	}
 	
 	if(indexIterator + 1 < 100) {
-		while((gameArea[indexIterator + 1].typeElem == 3) && ((indexIterator + 1) < 100)) {
+		while(((indexIterator + 1) < 100) && (gameArea[indexIterator + 1].typeElem == 3) && (div(indexIterator, 10) == div(indexIterator + 1, 10))) {
 			gameArea[indexIterator + 1].typeElem = 4;
 			if (indexIterator + 1 + 10 < 100) {
 				gameArea[indexIterator + 1 + 10].typeElem = 2;
@@ -844,12 +840,10 @@ function checkDeathShipHorizontal(gameArea, i)
 			if (indexIterator + 1 - 10 >= 0) {
 				gameArea[indexIterator + 1 - 10].typeElem = 2;
 			}
-			if ((indexIterator + 1) < 99) {
-				indexIterator++;
-			}
+			indexIterator++;
 		}
 	}
-	if((indexIterator + 1 < 99) && (div(indexIterator, 10) == div((indexIterator + 1), 10))) {
+	if((indexIterator + 1 < 100) && (div(indexIterator, 10) == div((indexIterator + 1), 10))) {
 		if (indexIterator + 1 + 10 < 100) {
 				gameArea[indexIterator + 1 + 10].typeElem = 2;
 			}
@@ -863,67 +857,62 @@ function checkDeathShipHorizontal(gameArea, i)
 function checkDeathShipVertical(gameArea, j)
 {
 	var indexIterator = parseInt(j, 10);
-	if((indexIterator - 10) >= 0) {
-		while((gameArea[indexIterator - 10].typeElem == 3) && ((indexIterator - 10) >= 0)) {
-			gameArea[indexIterator - 10].typeElem = 4;
-			if ((indexIterator - 10 - 1 >= 0) && (div(indexIterator - 10 - 1, 10) == div(indexIterator - 10, 10))) {
-				gameArea[indexIterator - 10 - 1].typeElem = 2;
+	indexIterator -= 10;
+	if (indexIterator >= 0) {
+		while ((indexIterator >= 0) && (gameArea[indexIterator].typeElem == 3)) {
+			gameArea[indexIterator].typeElem = parseInt(4, 10);
+			if ((indexIterator - 1 >= 0) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator - 1].typeElem = 2;
 			}
-			if ((indexIterator - 10 + 1 < 100) && (div(indexIterator - 10 + 1, 10) == div(indexIterator - 10, 10))) {
-				gameArea[indexIterator - 10 + 1].typeElem = 2;
+			if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator+ 1].typeElem = 2;
 			}
-			if ((indexIterator - 10) > 0) {
-				indexIterator -= 10;
-			}
-			
+			indexIterator -= 10;
 		}
 	}
-	
-	if((indexIterator - 10 > 0) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
-		if ((indexIterator - 10 - 1 >= 0) && (div(indexIterator - 10 - 1, 10) == div(indexIterator - 10, 10))) {
-				gameArea[indexIterator - 10 - 1].typeElem = 2;
+
+	if (indexIterator >= 0) {
+		gameArea[indexIterator].typeElem = 2;
+		if ((indexIterator - 1 >= 0) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator - 1].typeElem = 2;
 			}
-		if ((indexIterator - 10 + 1 < 100) && (div(indexIterator - 10 + 1, 10) == div(indexIterator - 10, 10))) {
-			gameArea[indexIterator - 10 + 1].typeElem = 2;
+		if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
+			gameArea[indexIterator + 1].typeElem = 2;
 		}
-		gameArea[indexIterator - 10].typeElem = 2;
 	}
-	
+
 	indexIterator = parseInt(j, 10);
-	
 	if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
 		gameArea[indexIterator + 1].typeElem = 2;
 	}
 	if ((indexIterator - 1 >= 0 ) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
 		gameArea[indexIterator - 1].typeElem = 2;
 	}
+
+	indexIterator += 10;
 	
-	
-	if(indexIterator + 10 < 100) {
-		while((gameArea[indexIterator + 10].typeElem == 3) && ((indexIterator + 10) < 100)) {
-			gameArea[indexIterator + 10].typeElem = 4;
-			if ((indexIterator + 10 + 1 < 100) && (div(indexIterator + 10 + 1, 10) == div(indexIterator + 10, 10))) {
-				gameArea[indexIterator + 10 + 1].typeElem = 2;
+	if (indexIterator < 100) {
+		while ((indexIterator < 100) && (gameArea[indexIterator].typeElem == 3)) {
+			gameArea[indexIterator].typeElem = parseInt(4, 10);
+			if ((indexIterator - 1 >= 0) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator - 1].typeElem = 2;
 			}
-			if ((indexIterator + 10 - 1 >= 0) && (div(indexIterator + 10 - 1, 10) == div(indexIterator + 10, 10))) {
-				gameArea[indexIterator + 10 - 1].typeElem = 2;
+			if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator+ 1].typeElem = 2;
 			}
-			if ((indexIterator + 10) < 99) {
-				indexIterator += 10;
-			}
+			indexIterator += 10;
 		}
 	}
 	
-	if((indexIterator + 10 < 99) && (indexIterator % 10 == (indexIterator - 10) % 10)) {
-		if ((indexIterator + 10 + 1 < 100) && (div(indexIterator + 10 + 1, 10) == div(indexIterator + 10, 10))) {
-				gameArea[indexIterator + 10 + 1].typeElem = 2;
+	if (indexIterator < 100) {
+		gameArea[indexIterator].typeElem = 2;
+		if ((indexIterator - 1 >= 0) && (div(indexIterator - 1, 10) == div(indexIterator, 10))) {
+				gameArea[indexIterator - 1].typeElem = 2;
 			}
-		if ((indexIterator + 10 - 1 >= 0) && (div(indexIterator + 10 - 1, 10) == div(indexIterator + 10, 10))) {
-			gameArea[indexIterator + 10 - 1].typeElem = 2;
+		if ((indexIterator + 1 < 100) && (div(indexIterator + 1, 10) == div(indexIterator, 10))) {
+			gameArea[indexIterator + 1].typeElem = 2;
 		}
-		gameArea[indexIterator + 10].typeElem = 2;
 	}
-	
 }
 
 //Проверка расположения корабля и выбор нужной функции для отрисовки смерти корабля
@@ -931,7 +920,7 @@ function checkDeathShip (gameArea, indx)
 {
 	var index = parseInt(indx, 10);
 	
-	if (index - 1 >= 1) {
+	if ((index - 1 >= 0) && (div(index ,10) == div(index - 1 ,10))) {
 		if (gameArea[index - 1].typeElem == 4) {
 			return;
 		}
@@ -941,7 +930,7 @@ function checkDeathShip (gameArea, indx)
 			return;
 		}
 	}
-	if (index + 1 < 100) {
+	if ((index + 1 < 100) && (div(index ,10) == div(index + 1 ,10))) {
 		if (gameArea[index + 1].typeElem == 4) {
 			return;
 		}
@@ -952,13 +941,13 @@ function checkDeathShip (gameArea, indx)
 		}
 	}
 	
-	if (index - 1 >= 0) {
+	if ((index - 1 >= 0) && (div(index ,10) == div(index - 1 ,10))) {
 		if (gameArea[index - 1].typeElem == 3) {
 			checkDeathShipHorizontal(gameArea, index);
 			return;
 		}
 	}
-	if (index + 1 < 100) {
+	if ((index + 1 < 100) && (div(index ,10) == div(index + 1 ,10))) {
 		if (gameArea[index + 1].typeElem == 3) {
 			checkDeathShipHorizontal(gameArea, index);
 			return;
